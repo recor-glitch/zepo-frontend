@@ -21,3 +21,17 @@
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .outlinedBtn {
+    @apply border-2 pl-btn-h pr-btn-h pt-btn-v pb-btn-v border-secondary rounded-lg text-md-subtitle-primary text-text-primary font-bold cursor-pointer;
+  }
+
+  .filledBtn {
+    @apply bg-primary pl-btn-h pr-btn-h pt-btn-v pb-btn-v border-secondary rounded-lg text-md-subtitle-primary text-text-white font-bold cursor-pointer;
+  }
+
+  .divider {
+    @apply flex h-[1.5px] bg-divider-primary w-full;
+  }
+}

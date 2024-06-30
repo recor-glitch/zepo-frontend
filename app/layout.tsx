@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { NavbarHome } from "@/components/navbar-home";
+import FooterHome from "@/components/footer-home/footer-home";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -16,7 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={jakarta.className}>{children}</body>
+      <body className={jakarta.className}>
+        <NavbarHome />
+        {children}
+        <FooterHome />
+      </body>
     </html>
   );
 }

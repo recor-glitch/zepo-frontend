@@ -7,6 +7,25 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      xs: "375px",
+      // => @media (min-width: 375px) { ... }
+
+      sm: "640px",
+      // => @media (min-width: 640px) { ... }
+
+      md: "768px",
+      // => @media (min-width: 768px) { ... }
+
+      lg: "1024px",
+      // => @media (min-width: 1024px) { ... }
+
+      xl: "1280px",
+      // => @media (min-width: 1280px) { ... }
+
+      "2xl": "1536px",
+      // => @media (min-width: 1536px) { ... }
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -29,18 +48,46 @@ const config: Config = {
         // BORDER
         "border-primary": "#DEDEF7",
         "border-secondary": "#0E0854",
+
+        // DIVIDER
+        "divider-primary": "#E8E6F9",
       },
       fontSize: {
-        "font-lg-header": "64px",
-        "font-md-header": "40px",
-        "font-lg-subtitle": "20px",
-        "font-md-title": "24px",
-        "font-md-subtitle-main": "18px",
-        "font-md-subtitle-primary": "16px",
-        "font-md-subtitle-secondary": "14px",
+        "lg-header": "4rem",
+        "md-header": "2.5rem",
+        "lg-subtitle": "1.25rem",
+        "md-title": "1.5rem",
+        "md-subtitle-main": "1.125rem",
+        "md-subtitle-primary": "1rem",
+        "md-subtitle-secondary": "0.875rem",
       },
       borderRadius: {
-        "br-sm": "8px",
+        ss: "0.5rem",
+      },
+      padding: {
+        h: "3rem",
+        v: "1.75rem",
+
+        // BUTTON
+        "btn-v": "0.75rem",
+        "btn-h": "1.5rem",
+
+        // FOOTER
+        "footer-v": "2rem",
+      },
+      margin: {
+        h: "3rem",
+        v: "1.75rem",
+        "nav-r": "16.25rem",
+        "nav-l": "11.375rem",
+      },
+      height: {
+        footer: "40.625rem",
+      },
+      gap: {
+        h: "3rem",
+        v: "1.75rem",
+        "icon-spacing": "2.5rem",
       },
     },
   },
