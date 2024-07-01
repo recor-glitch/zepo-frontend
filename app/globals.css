@@ -16,6 +16,10 @@
   }
 }
 
+body {
+  @apply bg-bg-primary;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -31,7 +35,23 @@
     @apply bg-primary pl-btn-h pr-btn-h pt-btn-v pb-btn-v border-secondary rounded-lg text-md-subtitle-primary text-text-white font-bold cursor-pointer;
   }
 
-  .divider {
+  .divider-h {
     @apply flex h-[1.5px] bg-divider-primary w-full;
+  }
+
+  .divider-v {
+    @apply flex w-[1.5px] bg-divider-primary h-full;
+  }
+
+  .lgHeaderText {
+    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] md:text-left text-center leading-none;
+  }
+
+  .lgSubHeaderText {
+    @apply text-lg-subtitle font-medium md:min-h-[4rem] md:max-w-[28rem] w-full md:text-left text-center text-text-secondary;
+  }
+
+  .tabbarHome {
+    @apply flex md:w-sm-container w-full h-sm-container bg-white rounded-ss justify-between items-center;
   }
 }

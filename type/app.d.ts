@@ -18,3 +18,5 @@ interface IFooterItems {
   title: string;
   items: ISelectItems[];
 }
+
+interface ITabBarItems extends ISelectItems {}

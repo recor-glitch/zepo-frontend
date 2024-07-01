@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -43,6 +44,7 @@ const config: Config = {
         // TEXT COLORS
         "text-primary": "#000929",
         "text-secondary": "#4D5461",
+        "text-secondary-dark": "#6C727F",
         "text-white": "#FFFFFF",
 
         // BORDER
@@ -51,12 +53,16 @@ const config: Config = {
 
         // DIVIDER
         "divider-primary": "#E8E6F9",
+
+        // BACKGROUND
+        "bg-primary": "#F7F7FD",
       },
       fontSize: {
         "lg-header": "4rem",
         "md-header": "2.5rem",
         "lg-subtitle": "1.25rem",
         "md-title": "1.5rem",
+        "md-primary-header": "2rem",
         "md-subtitle-main": "1.125rem",
         "md-subtitle-primary": "1rem",
         "md-subtitle-secondary": "0.875rem",
@@ -83,11 +89,21 @@ const config: Config = {
       },
       height: {
         footer: "40.625rem",
+        body: "50.25rem",
+        "route-h": "24.25rem",
+        "sm-container": "3.5rem",
+      },
+      width: {
+        "route-w": "15.344rem",
+        "sm-container": "18.563rem",
       },
       gap: {
         h: "3rem",
         v: "1.75rem",
         "icon-spacing": "2.5rem",
+        "text-spacing": "2rem",
+        "text-spacing-stats": "5rem",
+        "stat-v-divider": "1.688rem",
       },
     },
   },
