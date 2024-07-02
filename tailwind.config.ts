@@ -84,12 +84,14 @@ const config: Config = {
 
         // FOOTER
         "footer-v": "2rem",
+        body: "4.5rem",
       },
       margin: {
         h: "3rem",
         v: "1.75rem",
         "nav-r": "16.25rem",
         "nav-l": "11.375rem",
+        body: "4.5rem",
       },
       height: {
         footer: "40.625rem",
@@ -104,6 +106,7 @@ const config: Config = {
         "sm-container": "18.563rem",
         "md-container": "48.938rem",
         "detail-container": "9.313rem",
+        logo: "8.375rem",
       },
       gap: {
         h: "3rem",

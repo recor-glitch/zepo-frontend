@@ -125,7 +125,7 @@ const footerItems: IFooterItems[] = [
 const FooterHome = () => {
   return (
     <div className="h-footer">
-      <div className="flex h-full overflow-y-auto text-ellipsis min-h-3/5 flex-1 md:flex-row md:gap-0 gap-v flex-col justify-start w-full pl-h pr-h pt-v">
+      <div className="flex overflow-y-auto text-ellipsis h-4/5 flex-1 md:flex-row md:gap-0 gap-v flex-col justify-start w-full pl-h pr-h pt-v">
         <div className="flex w-1/3">
           <Image
             src={ZepoLogo}
@@ -158,7 +158,7 @@ const FooterHome = () => {
         </div>
       </div>
       <div className="divider" />
-      <div className="flex border h-1/5 flex-1 pl-h pr-h pt-v pb-v md:flex-row flex-col justify-between items-center">
+      <div className="flex h-1/5 flex-1 pl-h pr-h pt-v md:flex-row flex-col justify-between items-center">
         <p className="text-md-subtitle-primary font-medium">
           @2024 Zepo. All right reserved
         </p>

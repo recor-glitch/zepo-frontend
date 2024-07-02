@@ -48,7 +48,7 @@ body {
   }
 
   .lgHeaderText {
-    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] md:text-left text-center leading-none;
+    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] md:text-left text-center leading-tight;
   }
 
   .lgSubHeaderText {
@@ -60,6 +60,6 @@ body {
   }
 
   .browseContainer {
-    @apply absolute left-[13.5%] bottom-[18.3%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-ss h-md-container z-10 md:flex hidden items-center;
+    @apply absolute left-[10.9%] bottom-[21.5%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-ss h-md-container z-10 md:flex hidden items-center;
   }
 }

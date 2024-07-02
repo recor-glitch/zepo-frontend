@@ -7,8 +7,9 @@ import { IconCalendar } from "@tabler/icons-react";
 export default function Home() {
   return (
     <div className="h-body flex justify-between items-center gap-h">
+      {/* LEFT SIDE SECTION */}
       <section className="p-h h-full md:w-1/2 w-full flex flex-row">
-        <div className="w-1/4 md:flex hidden" />
+        <div className="w-[10rem] md:flex hidden" />
         <div className="flex md:w-3/4 w-full gap-text-spacing flex-col">
           <p className="lgHeaderText">
             Buy, rent, or sell your property easily
@@ -46,6 +47,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* RIGHT SIDE SECTION */}
       <section className="h-full w-1/2 md:block hidden">
         <Image
           src={MapBackground}
@@ -55,10 +57,10 @@ export default function Home() {
         <Image
           src={RouteImg}
           alt="route image"
-          className="absolute md:visible top-[6rem] right-[6.969rem] h-route-h w-route-w"
+          className="absolute md:visible top-[6rem] right-[6.969rem] h-route-h w-route-w mt-body"
         />
       </section>
-      {/* BROWSER PROPERTIES */}
+      {/* BROWSER PROPERTIES (FLOATING OVER LEFT SIDE)*/}
       <div className="browseContainer">
         <div className="flex flex-col min-w-fit h-fit">
           <p className="text-text-normal font-medium text-md-subtitle-primary">
