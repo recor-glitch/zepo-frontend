@@ -54,33 +54,33 @@ const navItems: INavItems[] = [
 
 function NavbarHome() {
   return (
-    <div className="h-24 flex justify-between items-center pl-h pr-h pt-v pb-v gap-12">
+    <div className="h-24 flex justify-between items-center px-h py-v">
       <Image src={ZepoLogo} alt="Website logo" />
-      <div className="flex flex-row items-center xs:hidden md:inline-flex">
+      <div className="flex flex-row items-center xs:hidden md:flex gap-h border h-full w-[34.75rem]">
         <ul className="flex flex-row justify-between items-center">
           {navItems.map((item, index) => {
             if (item.type === "SELECT") {
               return (
-                <select className="m-h">
+                <select className="bg-bg-primary">
                   <option>{item.title}</option>
                   {item.selectItems?.map((selectItem, index) => (
                     <option>{selectItem.title}</option>
                   ))}
                 </select>
               );
-            }
-            return (
-              <Link
-                href={item.link}
-                className="p-h text-md-subtitle-primary font-medium"
-                key={`${item.title} + ${index}`}
-              >
-                {item.title}
-              </Link>
-            );
+            } else
+              return (
+                <Link
+                  href={item.link}
+                  className="text-md-subtitle-primary font-medium border border-black"
+                  key={`${item.title} + ${index}`}
+                >
+                  {item.title}
+                </Link>
+              );
           })}
         </ul>
-        <div className="flex flex-row justify-between items-center gap-4 ml-nav-l">
+        <div className="flex justify-between items-center gap-4 ml-nav-l">
           <button className="outlinedBtn">Login</button>
           <button className="filledBtn">Signup</button>
         </div>

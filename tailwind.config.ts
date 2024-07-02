@@ -45,6 +45,7 @@ const config: Config = {
         "text-primary": "#000929",
         "text-secondary": "#4D5461",
         "text-secondary-dark": "#6C727F",
+        "text-normal": "#001619" /* 70% */,
         "text-white": "#FFFFFF",
 
         // BORDER
@@ -74,6 +75,9 @@ const config: Config = {
         h: "3rem",
         v: "1.75rem",
 
+        "sm-h": "2rem",
+        "sm-v": "1.563rem",
+
         // BUTTON
         "btn-v": "0.75rem",
         "btn-h": "1.5rem",
@@ -92,10 +96,14 @@ const config: Config = {
         body: "50.25rem",
         "route-h": "24.25rem",
         "sm-container": "3.5rem",
+        "md-container": "6.5rem",
+        "detail-container": "3.375rem",
       },
       width: {
         "route-w": "15.344rem",
         "sm-container": "18.563rem",
+        "md-container": "48.938rem",
+        "detail-container": "9.313rem",
       },
       gap: {
         h: "3rem",

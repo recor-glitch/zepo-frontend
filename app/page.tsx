@@ -2,6 +2,7 @@ import Image from "next/image";
 import MapBackground from "@/public/bg-map.svg";
 import RouteImg from "@/public/route.svg";
 import { TabBarHome } from "@/components/tabbar-home";
+import { IconCalendar } from "@tabler/icons-react";
 
 export default function Home() {
   return (
@@ -40,7 +41,9 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <TabBarHome />
+          <div className="flex flex-col gap-0">
+            <TabBarHome />
+          </div>
         </div>
       </section>
       <section className="h-full w-1/2 md:block hidden">
@@ -55,6 +58,31 @@ export default function Home() {
           className="absolute md:visible top-[6rem] right-[6.969rem] h-route-h w-route-w"
         />
       </section>
+      {/* BROWSER PROPERTIES */}
+      <div className="browseContainer">
+        <div className="flex flex-col min-w-fit h-fit">
+          <p className="text-text-normal font-medium text-md-subtitle-primary">
+            Location
+          </p>
+          <p className="text-text-primary font-bold text-md-subtitle-main">
+            Geetanagar, Panipath
+          </p>
+        </div>
+        <div className="thin-divider-v" />
+        <div className="flex flex-col min-w-fit h-fit">
+          <p className="text-text-normal font-medium text-md-subtitle-primary">
+            When
+          </p>
+          <span className="flex flex-row gap-2">
+            <p className="text-text-primary font-bold text-md-subtitle-main">
+              Select Move-in Date
+            </p>
+            <IconCalendar className="text-text-secondary" />
+          </span>
+        </div>
+        <div className="thin-divider-v" />
+        <button className="filledBtn">Browse Properties</button>
+      </div>
     </div>
   );
 }
