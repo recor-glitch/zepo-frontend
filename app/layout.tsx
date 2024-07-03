@@ -13,13 +13,19 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  landing,
+  tour,
 }: Readonly<{
   children: React.ReactNode;
+  landing: React.ReactNode;
+  tour: React.ReactNode;
 }>) {
   return (
     <html lang="en">
       <body className={jakarta.className}>
         <NavbarHome />
+        {landing}
+        {tour}
         {children}
         <FooterHome />
       </body>

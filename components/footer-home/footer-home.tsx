@@ -124,16 +124,16 @@ const footerItems: IFooterItems[] = [
 
 const FooterHome = () => {
   return (
-    <div className="h-footer">
-      <div className="flex overflow-y-auto text-ellipsis h-4/5 flex-1 md:flex-row md:gap-0 gap-v flex-col justify-start w-full pl-h pr-h pt-v">
-        <div className="flex w-1/3">
+    <div>
+      <div className="flex h-4/5 flex-1 md:flex-row md:gap-0 gap-v flex-col justify-start w-full pl-h pr-h pt-v">
+        <div className="flex w-1/3 self-center md:self-start">
           <Image
             src={ZepoLogo}
             alt="Website logo"
             className="w-[9.438rem] h-[2.5rem]"
           />
         </div>
-        <div className="grid md:grid-cols-3 grid-cols-2 md:w-2/3 w-full">
+        <div className="grid md:grid-cols-3 grid-cols-2 md:w-2/3 w-full text-center md:text-left">
           {footerItems.map((item) => {
             return (
               <div className="flex flex-col gap-4 mb-v">
@@ -157,7 +157,7 @@ const FooterHome = () => {
           })}
         </div>
       </div>
-      <div className="divider" />
+      <div className="divider-h" />
       <div className="flex h-1/5 flex-1 pl-h pr-h pt-v md:flex-row flex-col justify-between items-center">
         <p className="text-md-subtitle-primary font-medium">
           @2024 Zepo. All right reserved

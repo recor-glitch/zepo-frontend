@@ -35,6 +35,10 @@ body {
     @apply bg-primary pl-btn-h pr-btn-h pt-btn-v pb-btn-v border-secondary rounded-lg text-md-subtitle-primary text-text-white font-bold cursor-pointer;
   }
 
+  .squareBtn {
+    @apply w-[3rem] h-[3rem] bg-primary p-sq-btn rounded-default flex justify-center items-center;
+  }
+
   .divider-h {
     @apply flex h-[1.5px] bg-divider-primary w-full;
   }
@@ -48,7 +52,7 @@ body {
   }
 
   .lgHeaderText {
-    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] md:text-left text-center leading-tight;
+    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] md:text-left text-center leading-none;
   }
 
   .lgSubHeaderText {
@@ -56,10 +60,18 @@ body {
   }
 
   .tabbarHome {
-    @apply flex md:w-sm-container w-full h-sm-container bg-white rounded-ss justify-between items-center;
+    @apply flex md:w-sm-container w-full h-sm-container bg-white rounded-default justify-between items-center;
   }
 
   .browseContainer {
-    @apply absolute left-[10.9%] bottom-[21.5%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-ss h-md-container z-10 md:flex hidden items-center;
+    @apply absolute left-[10.9%] bottom-[18.4%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center;
+  }
+
+  .searchContainer {
+    @apply flex justify-start items-center w-full h-md-container rounded-default bg-white md:hidden gap-4 p-sm-h;
+  }
+
+  .rentContainer {
+    @apply flex flex-col max-h-rent-card max-w-rent-card min-w-rent-card min-h-rent-card rounded-default bg-white z-10;
   }
 }

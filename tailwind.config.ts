@@ -69,7 +69,7 @@ const config: Config = {
         "md-subtitle-secondary": "0.875rem",
       },
       borderRadius: {
-        ss: "0.5rem",
+        default: "0.5rem",
       },
       padding: {
         h: "3rem",
@@ -85,6 +85,8 @@ const config: Config = {
         // FOOTER
         "footer-v": "2rem",
         body: "4.5rem",
+
+        "sq-btn": "0.875rem",
       },
       margin: {
         h: "3rem",
@@ -93,6 +95,12 @@ const config: Config = {
         "nav-l": "11.375rem",
         body: "4.5rem",
       },
+      maxHeight: {
+        "rent-card": "26rem",
+      },
+      minHeight: {
+        "rent-card": "17.5rem",
+      },
       height: {
         footer: "40.625rem",
         body: "50.25rem",
@@ -100,6 +108,14 @@ const config: Config = {
         "sm-container": "3.5rem",
         "md-container": "6.5rem",
         "detail-container": "3.375rem",
+        "mi-rent-card": "17.5rem",
+        "ma-rent-card": "26rem",
+      },
+      maxWidth: {
+        "rent-card": "20.25rem",
+      },
+      minWidth: {
+        "rent-card": "12.375rem",
       },
       width: {
         "route-w": "15.344rem",
@@ -107,6 +123,8 @@ const config: Config = {
         "md-container": "48.938rem",
         "detail-container": "9.313rem",
         logo: "8.375rem",
+        "mi-rent-card": "12.375rem",
+        "ma-rent-card": "20.25rem",
       },
       gap: {
         h: "3rem",
@@ -115,6 +133,10 @@ const config: Config = {
         "text-spacing": "2rem",
         "text-spacing-stats": "5rem",
         "stat-v-divider": "1.688rem",
+        xxs: "0.25rem",
+        xs: "0.5rem",
+        default: "1rem",
+        sm: "1.5rem",
       },
     },
   },

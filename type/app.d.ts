@@ -1,53 +1,61 @@
 // NAVBAR ITEMS
 
-type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
+export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
-interface ISelectItems {
+export interface ISelectItems {
   title: string;
   link: string;
 }
 
-interface INavItems {
+export interface INavItems {
   type: NavbarItemType;
   title: string;
   link: string;
   selectItems?: ISelectItems[];
 }
 
-interface IFooterItems {
+export interface IFooterItems {
   title: string;
   items: ISelectItems[];
 }
 
-interface ITabBarItems extends ISelectItems {}
+export interface ITabBarItems extends ISelectItems {}
 
 // CARD
-type PriceType = "MONTHLY" | "DAILY" | "YEARLY";
-type SizeType = "METERS" | "FEET";
-type RoomType = "SINGLE" | "DOUBLE" | "BHK" | "SHARED";
-type WashRoomType = "SHARED" | "ATTACHED";
+export type PeriodType = "MONTHLY" | "DAILY" | "YEARLY";
+export type CurrencyType = "USD" | "INR";
+export type SizeType = "METERS" | "FEET";
+export type RoomType = "SINGLE" | "DOUBLE" | "BHK" | "VILLA" | "SHARED";
+export type WashRoomType = "SHARED" | "ATTACHED";
 
-interface ISingleRoom {
+export interface IRoomInfo {
+  images: Iimage[];
+  price: Iprice;
+  desc: string;
+  isPopular: boolean;
+  likeCount: number;
+  title: string;
+  address: string;
+  size: IRoomSize;
+}
+export interface ISingleRoom extends IRoomInfo {
   type: "SINGLE";
-  size: IRoomSize;
   washroom: {
     type: WashRoomType;
     count: number;
   };
 }
 
-interface IDoubleRoom {
+export interface IDoubleRoom extends IRoomInfo {
   type: "DOUBLE";
-  size: IRoomSize;
   washroom: {
     type: WashRoomType;
     count: number;
   };
 }
 
-interface IBHKRoom {
+export interface IBHKRoom extends IRoomInfo {
   type: "BHK";
-  size: IRoomSize;
   beds: number;
   halls: number;
   kitchen: number;
@@ -58,32 +66,52 @@ interface IBHKRoom {
   };
 }
 
-interface ISharedRoom extends IBHKRoom {
+export interface ISharedRoom extends IRoomInfo {
   type: "SHARED";
+  beds: number;
+  halls: number;
+  kitchen: number;
+  balcony: number;
+  washroom: {
+    type: WashRoomType;
+    count: number;
+  };
 }
 
-interface Iprice {
-  type: PriceType;
-  amount: number;
+export interface IVilla extends IRoomInfo {
+  type: "VILLA";
+  swimmingpull: boolean;
+  beds: number;
+  halls: number;
+  kitchen: number;
+  balcony: number;
+  washroom: {
+    type: WashRoomType;
+    count: number;
+  };
 }
-interface IRoomSize {
+
+export interface Iprice {
+  period: PeriodType;
+  amount: number;
+  currency: CurrencyType;
+}
+export interface IRoomSize {
   type: SizeType;
   dimensions: {
     length: number;
     width: number;
   };
 }
-interface IRoomDescription {
-  images: string[];
-  price: Iprice;
-  desc: string;
-  type: RoomType;
-  spec: ISingleRoom | IDoubleRoom | IBHKRoom | ISharedRoom;
+
+export interface Iimage {
+  url: string;
+  alt: string;
 }
 
-interface IRentRoom extends IRoomDescription {
-  isPopular: boolean;
-  likeCount: number;
-  title: string;
-  address: string;
-}
+export type RentRoomType =
+  | ISingleRoom
+  | IDoubleRoom
+  | IBHKRoom
+  | ISharedRoom
+  | IVilla;
