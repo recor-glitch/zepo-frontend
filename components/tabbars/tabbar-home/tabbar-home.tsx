@@ -1,5 +1,6 @@
 "use client";
 
+import { ITabBarItems } from "@/type/app";
 import React, { useState } from "react";
 
 const TabBarItems: ITabBarItems[] = [
@@ -22,7 +23,7 @@ function TabBarHome() {
 
   const handleOnClick = (i: number) => setActiveTab(i);
   return (
-    <div className="flex w-full md:w-sm-container flex-col self-center md:self-start">
+    <div className="flex w-full md:w-sm-container flex-col self-center md:self-start drop-shadow-sm">
       <div className="tabbarHome">
         {TabBarItems.map((item, i) => {
           return (

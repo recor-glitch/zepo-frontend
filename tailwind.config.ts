@@ -35,6 +35,8 @@ const config: Config = {
       },
       colors: {
         primary: "#7065F0",
+        "primary-lighter": "#F0EFFB",
+        "primary-light": "#D9D6F5",
         secondary: "#E0DEF7",
 
         // DARK SHADES
@@ -87,6 +89,8 @@ const config: Config = {
         body: "4.5rem",
 
         "sq-btn": "0.875rem",
+        default: "1rem",
+        sm: "0.5rem",
       },
       margin: {
         h: "3rem",
@@ -94,6 +98,7 @@ const config: Config = {
         "nav-r": "16.25rem",
         "nav-l": "11.375rem",
         body: "4.5rem",
+        sm: "0.5rem",
       },
       maxHeight: {
         "rent-card": "26rem",
@@ -110,6 +115,8 @@ const config: Config = {
         "detail-container": "3.375rem",
         "mi-rent-card": "17.5rem",
         "ma-rent-card": "26rem",
+        tab: "4rem",
+        "tab-indicator": "2.9rem",
       },
       maxWidth: {
         "rent-card": "20.25rem",

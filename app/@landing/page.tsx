@@ -1,14 +1,14 @@
 import Image from "next/image";
 import MapBackground from "@/public/bg-map.svg";
 import RouteImg from "@/public/route.svg";
-import { TabBarHome } from "@/components/tabbar-home";
 import { IconCalendar, IconSearch } from "@tabler/icons-react";
 import { RentCard } from "@/components/cards";
 import { dummyRoomRent } from "@/constants";
+import { TabBarHome } from "@/components/tabbars";
 
 export default function LaningSection() {
   return (
-    <div className="h-body flex justify-between items-center gap-h">
+    <div className="h-body flex justify-between items-center gap-h relative">
       {/* LEFT SIDE SECTION */}
       <section className="p-h h-full md:w-1/2 w-full flex flex-row">
         <div className="w-[10rem] md:flex hidden" />

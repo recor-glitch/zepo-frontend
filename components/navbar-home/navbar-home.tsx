@@ -3,6 +3,7 @@ import ZepoLogo from "@/public/zepo-logo.svg";
 import Link from "next/link";
 import MenuIcon from "@/public/menu.svg";
 import Image from "next/image";
+import { INavItems } from "@/type/app";
 
 const navItems: INavItems[] = [
   {
@@ -61,7 +62,7 @@ function NavbarHome() {
           {navItems.map((item, index) => {
             if (item.type === "SELECT") {
               return (
-                <select className="bg-bg-primary">
+                <select className="bg-bg-primary text-md-subtitle-primary font-medium">
                   <option>{item.title}</option>
                   {item.selectItems?.map((selectItem, index) => (
                     <option>{selectItem.title}</option>

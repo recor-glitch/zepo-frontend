@@ -8,6 +8,7 @@ import {
   IconBrandTwitterFilled,
   IconBrandLinkedin,
 } from "@tabler/icons-react";
+import { IFooterItems } from "@/type/app";
 
 const footerItems: IFooterItems[] = [
   {
@@ -126,14 +127,14 @@ const FooterHome = () => {
   return (
     <div>
       <div className="flex h-4/5 flex-1 md:flex-row md:gap-0 gap-v flex-col justify-start w-full pl-h pr-h pt-v">
-        <div className="flex w-1/3 self-center md:self-start">
+        <div className="flex w-1/3">
           <Image
             src={ZepoLogo}
             alt="Website logo"
             className="w-[9.438rem] h-[2.5rem]"
           />
         </div>
-        <div className="grid md:grid-cols-3 grid-cols-2 md:w-2/3 w-full text-center md:text-left">
+        <div className="grid md:grid-cols-3 grid-cols-2 md:w-2/3 w-full text-left">
           {footerItems.map((item) => {
             return (
               <div className="flex flex-col gap-4 mb-v">
