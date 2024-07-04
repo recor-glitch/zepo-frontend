@@ -95,6 +95,7 @@ const config: Config = {
         sm: "0.5rem",
         lg: "4rem",
         xs: "0.25rem",
+        "property-h": "5rem",
       },
       margin: {
         h: "3rem",
@@ -116,6 +117,7 @@ const config: Config = {
         body: "50.25rem",
         "body-tour": "50.15rem",
         "body-stats": "41.25rem",
+        "body-properties": "74.125rem",
         "route-h": "24.25rem",
         "sm-container": "3.5rem",
         "md-container": "6.5rem",
@@ -124,6 +126,7 @@ const config: Config = {
         "ma-rent-card": "26rem",
         tab: "4rem",
         "tab-indicator": "2.9rem",
+        like: "3rem",
       },
       maxWidth: {
         "rent-card": "20.25rem",
@@ -141,6 +144,7 @@ const config: Config = {
         tab: "4rem",
         "mi-rent-card": "12.375rem",
         "ma-rent-card": "20.25rem",
+        like: "3rem",
       },
       gap: {
         h: "3rem",

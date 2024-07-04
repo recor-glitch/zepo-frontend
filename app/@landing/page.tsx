@@ -66,7 +66,7 @@ export default function LaningSection() {
         />
         <RentCard
           className="absolute top-[30rem] right-[10rem]"
-          rent={dummyRoomRent[1]}
+          rent={dummyRoomRent[dummyRoomRent.length - 1]}
           isSmall
         />
         <Image

@@ -80,6 +80,6 @@ body {
   }
 
   .rentContainer {
-    @apply flex flex-col max-h-rent-card max-w-rent-card min-w-rent-card min-h-rent-card rounded-default bg-white;
+    @apply flex flex-col max-h-rent-card max-w-rent-card min-w-rent-card min-h-rent-card rounded-default bg-white relative;
   }
 }
