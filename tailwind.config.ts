@@ -69,6 +69,7 @@ const config: Config = {
         "md-subtitle-main": "1.125rem",
         "md-subtitle-primary": "1rem",
         "md-subtitle-secondary": "0.875rem",
+        "sm-subtitle": "0.75rem",
       },
       borderRadius: {
         default: "0.5rem",
@@ -89,8 +90,11 @@ const config: Config = {
         body: "4.5rem",
 
         "sq-btn": "0.875rem",
+        icon: "0.75rem",
         default: "1rem",
         sm: "0.5rem",
+        lg: "4rem",
+        xs: "0.25rem",
       },
       margin: {
         h: "3rem",
@@ -107,8 +111,11 @@ const config: Config = {
         "rent-card": "17.5rem",
       },
       height: {
+        icon: "2rem",
         footer: "40.625rem",
         body: "50.25rem",
+        "body-tour": "50.15rem",
+        "body-stats": "41.25rem",
         "route-h": "24.25rem",
         "sm-container": "3.5rem",
         "md-container": "6.5rem",
@@ -125,11 +132,13 @@ const config: Config = {
         "rent-card": "12.375rem",
       },
       width: {
+        icon: "2rem",
         "route-w": "15.344rem",
         "sm-container": "18.563rem",
         "md-container": "48.938rem",
         "detail-container": "9.313rem",
         logo: "8.375rem",
+        tab: "4rem",
         "mi-rent-card": "12.375rem",
         "ma-rent-card": "20.25rem",
       },

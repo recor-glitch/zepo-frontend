@@ -7,7 +7,7 @@ import { IconChevronRight } from "@tabler/icons-react";
 
 export default function TourSection() {
   return (
-    <div className="md:h-body h-fit flex flex-col md:flex-row justify-between items-center gap-h relative">
+    <div className="md:h-body-tour h-fit flex flex-col md:flex-row justify-between items-center gap-h relative mb-20">
       {/* FLOATING VIRTUAL HOME TOUR BANNER */}
       <div className="virtualTourContainer">
         <div className="rounded-full border-2 border-primary-light bg-primary-lighter p-default">
@@ -39,8 +39,7 @@ export default function TourSection() {
         </div>
       </div>
       {/* LEFT SIDE SECTION */}
-      <section className="p-h h-full md:w-1/2 w-full flex flex-row">
-        <div className="w-[10rem] md:flex hidden" />
+      <section className="p-h h-full md:w-1/2 w-full flex flex-row md:ml-40 md:my-[6.25rem]">
         <div className="flex md:w-3/4 w-full gap-text-spacing flex-col rounded-ss overflow-hidden">
           <Image
             src={DummyRoomImage}

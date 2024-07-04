@@ -15,10 +15,12 @@ export default function RootLayout({
   children,
   landing,
   tour,
+  stats,
 }: Readonly<{
   children: React.ReactNode;
   landing: React.ReactNode;
   tour: React.ReactNode;
+  stats: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -26,6 +28,7 @@ export default function RootLayout({
         <NavbarHome />
         {landing}
         {tour}
+        {stats}
         {children}
         <FooterHome />
       </body>

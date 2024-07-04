@@ -115,3 +115,11 @@ export type RentRoomType =
   | IBHKRoom
   | ISharedRoom
   | IVilla;
+
+// STATS
+export interface IStatCard {
+  title: string;
+  subtitle: string;
+  img: { url: string; alt: string };
+  floatingIcon?: { url: string; alt: string };
+}

@@ -1,10 +1,10 @@
-import { RentRoomType } from "./type/app";
+import { IStatCard, RentRoomType } from "./type/app";
 
 // CURRENCY
 export const rupee = "₹";
 export const dollar = "$";
 
-// DUMMY DATA
+// DUMMY ROOM DATA
 export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent.svg", alt: "Dummy room image 1" }],
@@ -57,5 +57,45 @@ export const dummyRoomRent: RentRoomType[] = [
     },
     swimmingpull: true,
     title: "Tarpon Bay",
+  },
+];
+
+// DUMMY STATS DATA
+export const dummyStatsData: IStatCard[] = [
+  {
+    title: "7.4%",
+    subtitle: "Property Return Rate",
+    img: {
+      alt: "property return rate icon",
+      url: "/property-return-rate.svg",
+    },
+    floatingIcon: {
+      alt: "Analytics Icon",
+      url: "/analytic-icon.svg",
+    },
+  },
+  {
+    title: "3,856",
+    subtitle: "Property in Sell & Rent",
+    img: {
+      alt: "property sell and rent icon",
+      url: "/property-sell-rent.svg",
+    },
+    floatingIcon: {
+      alt: "search Icon",
+      url: "/search-icon.svg",
+    },
+  },
+  {
+    title: "2,540",
+    subtitle: "Daily Completed Transactions",
+    img: {
+      alt: "completed transaction icon",
+      url: "/property-transaction.svg",
+    },
+    floatingIcon: {
+      alt: "search Icon",
+      url: "/correct-icon.svg",
+    },
   },
 ];

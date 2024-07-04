@@ -72,7 +72,7 @@ body {
   }
 
   .bestDealContainer {
-    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute md:top-[44rem] top-[25rem] md:w-[25rem] min-w-[19.813rem] md:left-[20rem] left-[4.7rem] flex justify-start items-center cursor-pointer drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute md:top-[44rem] top-[28rem] md:w-[25rem] min-w-[19.813rem] md:left-[18rem] left-[6rem] flex justify-start items-center cursor-pointer drop-shadow-sm;
   }
 
   .searchContainer {
