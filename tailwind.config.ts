@@ -94,8 +94,10 @@ const config: Config = {
         default: "1rem",
         sm: "0.5rem",
         lg: "4rem",
+        "avatar-outer": "0.375rem",
         xs: "0.25rem",
         "property-h": "5rem",
+        huge: "32rem",
       },
       margin: {
         h: "3rem",
@@ -157,6 +159,7 @@ const config: Config = {
         xs: "0.5rem",
         default: "1rem",
         sm: "1.5rem",
+        md: "4rem",
       },
       zIndex: {
         default: "0",

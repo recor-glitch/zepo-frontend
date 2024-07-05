@@ -63,11 +63,13 @@ export default function LaningSection() {
         <RentCard
           className="absolute top-[3rem] right-[30rem]"
           rent={dummyRoomRent[0]}
+          showPopular={false}
         />
         <RentCard
           className="absolute top-[30rem] right-[10rem]"
           rent={dummyRoomRent[dummyRoomRent.length - 1]}
           isSmall
+          showPopular={false}
         />
         <Image
           src={MapBackground}

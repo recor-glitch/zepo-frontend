@@ -16,6 +16,7 @@ export interface rentProps {
   isSmall?: boolean;
   isLiked?: boolean;
   showLike?: boolean;
+  showPopular?: boolean;
 }
 
 function RentCard({
@@ -24,35 +25,36 @@ function RentCard({
   isSmall,
   isLiked = false,
   showLike = false,
+  showPopular = true,
 }: rentProps) {
   return (
     <div
-      className={`rentContainer ${className} ${
+      className={`rentContainer ${
         isSmall && "h-mi-rent-card w-mi-rent-card"
-      }`}
+      } ${className}`}
     >
       {/* POPULAR */}
-      {rent.isPopular && (
-        <div className="flex justify-around items-center absolute min-w-[7.063rem] min-h-[2.5rem] bg-primary z-30 top-[11rem] left-0 transform translate-x-[-0.5rem] rounded-t-lg rounded-br-lg">
+      {showPopular && rent.isPopular && (
+        <div className="flex justify-around items-center absolute min-w-[7.063rem] min-h-[2.5rem] bg-primary z-30 top-[47%] left-0 transform translate-x-[-0.5rem] rounded-t-lg rounded-br-lg">
           <Image src={StarIcon} alt="popular star icon" />
           <p className="text-sm-subtitle text-white font-bold">POPULAR</p>
         </div>
       )}
-      {rent.isPopular && (
+      {showPopular && rent.isPopular && (
         <Image
           src={PointedEdge}
           alt="pointer for popular tag"
           height={8}
           width={8}
-          className="absolute top-[13.5rem] transform translate-x-[-0.5rem]"
+          className="absolute top-[56.6%] transform translate-x-[-0.5rem]"
         />
         // <div className="bg-primary absolute rounded-bl-sm z-10 transform :bottom-0 left-0 translate-y-[1.2rem] translate-x-[-0.35rem] top-[11.9rem] rotate-45 h-3 w-3"></div>
       )}
       <Image
         src={rent.images.length != 0 ? rent.images[0].url : DummyImg}
         alt={rent.images[0].alt}
-        className="flex rounded-t-default w-full h-[52%]"
-        width={200}
+        className="flex rounded-t-default w-full h-[52%] object-cover"
+        width={300}
         height={250}
       />
       <div
@@ -86,7 +88,7 @@ function RentCard({
           {rent.address}
         </p>
         <div className="divider-h h-[2px]" />
-        <div className="flex flex-row gap-sm">
+        <div className="flex flex-row justify-around items-center gap-sm">
           {/* BED */}
           <div className="flex flex-row justify-center items-center gap-xs">
             <Image className="text-primary" src={BedIcon} alt="Bed icon" />
