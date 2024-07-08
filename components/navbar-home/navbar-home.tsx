@@ -1,59 +1,18 @@
+"use client";
+
 import React from "react";
 import ZepoLogo from "@/public/zepo-logo.svg";
 import Link from "next/link";
-import MenuIcon from "@/public/menu.svg";
 import Image from "next/image";
+import MenuIcon from "@/public/menu.svg";
 import { INavItems } from "@/type/app";
-
-const navItems: INavItems[] = [
-  {
-    title: "Rent",
-    link: "/rent",
-    type: "LINK",
-  },
-  {
-    title: "Buy",
-    link: "/buy",
-    type: "LINK",
-  },
-  {
-    title: "Sell",
-    link: "/sell",
-    type: "LINK",
-  },
-  {
-    title: "Manage Property",
-    link: "/manage",
-    type: "SELECT",
-    selectItems: [
-      {
-        link: "#",
-        title: "1",
-      },
-      {
-        link: "#",
-        title: "2",
-      },
-    ],
-  },
-  {
-    title: "Resources",
-    link: "/resource",
-    type: "SELECT",
-    selectItems: [
-      {
-        link: "#",
-        title: "1",
-      },
-      {
-        link: "#",
-        title: "2",
-      },
-    ],
-  },
-];
+import { HomeDrawer } from "../drawer";
+import { useDrawerContext } from "@/context";
+import { navItems } from "@/constants";
 
 function NavbarHome() {
+  const { trigger } = useDrawerContext();
+
   return (
     <div className="h-24 flex flex-row gap-h justify-between items-center px-h py-v">
       <Image src={ZepoLogo} alt="Website logo" className="w-logo" />
@@ -87,10 +46,11 @@ function NavbarHome() {
         <button className="filledBtn">Signup</button>
       </div>
       <Image
-        className="flex flex-row items-center md:hidden"
+        className="flex flex-row items-center md:hidden cursor-pointer"
         src={MenuIcon}
         alt="Menu"
-      ></Image>
+        onClick={() => trigger((prev) => !prev)}
+      />
     </div>
   );
 }

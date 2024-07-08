@@ -28,7 +28,7 @@ export function useDrawerContext() {
   return context;
 }
 
-export function useDrawerContextProvider({ children }: PropsWithChildren) {
+export function UseDrawerContextProvider({ children }: PropsWithChildren) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (

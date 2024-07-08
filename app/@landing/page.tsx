@@ -19,7 +19,7 @@ export default function LaningSection() {
             A great platform to buy, sell, or even rent your properties without
             any commisions.
           </p>
-          <div className="gap-text-spacing-stats md:flex hidden">
+          <div className="gap-text-spacing-stats flex absolute md:relative bottom-0 mb-h">
             <div className="gap-stat-v-divider flex justify-start items-center">
               <div className="divider-v" />
               <div className="flex flex-col gap-0 justify-start">

@@ -1,4 +1,4 @@
-import { IStatCard, RentRoomType } from "./type/app";
+import { INavItems, IStatCard, RentRoomType } from "./type/app";
 
 // CURRENCY
 export const rupee = "₹";
@@ -253,5 +253,54 @@ export const dummyStatsData: IStatCard[] = [
       alt: "search Icon",
       url: "/correct-icon.svg",
     },
+  },
+];
+
+// DUMMY NAV DATA
+export const navItems: INavItems[] = [
+  {
+    title: "Rent",
+    link: "/rent",
+    type: "LINK",
+  },
+  {
+    title: "Buy",
+    link: "/buy",
+    type: "LINK",
+  },
+  {
+    title: "Sell",
+    link: "/sell",
+    type: "LINK",
+  },
+  {
+    title: "Manage Property",
+    link: "/manage",
+    type: "SELECT",
+    selectItems: [
+      {
+        link: "#",
+        title: "1",
+      },
+      {
+        link: "#",
+        title: "2",
+      },
+    ],
+  },
+  {
+    title: "Resources",
+    link: "/resource",
+    type: "SELECT",
+    selectItems: [
+      {
+        link: "#",
+        title: "1",
+      },
+      {
+        link: "#",
+        title: "2",
+      },
+    ],
   },
 ];
