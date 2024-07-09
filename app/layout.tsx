@@ -4,13 +4,14 @@ import { NavbarHome } from "@/components/navbar-home";
 import { UseDrawerContextProvider } from "@/context";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { Metadata } from "next";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
-// export const metadata: Metadata = {
-//   title: "Zepo",
-//   description: "Find yourself a home",
-// };
+export const metadata: Metadata = {
+  title: "Zepo",
+  description: "Find yourself a home",
+};
 
 export default function RootLayout({
   children,
