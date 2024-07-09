@@ -5,7 +5,7 @@ import { IconX } from "@tabler/icons-react";
 
 type DrawerPosition = "left" | "right";
 
-interface DrawerProps {
+export interface DrawerProps {
   header: React.ReactNode;
   content: React.ReactNode;
   footer?: React.ReactNode;
@@ -26,19 +26,19 @@ export function HomeDrawer({
   className,
   position = "right",
 }: DrawerProps) {
-  const drawerStyle = `${
+  let drawerStyle = `${
     isOpen && position === "right"
-      ? "translate-x-0 right-0 backdrop-blur-md"
-      : "translate-x-[100%]"
+      ? "translate-x-full right-0"
+      : "right-full translate-x-[200%]"
   } ${className} ${
     isOpen && position === "left"
-      ? "translate-x-0 left-0 backdrop-blur-md"
-      : "-translate-x-[100%]"
+      ? "translate-x-0 left-0"
+      : "left-0 -translate-x-[100%]"
   }`;
 
   return (
     <div
-      className={`absolute flex flex-col h-[100vh] w-1/2 py-v px-h transform duration-300 ease-in-out z-50 bg-white shadow-lg ${
+      className={`absolute flex flex-col h-[100vh] w-1/2 py-v px-sm-h transform transition-all duration-500 ease-in-out z-50 bg-white shadow-lg ${
         fixed ? `${className}` : `${className} ${drawerStyle}`
       }`}
     >

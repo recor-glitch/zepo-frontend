@@ -31,6 +31,8 @@ export function useDrawerContext() {
 export function UseDrawerContextProvider({ children }: PropsWithChildren) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  console.log("I am here at drawer context", { isOpen });
+
   return (
     <customDrawerContext.Provider
       value={{
