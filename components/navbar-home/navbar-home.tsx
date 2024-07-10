@@ -1,17 +1,20 @@
 "use client";
 
-import React from "react";
-import ZepoLogo from "@/public/zepo-logo.svg";
-import Link from "next/link";
-import Image from "next/image";
-import MenuIcon from "@/public/menu.svg";
-import { INavItems } from "@/type/app";
-import { HomeDrawer } from "../drawer";
-import { useDrawerContext } from "@/context";
 import { navItems } from "@/constants";
+import { useDrawerContext } from "@/context";
+import MenuIcon from "@/public/menu.svg";
+import ZepoLogo from "@/public/zepo-logo.svg";
+import Image from "next/image";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();
+
+  const handleSignIn = async () => {
+    const response = await signIn();
+    console.log("Signin response: ", { response });
+  };
 
   return (
     <div className="h-24 flex flex-row gap-h justify-between items-center px-h py-v">
@@ -42,7 +45,9 @@ function NavbarHome() {
         </ul>
       </div>
       <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden md:flex">
-        <button className="outlinedBtn">Login</button>
+        <button className="outlinedBtn" onClick={handleSignIn}>
+          Login
+        </button>
         <button className="filledBtn">Signup</button>
       </div>
       <Image
