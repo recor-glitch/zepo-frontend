@@ -5,13 +5,16 @@ import { useDrawerContext } from "@/context";
 import ZepoLogo from "@/public/zepo-logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { useRef } from "react";
 import { HomeDrawer } from "./home-drawer";
 
 const DrawerWrapper = () => {
   const { isOpen, trigger } = useDrawerContext();
+  const ref = useRef(null);
 
   return (
     <HomeDrawer
+      ref={ref}
       header={<Image src={ZepoLogo} alt="Website logo" className="w-logo" />}
       content={
         <div className="flex flex-col flex-1 gap-h justify-between items-center py-v">

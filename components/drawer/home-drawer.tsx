@@ -14,6 +14,7 @@ export interface DrawerProps {
   fixed?: boolean;
   position?: DrawerPosition;
   className?: string;
+  ref?: any;
 }
 
 export function HomeDrawer({
@@ -25,6 +26,7 @@ export function HomeDrawer({
   fixed = false,
   className,
   position = "right",
+  ref,
 }: DrawerProps) {
   let drawerStyle = `${
     isOpen && position === "right"
@@ -38,6 +40,7 @@ export function HomeDrawer({
 
   return (
     <div
+      ref={ref}
       className={`absolute flex flex-col h-[100vh] w-1/2 py-v px-sm-h transform transition-all duration-500 ease-in-out z-50 bg-white shadow-lg ${
         fixed ? `${className}` : `${className} ${drawerStyle}`
       }`}
