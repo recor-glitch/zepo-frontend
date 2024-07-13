@@ -123,3 +123,35 @@ export interface IStatCard {
   img: { url: string; alt: string };
   floatingIcon?: { url: string; alt: string };
 }
+
+// USER
+
+export interface IReview {
+  msg: string;
+  ratting: number;
+}
+
+export type UserRole = "user" | "admin" | "superuser";
+
+export interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+}
+
+export interface INormalUser extends IUser {
+  role: "user";
+  reviews: IReview[];
+  liked: RentRoomType[];
+  // TODO: history schema to be prepared
+  history: [];
+}
+export interface IAdminUser extends IUser {
+  role: "admin";
+}
+export interface ISuperUser extends IUser {
+  role: "superuser";
+}
+
+export type UserType = INormalUser | IAdminUser | ISuperUser;
