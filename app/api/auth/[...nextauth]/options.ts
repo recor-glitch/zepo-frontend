@@ -3,6 +3,7 @@ import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { GoogleProfile } from "next-auth/providers/google";
+import { headers } from "next/headers";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -11,33 +12,38 @@ export const options: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       profile(profile) {
         return {
-          ...profile,
+          id: profile.sub,
+          email: profile.email,
+          image: profile.picture,
+          name: profile.name,
         };
       },
       authorization: {
         params: {
           prompt: "consent",
+          access_type: "offline",
           response_type: "code",
         },
       },
     }),
   ],
-  session: {
-    strategy: "jwt",
-  },
   callbacks: {
-    async signIn({ account, profile, email, user, credentials }) {
-      if (account?.provider === "google") {
-        // TODO: CONTINUE DATABASE STORAGE
-        const res = await axios.post<ICreateUserResponse>("/user", {
+    async session({ session, user }) {
+      return session;
+    },
+    
+    async signIn({ user }) {
+      const res = await axios.post<ICreateUserResponse>(
+        `${process.env.BASE_URL}/user`,
+        {
           id: user.id,
           email: user.email,
           image: user.image,
           name: user.name,
-        });
-        if (res.status === 201) {
-          return true;
         }
+      );
+      if (res.status === 201) {
+        return true;
       }
       return false;
     },
