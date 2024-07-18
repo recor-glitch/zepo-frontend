@@ -12,7 +12,7 @@ function NavbarHome() {
   const { trigger } = useDrawerContext();
 
   const handleSignIn = async () => {
-    const response = await signIn();
+    const response = await signIn("google", { redirect: true });
     console.log("Signin response: ", { response });
   };
 

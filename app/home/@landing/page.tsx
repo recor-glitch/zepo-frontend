@@ -1,12 +1,12 @@
-import Image from "next/image";
+import { RentCard } from "@/components/cards";
+import { TabBarHome } from "@/components/tabbars";
+import { dummyRoomRent } from "@/constants";
 import MapBackground from "@/public/bg-map.svg";
 import RouteImg from "@/public/route.svg";
 import { IconCalendar, IconSearch } from "@tabler/icons-react";
-import { RentCard } from "@/components/cards";
-import { dummyRoomRent } from "@/constants";
-import { TabBarHome } from "@/components/tabbars";
+import Image from "next/image";
 
-export default function LaningSection() {
+export default async function LaningSection() {
   return (
     <div className="h-body flex justify-between items-center gap-h relative">
       {/* LEFT SIDE SECTION */}
