@@ -171,4 +171,8 @@ export interface ICreateUserResponse {
   accessToken: string;
   refreshToken: string;
 }
-export interface IUserResponse extends IUser {}
+export interface IUserResponse extends IUser {
+  role: string;
+  createAt: string;
+  updatedAt: string;
+}

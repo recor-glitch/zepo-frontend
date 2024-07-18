@@ -4,6 +4,7 @@ import { UserContextProvider } from "@/context/user/user-context";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import React from "react";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -17,7 +18,10 @@ export default function RootLayout({
       <body className={jakarta.className}>
         <ReactQueryProvider>
           <NextAuthSessionProvider>
-            <UserContextProvider>{children}</UserContextProvider>
+            <UserContextProvider>
+              <Toaster position="top-right" />
+              {children}
+            </UserContextProvider>
           </NextAuthSessionProvider>
         </ReactQueryProvider>
       </body>

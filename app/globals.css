@@ -64,7 +64,7 @@ body {
   }
 
   .browseContainer {
-    @apply absolute left-[10.9%] bottom-[18.4%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center drop-shadow-sm;
+    @apply absolute left-[10.9%] bottom-[12%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center drop-shadow-sm;
   }
 
   .virtualTourContainer {

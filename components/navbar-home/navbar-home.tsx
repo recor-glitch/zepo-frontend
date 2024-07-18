@@ -4,9 +4,9 @@ import { navItems } from "@/constants";
 import { useDrawerContext } from "@/context";
 import MenuIcon from "@/public/menu.svg";
 import ZepoLogo from "@/public/zepo-logo.svg";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();

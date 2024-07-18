@@ -1,4 +1,9 @@
-import { CreateUser, GetUserById, validateUser } from "@/services";
+import {
+  CreateUser,
+  GetUserByEmail,
+  GetUserById,
+  validateUser,
+} from "@/services";
 import { ICreateUserResponse, IUser } from "@/type/app";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
@@ -26,6 +31,20 @@ export const useGetUserById = ({
   return useQuery({
     queryFn: () => GetUserById(id),
     queryKey: ["getUserById", id],
+    ...option,
+  });
+};
+
+export const useGetUserByEmail = ({
+  Email,
+  option,
+}: {
+  Email: string;
+  option?: UseQueryOptions;
+}) => {
+  return useQuery({
+    queryFn: () => GetUserByEmail(Email),
+    queryKey: ["getUserByEmail", Email],
     ...option,
   });
 };

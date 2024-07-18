@@ -2,6 +2,7 @@ import { ICreateUserResponse } from "@/type/app";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import toast from "react-hot-toast";
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -43,18 +44,11 @@ export const nextAuthOptions: NextAuthOptions = {
             name: user.name,
           }
         );
-
-        console.log({ res });
         return true;
       } catch (error) {
-        console.log("There was an error", error);
+        toast.error("Something went wrong");
         return true;
       }
-
-      //   if (res.status === 201) {
-      //     return true;
-      //   }
-      //   return false;
     },
   },
 
