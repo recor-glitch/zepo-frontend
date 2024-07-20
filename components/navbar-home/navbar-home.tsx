@@ -4,12 +4,17 @@ import { navItems } from "@/constants";
 import { useDrawerContext } from "@/context";
 import MenuIcon from "@/public/menu.svg";
 import ZepoLogo from "@/public/zepo-logo.svg";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import DummyAvatar from "@/public/dummy-avatar.svg";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();
+
+  const { data: session, status } = useSession();
+
+  console.log("I am here", { session });
 
   const handleSignIn = async () => {
     const response = await signIn("google", { redirect: true });
@@ -44,12 +49,23 @@ function NavbarHome() {
           })}
         </ul>
       </div>
-      <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden md:flex">
-        <button className="outlinedBtn" onClick={handleSignIn}>
-          Login
-        </button>
-        <button className="filledBtn">Signup</button>
-      </div>
+      {status === "authenticated" && session === null ? (
+        <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden md:flex">
+          <button className="outlinedBtn" onClick={handleSignIn}>
+            Login
+          </button>
+          <button className="filledBtn">Signup</button>
+        </div>
+      ) : (
+        <div className="circle-div">
+          <Image
+            src={session?.user?.image ?? DummyAvatar}
+            alt="profile Image"
+            height={200}
+            width={200}
+          />
+        </div>
+      )}
       <Image
         className="flex flex-row items-center md:hidden cursor-pointer"
         src={MenuIcon}

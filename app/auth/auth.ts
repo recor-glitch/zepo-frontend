@@ -33,18 +33,26 @@ export const nextAuthOptions: NextAuthOptions = {
 
     async signIn({ user }) {
       try {
-        console.log("process.env.BASE_URL", process.env.BASE_URL);
-
-        const res = await axios.post<ICreateUserResponse>(
-          `${process.env.BASE_URL}/user`,
+        const emailRes = await axios.post<ICreateUserResponse>(
+          `${process.env.BASE_URL}/get-by-email`,
           {
-            id: user.id,
             email: user.email,
-            image: user.image,
-            name: user.name,
           }
         );
-        return true;
+        if (emailRes.status === 200) {
+          return true;
+        } else {
+          const res = await axios.post<ICreateUserResponse>(
+            `${process.env.BASE_URL}/user`,
+            {
+              id: user.id,
+              email: user.email,
+              image: user.image,
+              name: user.name,
+            }
+          );
+          return true;
+        }
       } catch (error) {
         toast.error("Something went wrong");
         return true;

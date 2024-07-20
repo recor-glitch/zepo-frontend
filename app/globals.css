@@ -43,6 +43,10 @@ body {
     @apply flex h-[1.5px] bg-divider-primary w-full;
   }
 
+  .circle-div {
+    @apply rounded-full border object-fill overflow-hidden h-avatar w-avatar;
+  }
+
   .divider-v {
     @apply flex w-[1.5px] bg-divider-primary h-full;
   }
