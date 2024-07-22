@@ -1,4 +1,18 @@
-import { INavItems, IStatCard, RentRoomType } from "./type/app";
+import {
+  IDashboardNavItem,
+  INavItems,
+  IStatCard,
+  RentRoomType,
+} from "./type/app";
+import {
+  IconLayoutDashboard,
+  IconBuildingEstate,
+  IconUser,
+  IconList,
+  IconUsers,
+  IconReport,
+  IconSettings,
+} from "@tabler/icons-react";
 
 // CURRENCY
 export const rupee = "₹";
@@ -302,5 +316,43 @@ export const navItems: INavItems[] = [
         title: "2",
       },
     ],
+  },
+];
+
+export const dashboardAdminNavItems: IDashboardNavItem[] = [
+  {
+    icon: IconLayoutDashboard,
+    title: "Dashboard",
+    link: "/dashboard",
+  },
+  {
+    icon: IconBuildingEstate,
+    title: "Properties",
+    link: "/dashboard/properties",
+  },
+  {
+    icon: IconUser,
+    title: "Contacts",
+    link: "/dashboard/contacts",
+  },
+  {
+    icon: IconList,
+    title: "Listing",
+    link: "/dashboard/listing",
+  },
+  {
+    icon: IconUsers,
+    title: "Clients",
+    link: "/dashboard/clients",
+  },
+  {
+    icon: IconReport,
+    title: "Reports",
+    link: "/dashboard/reports",
+  },
+  {
+    icon: IconSettings,
+    title: "Reports",
+    link: "/settings",
   },
 ];

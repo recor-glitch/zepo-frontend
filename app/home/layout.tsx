@@ -1,6 +1,6 @@
 import DrawerWrapper from "@/components/drawer/drawer-wrapper";
 import { FooterHome } from "@/components/footer-home";
-import { NavbarHome } from "@/components/navbar-home";
+import { NavbarHome } from "@/components/navbar";
 import { UseDrawerContextProvider } from "@/context";
 import { Metadata } from "next";
 

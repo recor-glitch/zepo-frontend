@@ -1,6 +1,8 @@
 // NAVBAR ITEMS
 
 import { Action } from "@/context/user/action";
+import { Icon, IconProps } from "@tabler/icons-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
@@ -175,4 +177,11 @@ export interface IUserResponse extends IUser {
   role: string;
   createAt: string;
   updatedAt: string;
+}
+
+// DASHBOARD ITEMS
+export interface IDashboardNavItem {
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  title: string;
+  link: string;
 }

@@ -130,6 +130,7 @@ const config: Config = {
         "tab-indicator": "2.9rem",
         like: "3rem",
         avatar: "3rem",
+        "dashboard-avatar": "5rem"
       },
       maxWidth: {
         "rent-card": "20.25rem",
@@ -149,6 +150,7 @@ const config: Config = {
         "ma-rent-card": "20.25rem",
         like: "3rem",
         avatar: "3rem",
+        "dashboard-avatar": "5rem"
       },
       gap: {
         h: "3rem",
