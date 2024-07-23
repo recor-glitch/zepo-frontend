@@ -1,5 +1,4 @@
 import NavbarDashboard from "./dashboard/navbar-dashboard";
+import NavbarHome from "./home/navbar-home";
 
-export * from "./home/navbar-home";
-
-export { NavbarDashboard };
+export { NavbarDashboard, NavbarHome };

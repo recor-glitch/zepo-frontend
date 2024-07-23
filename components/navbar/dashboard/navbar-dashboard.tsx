@@ -16,7 +16,7 @@ const NavbarDashboard = () => {
   return (
     <div className="flex flex-col px-h py-v justify-between items-center w-full">
       {status === "authenticated" && session.user ? (
-        <div className="flex flex-col gap-20 w-full items-center">
+        <div className="flex flex-col gap-12 w-full items-center">
           <div className="flex flex-col w-full items-center gap-6">
             <div className="circle-div h-dashboard-avatar w-dashboard-avatar">
               <Image
