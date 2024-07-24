@@ -1,4 +1,5 @@
 import { ICreateUserResponse } from "@/type/app";
+import axiosInstance from "@/utils/axios-instance/axios-instance";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
@@ -28,7 +29,20 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      return { ...session, proile: token };
+      const res = await axiosInstance.post("/get-by-email", {
+        email: session.user?.email,
+      });
+      console.log({ res });
+      if (res.status === 200) {
+        return {
+          ...session,
+          profile: {
+            ...token,
+            role: res.data.role,
+          },
+        };
+      }
+      return { ...session, profile: { ...token, role: "user" } };
     },
 
     async signIn({ user }) {

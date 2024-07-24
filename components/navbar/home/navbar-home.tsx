@@ -14,8 +14,6 @@ function NavbarHome() {
 
   const { data: session, status } = useSession();
 
-  console.log("I am here", { session });
-
   const handleSignIn = async () => {
     const response = await signIn("google", { redirect: true });
     console.log("Signin response: ", { response });
@@ -49,13 +47,15 @@ function NavbarHome() {
           })}
         </ul>
       </div>
-      {status === "authenticated" && session === null ? (
+      {status === "unauthenticated" && session === null ? (
         <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden md:flex">
           <button className="outlinedBtn" onClick={handleSignIn}>
             Login
           </button>
           <button className="filledBtn">Signup</button>
         </div>
+      ) : status === "loading" ? (
+        <div />
       ) : (
         <div className="circle-div">
           <Image
