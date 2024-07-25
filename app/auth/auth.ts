@@ -1,4 +1,4 @@
-import { ICreateUserResponse } from "@/type/app";
+import { ICreateUserResponse, IUserResponse } from "@/type/app";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
@@ -29,10 +29,9 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      const res = await axiosInstance.post("/get-by-email", {
+      const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
         email: session.user?.email,
       });
-      console.log({ res });
       if (res.status === 200) {
         return {
           ...session,

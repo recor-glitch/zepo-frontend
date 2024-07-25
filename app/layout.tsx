@@ -3,8 +3,8 @@ import NextAuthSessionProvider from "@/container/session-provider";
 import { UserContextProvider } from "@/context/user/user-context";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import React from "react";
-import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 

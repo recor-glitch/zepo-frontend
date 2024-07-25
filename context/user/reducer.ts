@@ -1,12 +1,15 @@
 import { userContextDto } from "@/type/app";
 import { Action } from "./action";
 
-export const userReducer = (state: userContextDto, action: Action) => {
+export const userReducer = (
+  state: userContextDto,
+  action: Action
+): userContextDto => {
   switch (action.type) {
     case "setAccessToken":
-      break;
+      return { ...state, accessToken: action.payload.access_token };
     case "setUser":
-      break;
+      return { ...state, user: { ...state.user, ...action.payload } };
     default:
       return state;
   }

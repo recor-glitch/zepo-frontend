@@ -6,10 +6,12 @@ import {
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useReducer,
 } from "react";
 import { userReducer } from "./reducer";
 import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import { useSession } from "next-auth/react";
 
 const initialValue: userContextDto = {
   accessToken: "",
@@ -33,6 +35,21 @@ export function useUserContext() {
 
 export function UserContextProvider({ children }: PropsWithChildren) {
   const [state, dispatch] = useReducer(userReducer, initialValue);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      dispatch({
+        type: "setUser",
+        payload: {
+          email: session.profile?.email,
+          id: session.profile?.sub,
+          image: session.profile?.picture,
+          name: session.profile?.name,
+        },
+      });
+    }
+  }, [session]);
 
   useEffect(() => {
     AccessTokenStorage.setAccessToken(state.accessToken || "");
