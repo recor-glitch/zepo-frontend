@@ -1,9 +1,19 @@
 import { NavbarDashboard } from "@/components/navbar";
-import React from "react";
-import { IconSearch, IconNotification } from "@tabler/icons-react";
 import DashboardRedirectProvider from "@/container/dashboard-redirect-provider";
+import { IconNotification, IconSearch } from "@tabler/icons-react";
+import { getServerSession } from "next-auth";
+import React from "react";
+import { nextAuthOptions } from "../auth/auth";
 
-function DashboardLayout({ children }: { children: React.ReactNode }) {
+async function DashboardLayout({
+  admin,
+  superAdmin,
+}: {
+  children: React.ReactNode;
+  superAdmin: React.ReactNode;
+  admin: React.ReactNode;
+}) {
+  const session = await getServerSession(nextAuthOptions);
   return (
     <DashboardRedirectProvider>
       <div className="flex flex-col w-full h-[100vh]">
@@ -21,8 +31,16 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <IconNotification />
               </div>
             </div>
-            <div className="flex flex-1 border border-black p-h">
-              {children}
+            <div className="flex flex-1">
+              {session ? (
+                session?.profile?.role === "admin" ? (
+                  admin
+                ) : (
+                  superAdmin
+                )
+              ) : (
+                <div>loading...</div>
+              )}
             </div>
           </div>
         </div>

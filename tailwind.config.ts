@@ -59,6 +59,9 @@ const config: Config = {
 
         // BACKGROUND
         "bg-primary": "#F7F7FD",
+
+        // DASHBOARD
+        "dashboard-header-bg": "#F4F8EE",
       },
       fontSize: {
         "lg-header": "4rem",
@@ -130,7 +133,7 @@ const config: Config = {
         "tab-indicator": "2.9rem",
         like: "3rem",
         avatar: "3rem",
-        "dashboard-avatar": "5rem"
+        "dashboard-avatar": "5rem",
       },
       maxWidth: {
         "rent-card": "20.25rem",
@@ -150,7 +153,7 @@ const config: Config = {
         "ma-rent-card": "20.25rem",
         like: "3rem",
         avatar: "3rem",
-        "dashboard-avatar": "5rem"
+        "dashboard-avatar": "5rem",
       },
       gap: {
         h: "3rem",
