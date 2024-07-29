@@ -356,3 +356,38 @@ export const dashboardAdminNavItems: IDashboardNavItem[] = [
     link: "/settings",
   },
 ];
+
+// COLORS
+export const colorPalette = [
+  "#F2D9C7",
+  "#D9F2F5",
+  "#B2E2D9",
+  "#F0C79F",
+  "#C5E8F2",
+  "#96D6C9",
+  "#FFD6A5",
+  "#E5F5FF",
+  "#B2E8D3",
+  "#F0D7B2",
+  "#D9E8F0",
+  "#A2D6C1",
+];
+
+export const pieData = [
+  {
+    name: "Online Sale",
+    value: 3425,
+  },
+  {
+    name: "Offline Sale",
+    value: 3120,
+  },
+  {
+    name: "Agent Sale",
+    value: 2475,
+  },
+  {
+    name: "Marketing Sale",
+    value: 5120,
+  },
+];

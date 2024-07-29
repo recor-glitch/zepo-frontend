@@ -62,6 +62,9 @@ const config: Config = {
 
         // DASHBOARD
         "dashboard-header-bg": "#F4F8EE",
+        "income-card-1-bg": "#A7E0DA",
+        "income-card-2-bg": "#E1F8FF",
+        "income-card-3-bg": "#FBEBB8",
       },
       fontSize: {
         "lg-header": "4rem",
