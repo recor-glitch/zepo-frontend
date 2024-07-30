@@ -22,9 +22,9 @@ export default function ReachOutSection() {
         <span className="flex justify-center items-center text-md-subtitle-secondary text-text-secondary font-medium">
           Join
           <b className="text-md-subtitle-secondary text-text-secondary-dark font-bold">
-            &nbsp; 10,000+ &nbsp;
+            10,000+
           </b>
-          other landlords in our estatery community.
+          other landlords in our renting community.
         </span>
       </div>
       {/* SEARCH FIELD */}

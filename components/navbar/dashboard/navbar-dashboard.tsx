@@ -59,7 +59,7 @@ const NavbarDashboard = () => {
           <AvatarCardSkeleton />
           <div className="flex flex-col gap-8 w-full">
             {[...new Array(7)].map((item, idx) => (
-              <DashboardItems key={idx}/>
+              <DashboardItems key={item + idx} />
             ))}
           </div>
           <div className="divider-h" />
