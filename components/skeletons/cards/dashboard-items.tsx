@@ -1,6 +1,6 @@
 import React from "react";
 
-const DashboardItems = () => {
+const DashboardItemSkeleton = () => {
   return (
     <div className="animate-pulse flex w-full gap-4 justify-start items-center">
       <div className="flex h-10 w-10 bg-slate-200 rounded-lg" />
@@ -9,4 +9,4 @@ const DashboardItems = () => {
   );
 };
 
-export default DashboardItems;
+export default DashboardItemSkeleton;

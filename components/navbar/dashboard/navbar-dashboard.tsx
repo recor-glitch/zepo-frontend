@@ -1,13 +1,12 @@
 "use client";
 
+import AvatarCardSkeleton from "@/components/skeletons/cards/avatar-card";
+import DashboardItemSkeleton from "@/components/skeletons/cards/dashboard-items";
+import { dashboardAdminNavItems } from "@/constants";
+import DummyAvatar from "@/public/dummy-avatar.svg";
+import { IconLogout } from "@tabler/icons-react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
-import DummyAvatar from "@/public/dummy-avatar.svg";
-import AvatarCardSkeleton from "@/components/skeletons/cards/avatar-card";
-import DashboardItems from "@/components/skeletons/cards/dashboard-items";
-import { dashboardAdminNavItems } from "@/constants";
-import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 
 const NavbarDashboard = () => {
@@ -35,7 +34,7 @@ const NavbarDashboard = () => {
           </div>
           <div className="flex flex-1 flex-col gap-8 w-full">
             {dashboardAdminNavItems.map((item, index) => (
-              <Link href={item.link} id={item.title + index}>
+              <Link href={item.link} key={item.title + index}>
                 <div className="flex w-full gap-8 justify-start items-center">
                   <item.icon />
                   <p className="text-md-subtitle-main font-bold text-text-secondary">
@@ -59,11 +58,11 @@ const NavbarDashboard = () => {
           <AvatarCardSkeleton />
           <div className="flex flex-col gap-8 w-full">
             {[...new Array(7)].map((item, idx) => (
-              <DashboardItems key={item + idx} />
+              <DashboardItemSkeleton key={idx} />
             ))}
           </div>
           <div className="divider-h" />
-          <DashboardItems />
+          <DashboardItemSkeleton key={"logout-skeleton"} />
         </div>
       )}
     </div>

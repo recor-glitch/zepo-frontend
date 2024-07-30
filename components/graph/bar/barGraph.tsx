@@ -1,12 +1,10 @@
-import { barData, colorPalette } from "@/constants";
-import React from "react";
+import { barData } from "@/constants";
 import {
   Bar,
-  CartesianGrid,
+  BarChart,
   ResponsiveContainer,
   XAxis,
-  YAxis,
-  BarChart,
+  YAxis
 } from "recharts";
 
 const BarGraph = () => {
