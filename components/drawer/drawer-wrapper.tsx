@@ -22,10 +22,10 @@ const DrawerWrapper = () => {
             {navItems.map((item, index) => {
               if (item.type === "SELECT") {
                 return (
-                  <select className="text-md-subtitle-primary font-medium">
+                  <select className="text-md-subtitle-primary font-medium" key={index}>
                     <option>{item.title}</option>
-                    {item.selectItems?.map((selectItem, index) => (
-                      <option>{selectItem.title}</option>
+                    {item.selectItems?.map((selectItem, idx) => (
+                      <option key={idx}>{selectItem.title}</option>
                     ))}
                   </select>
                 );

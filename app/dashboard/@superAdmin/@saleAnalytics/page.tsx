@@ -22,7 +22,10 @@ const DoughnutChartSection = () => {
             const color = colorPalette[index % (colorPalette.length - 1)];
 
             return (
-              <div className="flex gap-2 justify-center items-center">
+              <div
+                className="flex gap-2 justify-center items-center"
+                key={data.name + index}
+              >
                 <div
                   className={`rounded-full h-3 w-3`}
                   style={{

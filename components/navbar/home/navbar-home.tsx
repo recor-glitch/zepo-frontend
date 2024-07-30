@@ -27,10 +27,10 @@ function NavbarHome() {
           {navItems.map((item, index) => {
             if (item.type === "SELECT") {
               return (
-                <select className="bg-bg-primary text-md-subtitle-primary font-medium">
+                <select className="bg-bg-primary text-md-subtitle-primary font-medium" key={item.title + index}>
                   <option>{item.title}</option>
-                  {item.selectItems?.map((selectItem, index) => (
-                    <option>{selectItem.title}</option>
+                  {item.selectItems?.map((selectItem, idx) => (
+                    <option key={idx}>{selectItem.title}</option>
                   ))}
                 </select>
               );

@@ -17,8 +17,8 @@ export default function StatSection() {
             listed.
           </p>
           <div className="flex md:flex-row flex-col flex-1 gap-text-spacing">
-            {dummyStatsData.map((stat) => (
-              <StatCard {...stat} />
+            {dummyStatsData.map((stat, index) => (
+              <StatCard {...stat} key={stat.title + index} />
             ))}
           </div>
         </section>

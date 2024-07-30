@@ -27,8 +27,8 @@ const SaleReportsSection = () => {
                 index !== salesData.length - 1 ? `border-b-2 border` : ``
               }py-sm-h`}
             >
-              <td className="flex justify-start pl-h items-center">
-                <div className="flex justify-start gap-4 items-center">
+              <td className="flex justify-start pl-h items-center h-full">
+                <div className="flex justify-start gap-4 items-center w-full h-full">
                   <div className="circle-div h-12 w-12">
                     <Image
                       src={DummyAvatar}

@@ -135,18 +135,22 @@ const FooterHome = () => {
           />
         </div>
         <div className="grid md:grid-cols-3 grid-cols-2 md:w-2/3 w-full text-left">
-          {footerItems.map((item) => {
+          {footerItems.map((item, index) => {
             return (
-              <div className="flex flex-col gap-4 mb-v">
+              <div
+                className="flex flex-col gap-4 mb-v"
+                key={item.title + index}
+              >
                 <p className="text-md-subtitle-primary font-bold">
                   {item.title}
                 </p>
                 <div className="flex flex-col gap-2">
-                  {item.items.map((ele) => {
+                  {item.items.map((ele, idx) => {
                     return (
                       <Link
                         href={ele.link}
                         className="font-medium text-md-subtitle-primary"
+                        key={ele.title + idx}
                       >
                         {ele.title}
                       </Link>
