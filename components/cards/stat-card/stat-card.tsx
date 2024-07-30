@@ -18,7 +18,7 @@ function StatCard({ img, subtitle, title, floatingIcon }: IStatCard) {
             />
           </div>
         )}
-        <div className="flex rounded-full bg-primary-lighter p-icon">
+        <div className="flex rounded-full bg-ascent p-icon">
           <Image src={img.url} alt={img.alt} height={32} width={32} />
         </div>
       </div>

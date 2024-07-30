@@ -10,7 +10,7 @@ function OutlinedTab({ tabs }: props) {
   const [activeTab, setActiveTab] = useState<number>(0);
   const handleOnClick = (index: number) => setActiveTab(index);
   return (
-    <div className="relative border-2 bg-primary-lighter border-primary-light w-[20.875rem] h-tab flex justify-around items-center rounded-default">
+    <div className="relative border-2 bg-ascent border-primary-light w-[20.875rem] h-tab flex justify-around items-center rounded-default">
       {tabs.map((tab, index) => (
         <p
           onClick={() => handleOnClick(index)}

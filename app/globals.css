@@ -43,6 +43,10 @@ body {
     @apply flex h-[1.5px] bg-divider-primary w-full;
   }
 
+  .circle-div {
+    @apply rounded-full border object-fill overflow-hidden h-avatar w-avatar;
+  }
+
   .divider-v {
     @apply flex w-[1.5px] bg-divider-primary h-full;
   }
@@ -64,7 +68,7 @@ body {
   }
 
   .browseContainer {
-    @apply absolute left-[10.9%] bottom-[18.4%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center drop-shadow-sm;
+    @apply absolute left-[10.9%] bottom-[12%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center drop-shadow-sm;
   }
 
   .virtualTourContainer {
@@ -81,5 +85,9 @@ body {
 
   .rentContainer {
     @apply flex flex-col max-h-rent-card min-w-rent-card min-h-rent-card drop-shadow-sm rounded-default bg-white relative;
+  }
+
+  .tableRow {
+    @apply px-sm-h
   }
 }

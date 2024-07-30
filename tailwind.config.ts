@@ -35,7 +35,7 @@ const config: Config = {
       },
       colors: {
         primary: "#7065F0",
-        "primary-lighter": "#F0EFFB",
+        ascent: "#F0EFFB",
         "primary-light": "#D9D6F5",
         secondary: "#E0DEF7",
 
@@ -59,6 +59,12 @@ const config: Config = {
 
         // BACKGROUND
         "bg-primary": "#F7F7FD",
+
+        // DASHBOARD
+        "dashboard-header-bg": "#F4F8EE",
+        "income-card-1-bg": "#A7E0DA",
+        "income-card-2-bg": "#E1F8FF",
+        "income-card-3-bg": "#FBEBB8",
       },
       fontSize: {
         "lg-header": "4rem",
@@ -129,6 +135,8 @@ const config: Config = {
         tab: "4rem",
         "tab-indicator": "2.9rem",
         like: "3rem",
+        avatar: "3rem",
+        "dashboard-avatar": "5rem",
       },
       maxWidth: {
         "rent-card": "20.25rem",
@@ -147,6 +155,8 @@ const config: Config = {
         "mi-rent-card": "12.375rem",
         "ma-rent-card": "20.25rem",
         like: "3rem",
+        avatar: "3rem",
+        "dashboard-avatar": "5rem",
       },
       gap: {
         h: "3rem",

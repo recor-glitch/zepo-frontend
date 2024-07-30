@@ -1,5 +1,9 @@
 // NAVBAR ITEMS
 
+import { Action } from "@/context/user/action";
+import { Icon, IconProps } from "@tabler/icons-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
 export interface ISelectItems {
@@ -155,3 +159,29 @@ export interface ISuperUser extends IUser {
 }
 
 export type UserType = INormalUser | IAdminUser | ISuperUser;
+
+// CONTEXT
+export interface userContextDto {
+  accessToken: string;
+  user: IUser;
+  dispatch: React.Dispatch<Action>;
+}
+
+// DATABASE API
+
+export interface ICreateUserResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+export interface IUserResponse extends IUser {
+  role: string;
+  createAt: string;
+  updatedAt: string;
+}
+
+// DASHBOARD ITEMS
+export interface IDashboardNavItem {
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+  title: string;
+  link: string;
+}

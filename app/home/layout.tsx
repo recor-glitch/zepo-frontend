@@ -1,6 +1,7 @@
 import DrawerWrapper from "@/components/drawer/drawer-wrapper";
 import { FooterHome } from "@/components/footer-home";
-import { NavbarHome } from "@/components/navbar-home";
+import { NavbarHome } from "@/components/navbar";
+import HomeRedirectProvider from "@/container/home-redirect-provider";
 import { UseDrawerContextProvider } from "@/context";
 import { Metadata } from "next";
 
@@ -27,17 +28,19 @@ export default function HomeLayout({
   reachout: React.ReactNode;
 }>) {
   return (
-    <UseDrawerContextProvider>
-      <DrawerWrapper />
-      <NavbarHome />
-      {landing}
-      {tour}
-      {stats}
-      {properties}
-      {testimonial}
-      {reachout}
-      {children}
-      <FooterHome />
-    </UseDrawerContextProvider>
+    <HomeRedirectProvider>
+      <UseDrawerContextProvider>
+        <DrawerWrapper />
+        <NavbarHome />
+        {landing}
+        {tour}
+        {stats}
+        {properties}
+        {testimonial}
+        {reachout}
+        {children}
+        <FooterHome />
+      </UseDrawerContextProvider>
+    </HomeRedirectProvider>
   );
 }

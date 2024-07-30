@@ -10,7 +10,7 @@ export default function TourSection() {
     <div className="md:h-body-tour h-fit flex flex-col md:flex-row justify-between items-center gap-h relative mb-20">
       {/* FLOATING VIRTUAL HOME TOUR BANNER */}
       <div className="virtualTourContainer">
-        <div className="rounded-full border-2 border-primary-light bg-primary-lighter p-default">
+        <div className="rounded-full border-2 border-primary-light bg-ascent p-default">
           <Image src={PlayIcon} alt="Play video icon" />
         </div>
         <div className="flex flex-col justify-start">
