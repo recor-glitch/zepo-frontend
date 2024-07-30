@@ -17,6 +17,7 @@ function OutlinedTab({ tabs }: props) {
           className={`text-md-subtitle-main font-medium cursor-pointer ${
             activeTab === index ? "text-primary" : "text-text-secondary-dark"
           }`}
+          key={tab.title + index}
         >
           {tab.title}
         </p>

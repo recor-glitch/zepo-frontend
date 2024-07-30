@@ -35,7 +35,7 @@ const config: Config = {
       },
       colors: {
         primary: "#7065F0",
-        ascent: "#F0EFFB",
+        "primary-lighter": "#F0EFFB",
         "primary-light": "#D9D6F5",
         secondary: "#E0DEF7",
 
@@ -65,6 +65,20 @@ const config: Config = {
         "income-card-1-bg": "#A7E0DA",
         "income-card-2-bg": "#E1F8FF",
         "income-card-3-bg": "#FBEBB8",
+
+        // COLOR PALETTE
+        "color-palette-1": "#F2D9C7",
+        "color-palette-2": "#D9F2F5",
+        "color-palette-3": "#B2E2D9",
+        "color-palette-4": "#F0C79F",
+        "color-palette-5": "#C5E8F2",
+        "color-palette-6": "#96D6C9",
+        "color-palette-7": "#FFD6A5",
+        "color-palette-8": "#E5F5FF",
+        "color-palette-9": "#B2E8D3",
+        "color-palette-10": "#F0D7B2",
+        "color-palette-11": "#D9E8F0",
+        "color-palette-12": "#A2D6C1",
       },
       fontSize: {
         "lg-header": "4rem",

@@ -28,6 +28,7 @@ function TabBarHome() {
         {TabBarItems.map((item, i) => {
           return (
             <div
+              key={item.title + i}
               onClick={() => handleOnClick(i)}
               className={`font-medium text-md-subtitle-main transform transition-colors ${
                 activeTab === i ? "text-primary" : "text-text-primary"

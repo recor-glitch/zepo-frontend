@@ -34,8 +34,8 @@ const NavbarDashboard = () => {
             </div>
           </div>
           <div className="flex flex-1 flex-col gap-8 w-full">
-            {dashboardAdminNavItems.map((item) => (
-              <Link href={item.link}>
+            {dashboardAdminNavItems.map((item, index) => (
+              <Link href={item.link} id={item.title + index}>
                 <div className="flex w-full gap-8 justify-start items-center">
                   <item.icon />
                   <p className="text-md-subtitle-main font-bold text-text-secondary">
@@ -58,8 +58,8 @@ const NavbarDashboard = () => {
         <div className="flex flex-col gap-12 w-full">
           <AvatarCardSkeleton />
           <div className="flex flex-col gap-8 w-full">
-            {[...new Array(7)].map((item) => (
-              <DashboardItems />
+            {[...new Array(7)].map((item, idx) => (
+              <DashboardItems key={idx}/>
             ))}
           </div>
           <div className="divider-h" />
