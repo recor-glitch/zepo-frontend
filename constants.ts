@@ -391,3 +391,61 @@ export const pieData = [
     value: 5120,
   },
 ];
+
+export const barData = [
+  {
+    name: "Jan",
+    value: 70000,
+  },
+  {
+    name: "Feb",
+    value: 120000,
+  },
+  {
+    name: "Mar",
+    value: 50000,
+  },
+  {
+    name: "Apr",
+    value: 150000,
+  },
+  {
+    name: "May",
+    value: 120000,
+  },
+  {
+    name: "Jun",
+    value: 50000,
+  },
+  {
+    name: "Jul",
+    value: 120000,
+  },
+];
+
+export const salesData = [
+  {
+    id: 1,
+    salesBy: "Alena",
+    propertyName: "Lafayette, California",
+    salesType: "Sale",
+    price: 500000,
+    status: "Sold",
+  },
+  {
+    id: 2,
+    salesBy: "Elston Gullan",
+    propertyName: "Lasnsing, Illinois",
+    salesType: "Rent",
+    price: 750000,
+    status: "Pending",
+  },
+  {
+    id: 3,
+    salesBy: "James",
+    propertyName: "Newyork NY, US",
+    salesType: "Rent",
+    price: 600000,
+    status: "Available",
+  },
+];

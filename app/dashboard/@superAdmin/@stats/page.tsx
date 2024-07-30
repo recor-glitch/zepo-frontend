@@ -3,7 +3,7 @@ import React from "react";
 
 const DashboardStatsSection = () => {
   return (
-    <div className="flex col-span-2 w-full h-full">
+    <div className="flex col-span-4 row-span-1 w-full h-full gap-4">
       <DashboardStatCard
         title="Income"
         bgColor="bg-income-card-1-bg"
@@ -19,7 +19,7 @@ const DashboardStatsSection = () => {
       <DashboardStatCard
         title="Profit"
         bgColor="bg-income-card-3-bg"
-        value={34.1} 
+        value={34.1}
         percentage="105.23"
       />
     </div>

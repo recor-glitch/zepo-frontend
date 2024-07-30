@@ -35,7 +35,7 @@ const config: Config = {
       },
       colors: {
         primary: "#7065F0",
-        "primary-lighter": "#F0EFFB",
+        ascent: "#F0EFFB",
         "primary-light": "#D9D6F5",
         secondary: "#E0DEF7",
 
