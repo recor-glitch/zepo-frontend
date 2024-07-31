@@ -56,6 +56,7 @@ export default function ReachOutSection() {
         <div className="flex justify-between items-center w-full rounded-default px-sm-h bg-white">
           <input
             name="email"
+            value={email}
             placeholder="Enter your email address"
             className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-v pr-h"
             onChange={(e) => setEmail(e.target.value)}
@@ -85,6 +86,7 @@ export default function ReachOutSection() {
         <div className="flex justify-between items-center w-full rounded-default px-sm-h bg-white">
           <input
             name="email"
+            value={email}
             placeholder="Enter your email address"
             className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
             onChange={(e) => setEmail(e.target.value)}
