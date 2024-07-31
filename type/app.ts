@@ -84,7 +84,7 @@ export interface ISharedRoom extends IRoomInfo {
 
 export interface IVilla extends IRoomInfo {
   type: "VILLA";
-  swimmingpull: boolean;
+  swimmingpool: boolean;
   beds: number;
   halls: number;
   kitchen: number;
@@ -184,4 +184,12 @@ export interface IDashboardNavItem {
   icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
   title: string;
   link: string;
+}
+
+
+// WAITLIST
+export interface IWaitlistResponse {
+  id : number;
+  email: string;
+  createdAt: string;
 }
