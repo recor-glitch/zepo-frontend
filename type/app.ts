@@ -84,7 +84,7 @@ export interface ISharedRoom extends IRoomInfo {
 
 export interface IVilla extends IRoomInfo {
   type: "VILLA";
-  swimmingpull: boolean;
+  swimmingpool: boolean;
   beds: number;
   halls: number;
   kitchen: number;
