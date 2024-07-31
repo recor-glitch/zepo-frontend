@@ -1,16 +1,12 @@
 "use client";
 
 import { useSaveToWaitlist } from "@/query/waitlistQuery";
+import { IconLoader } from "@tabler/icons-react";
 import {
-  ElementRef,
-  FormEvent,
-  FormEventHandler,
   MouseEventHandler,
-  useRef,
-  useState,
+  useState
 } from "react";
 import toast from "react-hot-toast";
-import { IconLoader } from "@tabler/icons-react";
 
 export default function ReachOutSection() {
   const [email, setEmail] = useState<string>("");
@@ -33,13 +29,13 @@ export default function ReachOutSection() {
   const handleSubmit: MouseEventHandler<HTMLButtonElement> = async (e) => {
     e.preventDefault();
 
-    console.log("here");
-
     try {
+      if (email.length === 0) {
+        toast.error("Please add your email address")
+        return;
+      }
       await refetch();
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
+    } catch (error) {}
   };
 
   return (
@@ -62,7 +58,7 @@ export default function ReachOutSection() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <button
-            className="filledBtn"
+            className="filledBtn flex justify-center items-center"
             onClick={handleSubmit}
             disabled={isLoading}
           >
@@ -93,7 +89,7 @@ export default function ReachOutSection() {
           />
         </div>
         <button
-          className="filledBtn w-full"
+          className="filledBtn flex w-full justify-center items-center"
           onClick={handleSubmit}
           disabled={isLoading}
         >
