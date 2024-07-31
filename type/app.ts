@@ -185,3 +185,11 @@ export interface IDashboardNavItem {
   title: string;
   link: string;
 }
+
+
+// WAITLIST
+export interface IWaitlistResponse {
+  id : number;
+  email: string;
+  createdAt: string;
+}
