@@ -15,8 +15,7 @@ function NavbarHome() {
   const { data: session, status } = useSession();
 
   const handleSignIn = async () => {
-    const response = await signIn("google", { redirect: true });
-    console.log("Signin response: ", { response });
+    // await signIn("google", { redirect: true });
   };
 
   return (
@@ -27,7 +26,10 @@ function NavbarHome() {
           {navItems.map((item, index) => {
             if (item.type === "SELECT") {
               return (
-                <select className="bg-bg-primary text-md-subtitle-primary font-medium" key={item.title + index}>
+                <select
+                  className="bg-bg-primary text-md-subtitle-primary font-medium"
+                  key={item.title + index}
+                >
                   <option>{item.title}</option>
                   {item.selectItems?.map((selectItem, idx) => (
                     <option key={idx}>{selectItem.title}</option>
