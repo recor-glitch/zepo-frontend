@@ -147,6 +147,7 @@ const config: Config = {
         "mi-rent-card": "17.5rem",
         "ma-rent-card": "26rem",
         tab: "4rem",
+        logo: "6rem",
         "tab-indicator": "2.9rem",
         like: "3rem",
         avatar: "3rem",
