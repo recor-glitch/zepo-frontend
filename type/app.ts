@@ -41,6 +41,7 @@ export interface IRoomInfo {
   title: string;
   address: string;
   size: IRoomSize;
+  amenities: string[];
 }
 export interface ISingleRoom extends IRoomInfo {
   type: "SINGLE";
