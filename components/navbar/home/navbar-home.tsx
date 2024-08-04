@@ -27,7 +27,10 @@ function NavbarHome() {
           {navItems.map((item, index) => {
             if (item.type === "SELECT") {
               return (
-                <select className="bg-bg-primary text-md-subtitle-primary font-medium" key={item.title + index}>
+                <select
+                  className="bg-bg-primary text-md-subtitle-primary font-medium"
+                  key={item.title + index}
+                >
                   <option>{item.title}</option>
                   {item.selectItems?.map((selectItem, idx) => (
                     <option key={idx}>{selectItem.title}</option>
@@ -52,7 +55,9 @@ function NavbarHome() {
           <button className="outlinedBtn" onClick={handleSignIn}>
             Login
           </button>
-          <button className="filledBtn">Signup</button>
+          <button className="filledBtn" onClick={handleSignIn}>
+            Signup
+          </button>
         </div>
       ) : status === "loading" ? (
         <div />

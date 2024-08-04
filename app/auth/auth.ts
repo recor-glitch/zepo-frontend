@@ -29,24 +29,29 @@ export const nextAuthOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ session, token }) {
-      const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
-        email: session.user?.email,
-      });
-      if (res.status === 200) {
-        return {
-          ...session,
-          profile: {
-            ...token,
-            role: res.data.role,
-          },
-        };
+      try {
+        const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
+          email: session.user?.email,
+        });
+        if (res.status === 200) {
+          return {
+            ...session,
+            profile: {
+              ...token,
+              role: res.data.role,
+            },
+          };
+        }
+        return { ...session, profile: { ...token, role: "user" } };
+      } catch (err) {
+        console.log("I am here", err);
+        return { ...session, profile: { ...token, role: "user" } };
       }
-      return { ...session, profile: { ...token, role: "user" } };
     },
 
     async signIn({ user }) {
       try {
-        const emailRes = await axios.post<ICreateUserResponse>(
+        const emailRes = await axios.post<IUserResponse>(
           `${process.env.BASE_URL}/get-by-email`,
           {
             email: user.email,
@@ -54,20 +59,21 @@ export const nextAuthOptions: NextAuthOptions = {
         );
         if (emailRes.status === 200) {
           return true;
-        } else {
-          const res = await axios.post<ICreateUserResponse>(
-            `${process.env.BASE_URL}/user`,
-            {
-              id: user.id,
-              email: user.email,
-              image: user.image,
-              name: user.name,
-            }
-          );
-          return true;
         }
+        await axios.post<ICreateUserResponse>(`${process.env.BASE_URL}/user`, {
+          id: user.id,
+          email: user.email,
+          image: user.image,
+          name: user.name,
+        });
+        return true;
       } catch (error) {
-        toast.error("Something went wrong");
+        await axios.post<ICreateUserResponse>(`${process.env.BASE_URL}/user`, {
+          id: user.id,
+          email: user.email,
+          image: user.image,
+          name: user.name,
+        });
         return true;
       }
     },
