@@ -131,7 +131,7 @@ const FooterHome = () => {
           <Image
             src={ZepoLogo}
             alt="Website logo"
-            className="w-[9.438rem] h-[2.5rem]"
+            className="w-logo h-logo"
           />
         </div>
         <div className="grid md:grid-cols-3 grid-cols-2 md:w-2/3 w-full text-left">
