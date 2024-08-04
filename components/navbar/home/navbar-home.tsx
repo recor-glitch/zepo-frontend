@@ -15,23 +15,25 @@ function NavbarHome() {
   const { data: session, status } = useSession();
 
   const handleSignIn = async () => {
-    const response = await signIn("google", { redirect: true });
-    console.log("Signin response: ", { response });
+    // await signIn("google", { redirect: true });
   };
 
   return (
     <div className="h-24 flex flex-row gap-h justify-between items-center px-h py-v">
-      <Image src={ZepoLogo} alt="Website logo" className="w-logo" />
+      <Image src={ZepoLogo} alt="Website logo" className="w-logo h-logo" />
       <div className="flex flex-row items-center xs:hidden md:flex gap-h h-full max-w-[34.75rem]">
         <ul className="flex justify-evenly gap-h items-center w-full">
           {navItems.map((item, index) => {
             if (item.type === "SELECT") {
               return (
-                <select className="bg-bg-primary text-md-subtitle-primary font-medium" key={item.title + index}>
+                <select
+                  className="bg-bg-primary text-md-subtitle-primary font-medium"
+                  key={item.title + index}
+                >
                   <option>{item.title}</option>
-                  {item.selectItems?.map((selectItem, idx) => (
+                  {/* {item.selectItems?.map((selectItem, idx) => (
                     <option key={idx}>{selectItem.title}</option>
-                  ))}
+                  ))} */}
                 </select>
               );
             } else

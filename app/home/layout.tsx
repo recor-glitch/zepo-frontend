@@ -30,7 +30,7 @@ export default function HomeLayout({
   return (
     <HomeRedirectProvider>
       <UseDrawerContextProvider>
-        <DrawerWrapper />
+        {/* <DrawerWrapper /> */}
         <NavbarHome />
         {landing}
         {tour}

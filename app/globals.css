@@ -17,7 +17,7 @@
 }
 
 body {
-  @apply bg-bg-primary overflow-x-hidden;
+  @apply bg-bg-primary;
 }
 
 @layer utilities {
@@ -72,11 +72,11 @@ body {
   }
 
   .virtualTourContainer {
-    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute top-[8.25rem] min-w-[19.813rem] left-[2.5rem] flex justify-around items-center cursor-pointer drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute md:top-[8.25rem] min-w-[19.813rem] md:left-[2.5rem] flex justify-around items-center cursor-pointer drop-shadow-sm;
   }
 
   .bestDealContainer {
-    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute md:top-[44rem] top-[28rem] md:w-[25rem] min-w-[19.813rem] md:left-[18rem] left-[6rem] flex justify-start items-center cursor-pointer drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute md:top-[44rem] top-[18rem] md:w-[25rem] min-w-[19.813rem] md:left-[18rem] flex justify-start items-center cursor-pointer drop-shadow-sm;
   }
 
   .searchContainer {
@@ -88,6 +88,6 @@ body {
   }
 
   .tableRow {
-    @apply px-sm-h
+    @apply px-sm-h;
   }
 }

@@ -19,7 +19,7 @@ export default function LaningSection() {
       </div>
       {/* PROPERTIES GRID */}
       <div className="grid md:grid-cols-4 gap-h w-full">
-        {dummyRoomRent.map((rent, index) => (
+        {dummyRoomRent?.map((rent, index) => (
           <RentCard rent={rent} showLike key={rent.title + index} />
         ))}
       </div>
