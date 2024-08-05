@@ -7,9 +7,19 @@ import { IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { HomeDrawer } from "./home-drawer";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const DrawerWrapper = () => {
   const { isOpen, trigger } = useDrawerContext();
+  const { data: session, status } = useSession();
+
+  const handleSignIn = async () => {
+    await signIn("google", { redirect: true });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <HomeDrawer
@@ -51,10 +61,19 @@ const DrawerWrapper = () => {
         </div>
       }
       footer={
-        <div className="flex flex-col w-full justify-between items-center gap-4 ">
-          <button className="outlinedBtn w-full">Login</button>
-          <button className="filledBtn w-full">Signup</button>
-        </div>
+        status === "unauthenticated" && session === null ? (
+          <div className="flex flex-col w-full justify-between items-center gap-4 ">
+            <button className="outlinedBtn w-full" onClick={handleSignIn}>
+              Signin
+            </button>
+          </div>
+        ) : status === "loading" ? (
+          <div />
+        ) : (
+          <button className="filledBtn w-full" onClick={handleSignOut}>
+            Logout
+          </button>
+        )
       }
       isOpen={isOpen}
       triggerHandler={trigger}

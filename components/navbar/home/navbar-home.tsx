@@ -59,9 +59,9 @@ function NavbarHome() {
           </button>
         </div>
       ) : status === "loading" ? (
-        <div />
+        "Loading..."
       ) : (
-        <div className="circle-div">
+        <div className="circle-div hidden md:flex">
           <Image
             src={session?.user?.image ?? DummyAvatar}
             alt="profile Image"
