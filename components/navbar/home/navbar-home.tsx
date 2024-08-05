@@ -15,7 +15,7 @@ function NavbarHome() {
   const { data: session, status } = useSession();
 
   const handleSignIn = async () => {
-    // await signIn("google", { redirect: true });
+    await signIn("google", { redirect: true });
   };
 
   return (

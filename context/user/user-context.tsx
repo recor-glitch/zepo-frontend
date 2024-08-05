@@ -1,17 +1,16 @@
 "use client";
 
 import { userContextDto } from "@/type/app";
+import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import { useSession } from "next-auth/react";
 import {
   createContext,
   PropsWithChildren,
   useContext,
   useEffect,
-  useMemo,
-  useReducer,
+  useReducer
 } from "react";
 import { userReducer } from "./reducer";
-import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
-import { useSession } from "next-auth/react";
 
 const initialValue: userContextDto = {
   accessToken: "",
