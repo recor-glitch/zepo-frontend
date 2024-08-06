@@ -2,12 +2,12 @@
 
 import { navItems } from "@/constants";
 import { useDrawerContext } from "@/context";
+import DummyAvatar from "@/public/dummy-avatar.svg";
 import MenuIcon from "@/public/menu.svg";
 import ZepoLogo from "@/public/zepo-logo.svg";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import DummyAvatar from "@/public/dummy-avatar.svg";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();
