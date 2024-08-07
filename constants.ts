@@ -1,6 +1,7 @@
 import {
   IDashboardNavItem,
   INavItems,
+  IReview,
   IStatCard,
   RentRoomType,
 } from "./type/app";
@@ -23,6 +24,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent.svg", alt: "Dummy room image 1" }],
     type: "VILLA",
+    amenities: [],
     address: "Plot 15, Lake View Colony, Bangalore, KA",
     desc: "This stylish villa offers a serene living experience with self-sufficient owners. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: true,
@@ -49,6 +51,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent-9.svg", alt: "Dummy room image 9" }],
     type: "VILLA",
+    amenities: [],
     address: "Sector 50, Noida, UP",
     desc: "This elegant villa is perfect for quiet, self-sufficient living. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: false,
@@ -78,6 +81,7 @@ export const dummyRoomRent: RentRoomType[] = [
     address: "Palm Meadows, Whitefield, Bangalore, KA",
     desc: "This stylish villa offers a serene living experience with self-sufficient owners. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: true,
+    amenities: [],
     likeCount: 0,
     price: { amount: 130000, currency: "INR", period: "MONTHLY" },
     balcony: 2,
@@ -101,6 +105,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent-5.svg", alt: "Dummy room image 5" }],
     type: "VILLA",
+    amenities: [],
     address: "Sector 12, Dwarka, Delhi",
     desc: "This elegant villa is perfect for quiet, self-sufficient living. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: false,
@@ -127,6 +132,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent-6.svg", alt: "Dummy room image 6" }],
     type: "VILLA",
+    amenities: [],
     address: "Sector 45, Gurgaon, HR",
     desc: "This elegant villa is perfect for quiet, self-sufficient living. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: false,
@@ -153,6 +159,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent-7.svg", alt: "Dummy room image 7" }],
     type: "VILLA",
+    amenities: [],
     address: "Palm Meadows, Whitefield, Bangalore, KA",
     desc: "This elegant villa is perfect for quiet, self-sufficient living. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: false,
@@ -179,6 +186,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent-8.svg", alt: "Dummy room image 8" }],
     type: "VILLA",
+    amenities: [],
     address: "Sector 15, Navi Mumbai, MH",
     desc: "This elegant villa is perfect for quiet, self-sufficient living. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: false,
@@ -205,6 +213,7 @@ export const dummyRoomRent: RentRoomType[] = [
   {
     images: [{ url: "/dummy-rent-7.svg", alt: "Dummy room image 7" }],
     type: "VILLA",
+    amenities: [],
     address: "Sector 10, Dwarka, Delhi",
     desc: "This elegant villa is perfect for quiet, self-sufficient living. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: false,
@@ -448,4 +457,57 @@ export const salesData = [
     price: 600000,
     status: "Available",
   },
+];
+
+export const dummyReviews: IReview[] = [
+  {
+    user: {
+      email: "user@example.com",
+      id: "user@example",
+      image: "",
+      name: "Bikash Kalita",
+    },
+    msg: "Best broker of the town",
+    rating: 3,
+  },
+  {
+    user: {
+      email: "user@example.com",
+      id: "user@example",
+      image: "",
+      name: "Aryan Chobey",
+    },
+    msg: "Awesome communication",
+    rating: 4,
+  },
+  {
+    user: {
+      email: "jane.doe@example.com",
+      id: "user123",
+      image: "https://example.com/images/jane.jpg",
+      name: "Jane Doe",
+    },
+    msg: "Excellent service, very professional!",
+    rating: 5,
+  },
+  {
+    user: {
+      email: "john.smith@example.com",
+      id: "user456",
+      image: "https://example.com/images/john.jpg",
+      name: "John Smith",
+    },
+    msg: "Good experience overall, but room for improvement.",
+    rating: 4,
+  },
+  // {
+  //   user: {
+  //     email: "alice.wonderland@example.com",
+  //     id: "user789",
+  //     image: "https://example.com/images/alice.jpg",
+  //     name: "Alice Wonderland",
+  //   },
+  //   msg: "Not satisfied with the service.",
+  //   rating: 2,
+  // },
 ];

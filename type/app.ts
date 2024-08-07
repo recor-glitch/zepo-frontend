@@ -44,6 +44,7 @@ export interface IRoomInfo {
   amenities: string[];
 }
 export interface ISingleRoom extends IRoomInfo {
+  id?: number;
   type: "SINGLE";
   washroom: {
     type: WashRoomType;
@@ -52,6 +53,7 @@ export interface ISingleRoom extends IRoomInfo {
 }
 
 export interface IDoubleRoom extends IRoomInfo {
+  id?: number;
   type: "DOUBLE";
   washroom: {
     type: WashRoomType;
@@ -60,6 +62,7 @@ export interface IDoubleRoom extends IRoomInfo {
 }
 
 export interface IBHKRoom extends IRoomInfo {
+  id?: number;
   type: "BHK";
   beds: number;
   halls: number;
@@ -72,6 +75,7 @@ export interface IBHKRoom extends IRoomInfo {
 }
 
 export interface ISharedRoom extends IRoomInfo {
+  id?: number;
   type: "SHARED";
   beds: number;
   halls: number;
@@ -84,6 +88,7 @@ export interface ISharedRoom extends IRoomInfo {
 }
 
 export interface IVilla extends IRoomInfo {
+  id?: number;
   type: "VILLA";
   swimmingpool: boolean;
   beds: number;
@@ -132,8 +137,9 @@ export interface IStatCard {
 // USER
 
 export interface IReview {
+  user: IUser;
   msg: string;
-  ratting: number;
+  rating: number;
 }
 
 export type UserRole = "user" | "admin" | "superuser";
@@ -187,10 +193,9 @@ export interface IDashboardNavItem {
   link: string;
 }
 
-
 // WAITLIST
 export interface IWaitlistResponse {
-  id : number;
+  id: number;
   email: string;
   createdAt: string;
 }

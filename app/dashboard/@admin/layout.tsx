@@ -1,13 +1,21 @@
 import { AdminNavbar } from "@/components/navbar";
-import { IconNotification, IconSearch } from "@tabler/icons-react";
-import React from "react";
+import React, { Children } from "react";
 
-const AdminLayout = () => {
+const AdminLayout = ({
+  children,
+  review,
+  listing,
+}: {
+  children: React.ReactNode;
+  review: React.ReactNode;
+  listing: React.ReactNode;
+}) => {
   return (
-    <div className="w-full h-full  flex flex-col flex-1">
-      <div className="flex flex-row justify-between px-h items-center h-1/6 w-full">
+    <div className="w-full h-full  flex flex-col flex-1 gap-default">
+      <div className="flex flex-row justify-between items-center h-1/6 w-full">
         <AdminNavbar />
       </div>
+      {children}
     </div>
   );
 };
