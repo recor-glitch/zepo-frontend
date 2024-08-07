@@ -6,7 +6,7 @@ import DummyAvatar from "@/public/dummy-avatar.svg";
 
 const AdminPage = () => {
   return (
-    <div className="flex flex-col h-full gap-default overflow-y-auto">
+    <div className="flex flex-col h-full gap-default md:overflow-y-auto">
       {/* HEADER */}
       <div className="flex justify-start items-center gap-default w-full">
         <p className="text-md-subtitle-primary text-text-secondary font-medium">
@@ -17,8 +17,8 @@ const AdminPage = () => {
         </p>
       </div>
       {/* BODY */}
-      <div className="grid grid-cols-3 gap-default row-auto scroll-auto">
-        <div className="col-span-2 grid grid-cols-3 gap-default">
+      <div className="grid md:grid-cols-3 grid-cols-1 gap-default">
+        <div className="md:col-span-2 grid md:grid-cols-3 gap-default">
           {dummyRoomRent.map((rent, index) => {
             if (index < 6)
               return (
@@ -38,7 +38,7 @@ const AdminPage = () => {
               </p>
               <IconDotsVertical className="text-text-secondary" />
             </div>
-            <div className="flex col-span-4 row-span-1 w-full h-full gap-4">
+            <div className="flex col-span-4 md:flex-row flex-col w-full h-full gap-4">
               <DashboardStatCard
                 title="Income"
                 bgColor="bg-income-card-1-bg"
@@ -64,11 +64,11 @@ const AdminPage = () => {
             <div className="flex flex-col gap-default">
               {dummyReviews.map((review, index) => (
                 <>
-                  <div className="flex gap-default">
+                  <div className="flex gap-default justify-start items-center">
                     <div className="circle-div">
                       <Image src={DummyAvatar} alt="dummy profile image" />
                     </div>
-                    <div className="flex flex-col items-start">
+                    <div className="flex flex-col items-start w-2/3">
                       <p className="text-md-subtitle-primary text-text-primary font-bold line-clamp-1">
                         {review.user.name}
                       </p>

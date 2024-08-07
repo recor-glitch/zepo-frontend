@@ -8,7 +8,6 @@ import {
   IconSearch,
   IconSquareRoundedPlus,
 } from "@tabler/icons-react";
-import React from "react";
 
 const AdminNavbar = () => {
   return (
@@ -21,57 +20,52 @@ const AdminNavbar = () => {
         </div>
       </div>
       {/* SEARCH FIELDS */}
-      <div className="flex flex-1 justify-between items-center gap-default w-full">
-        <div className="flex justify-between items-center rounded-full px-sm-h bg-white border">
+      <div className="grid-cols-5 gap-default w-full md:grid hidden">
+        <div className="flex col-span-1 justify-between items-center rounded-full px-sm-h bg-white border">
           <input
             name="search"
             placeholder="Search here..."
             className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
             onChange={() => {}}
           />
-          <div className="divider-v" />
           <IconSearch />
         </div>
-        <div className="flex justify-between gap-default items-center flex-1">
-          <div className="flex justify-between items-center rounded-full px-sm-h bg-white border">
+        <div className="col-span-2 grid grid-cols-2 justify-between gap-default items-center">
+          <div className="flex col-span-1 justify-between items-center rounded-full px-sm-h bg-white border">
             <input
               name="price"
               placeholder="Price"
               className="placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
               onChange={() => {}}
             />
-            <div className="divider-v" />
             <IconCurrencyDollar />
           </div>
-          <div className="flex justify-between items-center flex-1 rounded-full px-sm-h bg-white border">
+          <div className="flex col-span-1 justify-between items-center flex-1 rounded-full px-sm-h bg-white border">
             <input
               name="propertyType"
               placeholder="Property Type"
               className="placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
               onChange={() => {}}
             />
-            <div className="divider-v" />
             <IconChevronDown />
           </div>
         </div>
-        <div className="flex justify-between items-center flex-1 rounded-full px-sm-h bg-white border">
+        <div className="flex colspan-1 justify-between items-center rounded-full px-sm-h bg-white border">
           <input
             name="location"
             placeholder="location"
             className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
             onChange={() => {}}
           />
-          <div className="divider-v" />
           <IconChevronDown />
         </div>
-        <div className="flex justify-between items-center flex-1 rounded-full px-sm-h bg-white border">
+        <div className="flex col-span-1 justify-between items-center rounded-full px-sm-h bg-white border">
           <input
             name="filter"
             placeholder="Filters"
             className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
             onChange={() => {}}
           />
-          <div className="divider-v" />
           <IconAdjustmentsHorizontal />
         </div>
       </div>

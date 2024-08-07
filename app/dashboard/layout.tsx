@@ -16,7 +16,7 @@ async function DashboardLayout({
   const session = await getServerSession(nextAuthOptions);
   return (
     <DashboardRedirectProvider>
-      <div className="flex flex-col w-full h-[100vh]">
+      <div className="flex flex-col w-full">
         <div className="flex gap-h p-h bg-bg-primary h-full w-full">
           <div className="flex-col gap-default justify-between items-center w-1/6 h-full hidden md:flex border-r-2">
             <NavbarDashboard />
