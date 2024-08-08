@@ -1,6 +1,7 @@
 // NAVBAR ITEMS
 
 import { Action } from "@/context/user/action";
+import { Action as PropertyAction } from "@/context/property/action";
 import { Icon, IconProps } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 
@@ -172,6 +173,49 @@ export interface userContextDto {
   accessToken: string;
   user: IUser;
   dispatch: React.Dispatch<Action>;
+}
+
+export interface propertyContextDto {
+  dispatch: React.Dispatch<PropertyAction>;
+  activeStep: number;
+  status: FormStatus;
+  propertyInfo?: IPropertyInfo;
+  addressDetails?: IAddressDetails;
+  benifitsAndExtras?: IBenifitsAndExtra;
+}
+
+export type FormStatus = "EDIT" | "PUBLISHED" | "DRAFT";
+
+export interface IPropertyInfo {
+  title: string;
+  description: string;
+  propertyType: RoomType;
+  bed?: number;
+  hall?: number;
+  kitchen?: number;
+  balcony?: number;
+  washroom: number;
+  washroomType: WashRoomType;
+  price: number;
+  currency?: CurrencyType;
+  period?: PeriodType;
+}
+
+export interface IAddressDetails {
+  streetAddress1: string;
+  streetAddressLine2: string;
+  city: string;
+  state: string;
+  postal: string;
+}
+
+export interface IBenifitsAndExtra {
+  amenities: string[];
+  propertySize: {
+    width: number;
+    length: number;
+    unit: SizeType;
+  };
 }
 
 // DATABASE API

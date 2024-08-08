@@ -8,6 +8,7 @@ import {
   IconSearch,
   IconSquareRoundedPlus,
 } from "@tabler/icons-react";
+import Link from "next/link";
 
 const AdminNavbar = () => {
   return (
@@ -16,7 +17,9 @@ const AdminNavbar = () => {
         <p className="text-text-primary font-bold text-md-title">Dashboard</p>
         <div className="flex gap-default justify-between items-center">
           <IconNotification />
-          <IconSquareRoundedPlus />
+          <Link href="/dashboard/listing">
+            <IconSquareRoundedPlus />
+          </Link>
         </div>
       </div>
       {/* SEARCH FIELDS */}
