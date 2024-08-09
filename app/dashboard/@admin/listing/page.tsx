@@ -1,19 +1,20 @@
-import { PropertyForm } from "@/components/form";
+import PropertyWrapper from "@/components/form/property-wrapper/PropertyFormWrapper";
 import { UsePropertyFormContextProvider } from "@/context/property/property-fom-context";
-import React from "react";
 
 const PropertyListingPage = () => {
   return (
     <UsePropertyFormContextProvider>
       <div className="flex flex-col h-full justify-center items-center gap-default">
         <div className="flex flex-col gap-default w-1/2 items-center">
-          <p className="text-md-title font-bold text-text-primary">
-            List your Property
-          </p>
-          <p className="text-md-subtitle-secondary font-medium text-text-primary">
-            List your Property with us, connect with potential renters
-          </p>
-          <PropertyForm />
+          <div className="flex flex-col justify-center items-start gap-default w-full">
+            <p className="text-md-title font-bold text-text-primary">
+              List your Property
+            </p>
+            <p className="text-md-subtitle-secondary font-medium text-text-primary">
+              List your Property with us, connect with potential renters
+            </p>
+          </div>
+          <PropertyWrapper />
         </div>
       </div>
     </UsePropertyFormContextProvider>
