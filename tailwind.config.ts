@@ -49,6 +49,7 @@ const config: Config = {
         "text-secondary-dark": "#6C727F",
         "text-normal": "#001619" /* 70% */,
         "text-white": "#FFFFFF",
+        error: "#FF0000",
 
         // BORDER
         "border-primary": "#DEDEF7",

@@ -2,8 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus } from "@tabler/icons-react";
-import { redirect, RedirectType } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
@@ -11,24 +10,104 @@ import { z } from "zod";
 
 const washroomTypes = ["SHARED", "ATTACHED"];
 
-const propertySchema = z.object({
-  description: z.string({ message: "description is required" }),
-  propertyType: z.string({ message: "type is required" }),
-  title: z.string({ message: "title is required " }),
-  washroom: z.number().min(1),
-  washroomType: z.string({ message: "type is required" }).default("SHARED"),
-  beds: z.number().nullable(),
-  halls: z.number().nullable(),
-  kitchens: z.number().nullable(),
-  washrooms: z.number().nullable(),
-  balcony: z.number().nullable(),
-});
+const propertySchema = z
+  .object({
+    title: z
+      .string({ message: "Title is required" })
+      .min(1, "Title is required"),
+    description: z
+      .string({ message: "Description is required" })
+      .min(1, "Description is required"),
+    propertyType: z
+      .string({ message: "Property type is required" })
+      .min(1, "Property type is required"),
+    washroomType: z.enum(["SHARED", "ATTACHED"]).default("SHARED"),
+    beds: z
+      .string()
+      .nullable()
+      .transform((val) => (val === "" ? null : Number(val)))
+      .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
+        message: "Beds must be a non-negative integer",
+      }),
+    halls: z
+      .string()
+      .transform((val) => (val === "" ? null : Number(val)))
+      .nullable()
+      .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
+        message: "Beds must be a non-negative integer",
+      }),
+    kitchens: z
+      .string()
+      .transform((val) => (val === "" ? null : Number(val)))
+      .nullable()
+      .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
+        message: "Beds must be a non-negative integer",
+      }),
+    washrooms: z
+      .string()
+      .transform((val) => (val === "" ? null : Number(val)))
+      .nullable()
+      .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
+        message: "Beds must be a non-negative integer",
+      }),
+    balcony: z
+      .string()
+      .transform((val) => (val === "" ? null : Number(val)))
+      .nullable()
+      .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
+        message: "Beds must be a non-negative integer",
+      }),
+  })
+  .superRefine((data, ctx) => {
+    // Validation for beds
+    if (data.propertyType !== "SINGLE" && data.beds === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Beds must be provided when property type is not single",
+        path: ["beds"],
+      });
+    }
+
+    // Validation for halls
+    if (data.propertyType !== "SINGLE" && data.halls === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Halls must be provided when property type is not single",
+        path: ["halls"],
+      });
+    }
+
+    // Validation for kitchens
+    if (data.propertyType !== "SINGLE" && data.kitchens === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Kitchens must be provided when property type is not single",
+        path: ["kitchens"],
+      });
+    }
+
+    // Validation for washrooms
+    if (data.washrooms === null || data.washrooms < 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Washrooms must be provided",
+        path: ["washrooms"],
+      });
+    }
+
+    // Validation for balcony
+    if (data.propertyType !== "SINGLE" && data.balcony === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Balcony must be provided when property type is not single",
+        path: ["balcony"],
+      });
+    }
+  });
 
 type PropertyFormData = z.infer<typeof propertySchema>;
 
 const propertyType = ["SINGLE", "DOUBLE", "BHK", "VILLA", "SHARED"];
-
-const router = useRouter();
 
 const PropertyForm = () => {
   const {
@@ -38,6 +117,10 @@ const PropertyForm = () => {
   } = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
   });
+
+  console.log({ errors });
+
+  const router = useRouter();
 
   const onSubmit = (data: PropertyFormData) => {
     console.log(data);
@@ -80,7 +163,11 @@ const PropertyForm = () => {
             {...register("title")}
             placeholder="Enter your title"
           />
-          {errors.title && <p>{errors.title?.message}</p>}
+          {errors.title && (
+            <p className="text-error text-sm-subtitle font-medium">
+              {errors.title?.message}
+            </p>
+          )}
         </div>
         {/* IMAGE */}
         <div
@@ -101,7 +188,7 @@ const PropertyForm = () => {
             htmlFor="property-Type"
             className="text-text-secondary font-medium"
           >
-            Property type *
+            Property type
           </label>
           <select
             id="property-Type"
@@ -112,7 +199,11 @@ const PropertyForm = () => {
               <option value={type}>{type.toLowerCase()}</option>
             ))}
           </select>
-          {errors.description && <p>{errors.description?.message}</p>}
+          {errors.propertyType && (
+            <p className="text-error text-sm-subtitle font-medium">
+              {errors.propertyType?.message}
+            </p>
+          )}
         </div>
         {/* DESCRIPTION */}
         <div className="flex flex-col gap-1 col-span-2">
@@ -128,7 +219,11 @@ const PropertyForm = () => {
             {...register("description")}
             placeholder="Enter something about your property"
           />
-          {errors.description && <p>{errors.description?.message}</p>}
+          {errors.description && (
+            <p className="text-error text-sm-subtitle font-medium">
+              {errors.description?.message}
+            </p>
+          )}
         </div>
         <div className="flex flex-col gap-default col-span-2">
           <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
@@ -147,7 +242,11 @@ const PropertyForm = () => {
                 {...register("beds")}
                 placeholder="Enter the number of bed rooms"
               />
-              {errors.beds && <p>{errors.beds?.message}</p>}
+              {errors.beds && (
+                <p className="text-error text-sm-subtitle font-medium">
+                  {errors.beds?.message}
+                </p>
+              )}
             </div>
             {/* Number of halls */}
             <div className="flex flex-col gap-1 col-span-1">
@@ -164,7 +263,11 @@ const PropertyForm = () => {
                 {...register("halls")}
                 placeholder="Enter the number of halls"
               />
-              {errors.halls && <p>{errors.halls?.message}</p>}
+              {errors.halls && (
+                <p className="text-error text-sm-subtitle font-medium">
+                  {errors.halls?.message}
+                </p>
+              )}
             </div>
             {/* Number of kitchens */}
             <div className="flex flex-col gap-1 col-span-1">
@@ -181,7 +284,11 @@ const PropertyForm = () => {
                 {...register("kitchens")}
                 placeholder="Enter the number of kitchens"
               />
-              {errors.kitchens && <p>{errors.kitchens?.message}</p>}
+              {errors.kitchens && (
+                <p className="text-error text-sm-subtitle font-medium">
+                  {errors.kitchens?.message}
+                </p>
+              )}
             </div>
             {/* Number of balcony */}
             <div className="flex flex-col gap-1 col-span-1">
@@ -198,7 +305,11 @@ const PropertyForm = () => {
                 {...register("balcony")}
                 placeholder="Enter the number of balcony"
               />
-              {errors.balcony && <p>{errors.balcony?.message}</p>}
+              {errors.balcony && (
+                <p className="text-error text-sm-subtitle font-medium">
+                  {errors.balcony?.message}
+                </p>
+              )}
             </div>
             {/* WASHROOM TYPE */}
             <div className="flex flex-col gap-1 flex-1">
@@ -217,7 +328,11 @@ const PropertyForm = () => {
                   <option value={type}>{type.toLowerCase()}</option>
                 ))}
               </select>
-              {errors.description && <p>{errors.description?.message}</p>}
+              {errors.washroomType && (
+                <p className="text-error text-sm-subtitle font-medium">
+                  {errors.washroomType?.message}
+                </p>
+              )}
             </div>
             {/* Number of washrooms */}
             <div className="flex flex-col gap-1 col-span-1">
@@ -234,7 +349,11 @@ const PropertyForm = () => {
                 {...register("washrooms")}
                 placeholder="Enter the number of washrooms"
               />
-              {errors.washrooms && <p>{errors.washrooms?.message}</p>}
+              {errors.washrooms && (
+                <p className="text-error text-sm-subtitle font-medium">
+                  {errors.washrooms?.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
