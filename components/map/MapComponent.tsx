@@ -16,9 +16,13 @@ interface MapComponentProps {
   onLocationSelect?: React.Dispatch<
     React.SetStateAction<{ lat: number; lon: number }>
   >;
+  defaultPosition?: { lat: number; lon: number };
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
+const MapComponent: React.FC<MapComponentProps> = ({
+  onLocationSelect,
+  defaultPosition,
+}) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
 
@@ -32,15 +36,52 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
           }),
         ],
         view: new View({
-          center: fromLonLat([0, 0]),
-          zoom: 2,
+          center: fromLonLat(
+            defaultPosition
+              ? [defaultPosition.lon, defaultPosition.lat]
+              : [0, 0] // Default to India's center
+          ),
+          zoom: 12,
         }),
         controls: defaultControls({
           attributionOptions: {
-            collapsible: false,
+            collapsible: true,
           },
         }),
       });
+
+      if (defaultPosition) {
+        // Place a marker at the default position
+        const defaultCoords = fromLonLat([
+          defaultPosition.lon,
+          defaultPosition.lat,
+        ]);
+
+        const defaultMarker = new Feature({
+          geometry: new Point(defaultCoords),
+        });
+
+        // Create a marker style
+        defaultMarker.setStyle(
+          new Style({
+            image: new Icon({
+              src: "/marker.png",
+              anchor: [0.5, 1],
+            }),
+          })
+        );
+
+        // Add the marker to a vector layer
+        const vectorSource = new VectorSource({
+          features: [defaultMarker],
+        });
+
+        const vectorLayer = new VectorLayer({
+          source: vectorSource,
+        });
+
+        initialMap.addLayer(vectorLayer);
+      }
 
       initialMap.on("singleclick", function (evt) {
         const coords = evt.coordinate;
@@ -56,7 +97,7 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
         marker.setStyle(
           new Style({
             image: new Icon({
-              src: "https://openlayers.org/en/latest/examples/data/icon.png",
+              src: "/marker.png",
               anchor: [0.5, 1],
             }),
           })
@@ -93,9 +134,14 @@ const MapComponent: React.FC<MapComponentProps> = ({ onLocationSelect }) => {
 
       return () => initialMap.setTarget(undefined);
     }
-  }, [onLocationSelect]);
+  }, [onLocationSelect, defaultPosition]);
 
-  return <div ref={mapRef} style={{ width: "100%", height: "400px" }}></div>;
+  return (
+    <div
+      ref={mapRef}
+      style={{ width: "100%", height: "400px", cursor: "pointer" }}
+    ></div>
+  );
 };
 
 export default MapComponent;

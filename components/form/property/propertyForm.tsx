@@ -1,5 +1,6 @@
 "use client";
 
+import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -118,12 +119,13 @@ const PropertyForm = () => {
     resolver: zodResolver(propertySchema),
   });
 
-  console.log({ errors });
-
   const router = useRouter();
+
+  const { dispatch } = usePropertyFormContext();
 
   const onSubmit = (data: PropertyFormData) => {
     console.log(data);
+    dispatch({ type: "setActiveStep", payload: { step: 1 } });
     // Handle form submission (e.g., send data to an API)
   };
 
@@ -324,8 +326,10 @@ const PropertyForm = () => {
                 className="p-sm rounded-default text-text-secondary focus:outline-none border"
                 {...register("washroomType")}
               >
-                {washroomTypes.map((type) => (
-                  <option value={type}>{type.toLowerCase()}</option>
+                {washroomTypes.map((type, idx) => (
+                  <option key={type + idx} value={type}>
+                    {type.toLowerCase()}
+                  </option>
                 ))}
               </select>
               {errors.washroomType && (
@@ -343,6 +347,7 @@ const PropertyForm = () => {
                 Number of washrooms *
               </label>
               <input
+                defaultValue={1}
                 type="number"
                 className="p-sm rounded-default focus:outline-none border"
                 id="washrooms"
