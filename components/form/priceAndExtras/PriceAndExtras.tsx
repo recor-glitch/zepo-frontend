@@ -77,6 +77,11 @@ const PriceAndEntrasForm = () => {
       <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
         Pricing and Extras
       </p>
+      <p className="text-md-subtitle-secondary text-text-primary font-medium items-start w-full">
+        Provide the full pricing details, including any additional costs or
+        fees, as well as information on any included extras or special offers
+        that may be available.
+      </p>
       <div className="grid grid-cols-2 grid-rows-2 gap-default">
         {/* CURRENCY */}
         <div className="flex flex-col gap-1 flex-1">

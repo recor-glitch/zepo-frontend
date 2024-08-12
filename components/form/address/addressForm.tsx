@@ -88,10 +88,15 @@ const AddressForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-default w-full"
     >
-      <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
-        Address Details
-      </p>
-      <div className="grid grid-cols-2 grid-rows-2 gap-default">
+      <div className="grid grid-cols-2 gap-default">
+        <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full col-span-2">
+          Address Details
+        </p>
+        <p className="text-md-subtitle-secondary text-text-primary font-medium items-start w-full col-span-2">
+          Kindly provide the full and detailed address, ensuring it includes
+          every relevant piece of information needed for accurate
+          identification, correspondence, or navigation
+        </p>
         {/* ADDRESS LABEL */}
         <div className="flex flex-col gap-1 col-span-1">
           <label htmlFor="title" className="text-text-secondary font-medium">

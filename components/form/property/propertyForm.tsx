@@ -152,6 +152,12 @@ const PropertyForm = () => {
       <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
         Property Info
       </p>
+      <p className="text-md-subtitle-secondary text-text-primary font-medium items-start w-full">
+        Please provide a comprehensive description of the property, including
+        all relevant details such as size, layout, features, and any additional
+        information that would help in accurately assessing and understanding
+        the property's characteristics and appeal.
+      </p>
       <div className="grid grid-cols-2 grid-rows-2 gap-default">
         {/* TITLE */}
         <div className="flex flex-col gap-1 col-span-1">
@@ -230,6 +236,11 @@ const PropertyForm = () => {
         <div className="flex flex-col gap-default col-span-2">
           <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
             Additional Details
+          </p>
+          <p className="text-md-subtitle-secondary text-text-primary font-medium items-start w-full">
+            Provide any additional details about the room, including unique
+            features, furnishings, amenities, or any other information that
+            would help in fully understanding the room's appeal and suitability.
           </p>
           <div className="grid grid-cols-2 gap-default">
             {/* Number of beds */}
