@@ -3,13 +3,10 @@
 import { MapComponent } from "@/components/map";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPlus } from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-const washroomTypes = ["SHARED", "ATTACHED"];
 
 const addressSchema = z.object({
   label: z
@@ -66,7 +63,7 @@ const AddressForm = () => {
     multiple: true,
   });
 
-  const handleOnCancel = () => {
+  const handleOnBack = () => {
     dispatch({ type: "setActiveStep", payload: { step: 0 } });
     return;
   };
@@ -225,7 +222,7 @@ const AddressForm = () => {
           </div>
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">
-          <button className="outlinedBtn" onClick={() => handleOnCancel()}>
+          <button className="outlinedBtn" onClick={() => handleOnBack()}>
             Back
           </button>
           <button className="filledBtn" type="submit">

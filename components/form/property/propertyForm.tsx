@@ -35,28 +35,28 @@ const propertySchema = z
       .transform((val) => (val === "" ? null : Number(val)))
       .nullable()
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
-        message: "Beds must be a non-negative integer",
+        message: "halls must be a non-negative integer",
       }),
     kitchens: z
       .string()
       .transform((val) => (val === "" ? null : Number(val)))
       .nullable()
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
-        message: "Beds must be a non-negative integer",
+        message: "kitchens must be a non-negative integer",
       }),
     washrooms: z
       .string()
       .transform((val) => (val === "" ? null : Number(val)))
       .nullable()
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
-        message: "Beds must be a non-negative integer",
+        message: "washrooms must be a non-negative integer",
       }),
     balcony: z
       .string()
       .transform((val) => (val === "" ? null : Number(val)))
       .nullable()
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
-        message: "Beds must be a non-negative integer",
+        message: "balcony must be a non-negative integer",
       }),
   })
   .superRefine((data, ctx) => {
@@ -229,7 +229,7 @@ const PropertyForm = () => {
         </div>
         <div className="flex flex-col gap-default col-span-2">
           <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
-            Details
+            Additional Details
           </p>
           <div className="grid grid-cols-2 gap-default">
             {/* Number of beds */}
