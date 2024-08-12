@@ -8,7 +8,7 @@ import {
   PropsWithChildren,
   useContext,
   useEffect,
-  useReducer
+  useReducer,
 } from "react";
 import { userReducer } from "./reducer";
 

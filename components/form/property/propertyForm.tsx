@@ -198,7 +198,7 @@ const PropertyForm = () => {
             {...register("propertyType")}
           >
             {propertyType.map((type) => (
-              <option value={type}>{type.toLowerCase()}</option>
+              <option value={type}>{type}</option>
             ))}
           </select>
           {errors.propertyType && (
@@ -328,7 +328,7 @@ const PropertyForm = () => {
               >
                 {washroomTypes.map((type, idx) => (
                   <option key={type + idx} value={type}>
-                    {type.toLowerCase()}
+                    {type}
                   </option>
                 ))}
               </select>

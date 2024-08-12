@@ -3,6 +3,7 @@
 import { ChipComponent } from "@/components/chip";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -44,6 +45,14 @@ const PriceAndEntrasForm = () => {
     resolver: zodResolver(priceAndExtraSchema),
   });
 
+  const [amenitiestxt, setAmenitiestxt] = useState<string>("");
+  const [amenities, setAmenities] = useState<string[]>([]);
+
+  const handleAddAmenities = () => {
+    setAmenities((prev) => [...prev, ...amenitiestxt.split(",")]);
+    setAmenitiestxt("");
+  };
+
   const { dispatch } = usePropertyFormContext();
 
   const onSubmit = (data: PriceAndEntrasFormData) => {
@@ -54,6 +63,10 @@ const PriceAndEntrasForm = () => {
   const handleOnBack = () => {
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
     return;
+  };
+
+  const handleUnselected = (idx: number) => {
+    setAmenities((prev) => [...prev.filter((amenity, index) => idx !== index)]);
   };
 
   return (
@@ -80,7 +93,7 @@ const PriceAndEntrasForm = () => {
           >
             {["INR", "USD"].map((type, idx) => (
               <option key={type + idx} value={type}>
-                {type.toLowerCase()}
+                {type}
               </option>
             ))}
           </select>
@@ -130,7 +143,7 @@ const PriceAndEntrasForm = () => {
           >
             {["FEET", "METER"].map((type, idx) => (
               <option key={type + idx} value={type}>
-                {type.toLowerCase()}
+                {type}
               </option>
             ))}
           </select>
@@ -186,19 +199,29 @@ const PriceAndEntrasForm = () => {
             your expectations and enhances your living experience.
           </p>
         </div>
-        <div className="w-full col-span-2 grid grid-cols-3 gap-default">
+        <div className="w-full col-span-2 grid grid-cols-5 gap-default">
           <input
+            value={amenitiestxt}
             type="text"
-            className="p-sm rounded-default focus:outline-none border col-span-2"
+            className="p-sm rounded-default focus:outline-none border col-span-4"
             id="amenities"
+            onChange={(e) => setAmenitiestxt(e.target.value)}
             // {...register("length")}
             placeholder="Enter the property amenities that are available"
           />
-          <button className="filledBtn col-span-1">Add</button>
+          <button
+            className="filledBtn col-span-1"
+            onClick={() => handleAddAmenities()}
+          >
+            Add
+          </button>
         </div>
         <div className="grid gap-default grid-cols-5 col-span-2">
-          {["swimingpool", "riverside", "lawn", "rooftop"].map((chip) => (
-            <ChipComponent text={chip} />
+          {amenities?.map((chip, idx) => (
+            <ChipComponent
+              text={chip}
+              handleUnselected={() => handleUnselected(idx)}
+            />
           ))}
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">
@@ -206,7 +229,7 @@ const PriceAndEntrasForm = () => {
             Back
           </button>
           <button className="filledBtn" type="submit">
-            Continue
+            Save Changes
           </button>
         </div>
       </div>

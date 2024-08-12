@@ -3,7 +3,6 @@ import axiosInstance from "@/utils/axios-instance/axios-instance";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import toast from "react-hot-toast";
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [

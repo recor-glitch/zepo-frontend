@@ -203,7 +203,7 @@ const AddressForm = () => {
           >
             {["India", "US"].map((type, idx) => (
               <option key={type + idx} value={type}>
-                {type.toLowerCase()}
+                {type}
               </option>
             ))}
           </select>
