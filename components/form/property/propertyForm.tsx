@@ -3,8 +3,9 @@
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus } from "@tabler/icons-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,6 +23,7 @@ const propertySchema = z
     propertyType: z
       .string({ message: "Property type is required" })
       .min(1, "Property type is required"),
+    files: z.array(z.instanceof(File), { required_error: "File is required" }),
     washroomType: z.enum(["SHARED", "ATTACHED"]).default("SHARED"),
     beds: z
       .string()
@@ -123,25 +125,36 @@ const PropertyForm = () => {
 
   const { dispatch } = usePropertyFormContext();
 
+  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
+    useDropzone({
+      multiple: true,
+    });
+
   const onSubmit = (data: PropertyFormData) => {
     console.log(data);
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
     // Handle form submission (e.g., send data to an API)
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Handle the dropped files
-    console.log(acceptedFiles);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    multiple: true,
-  });
-
   const handleOnCancel = () => {
     router.back();
     return;
+  };
+
+  const [imageSrc, setImageSrc] = useState<string[]>([]);
+
+  // Define the event handler type
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files.item(i);
+      if (!file) continue;
+
+      const url = URL.createObjectURL(file); // Create a URL for the file
+      setImageSrc((state) => state.concat([url]));
+    }
   };
 
   return (
@@ -178,17 +191,50 @@ const PropertyForm = () => {
           )}
         </div>
         {/* IMAGE */}
-        <div
-          {...getRootProps()}
-          className={`col-span-1 row-span-2 border border-primary border-dashed rounded-lg bg-white flex flex-col gap-default w-full h-full justify-center items-center ${
-            isDragActive ? "bg-gray-100" : ""
-          }`}
-        >
-          <input {...getInputProps()} />
-          <IconPlus className="text-text-secondary" />
-          <p className="text-text-secondary text-sm-subtitle font-medium">
-            {isDragActive ? "Drop the files here ..." : "Add property images"}
-          </p>
+        <div className="flex flex-col gap-default col-span-1 row-span-2">
+          <div className="flex gap-default h-full">
+            <div
+              {...getRootProps()}
+              className={`border border-primary border-dashed rounded-lg bg-white flex flex-col flex-1 gap-default justify-center items-center ${
+                isDragActive ? "bg-gray-100" : ""
+              }`}
+            >
+              <input
+                {...register("files")}
+                {...getInputProps()}
+                onChange={handleFileChange}
+              />
+              <IconPlus className="text-text-secondary" />
+              <p className="text-text-secondary text-sm-subtitle font-medium">
+                {isDragActive
+                  ? "Drop the files here ..."
+                  : "Add property images"}
+              </p>
+            </div>
+            {/* PREVIEW */}
+            {imageSrc.length !== 0 && (
+              <div className="flex flex-col gap-default w-1/3 items-center">
+                {imageSrc?.map((file, index) => {
+                  if (index < 2)
+                    return (
+                      <div className="h-1/3 rounded-lg overflow-hidden border-2">
+                        <Image
+                          src={file}
+                          alt="Preview Images"
+                          height={100}
+                          width={100}
+                        />
+                      </div>
+                    );
+                })}
+              </div>
+            )}
+          </div>
+          {errors.files && (
+            <p className="text-error text-sm-subtitle font-medium">
+              {errors.files?.message}
+            </p>
+          )}
         </div>
         {/* PROPERTY TYPE */}
         <div className="flex flex-col gap-1 flex-1">
