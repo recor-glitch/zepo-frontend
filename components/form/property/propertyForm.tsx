@@ -2,7 +2,7 @@
 
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useCallback, useEffect, useState } from "react";
@@ -130,6 +130,8 @@ const PropertyForm = () => {
       multiple: true,
     });
 
+  console.log(acceptedFiles);
+
   const onSubmit = (data: PropertyFormData) => {
     console.log(data);
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
@@ -143,18 +145,16 @@ const PropertyForm = () => {
 
   const [imageSrc, setImageSrc] = useState<string[]>([]);
 
-  // Define the event handler type
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files || files.length === 0) return;
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files.item(i);
-      if (!file) continue;
-
-      const url = URL.createObjectURL(file); // Create a URL for the file
+  useEffect(() => {
+    for (let i = 0; i < acceptedFiles.length; i++) {
+      const url = URL.createObjectURL(acceptedFiles[i]); // Create a URL for the file
       setImageSrc((state) => state.concat([url]));
     }
+  }, [acceptedFiles]);
+
+  const handleRemovePhotos = (idx: number) => {
+    acceptedFiles.filter((_, index) => idx !== index);
+    setImageSrc((state) => [...state.filter((file, index) => idx !== index)]);
   };
 
   return (
@@ -199,11 +199,7 @@ const PropertyForm = () => {
                 isDragActive ? "bg-gray-100" : ""
               }`}
             >
-              <input
-                {...register("files")}
-                {...getInputProps()}
-                onChange={handleFileChange}
-              />
+              <input {...register("files")} {...getInputProps()} />
               <IconPlus className="text-text-secondary" />
               <p className="text-text-secondary text-sm-subtitle font-medium">
                 {isDragActive
@@ -217,13 +213,28 @@ const PropertyForm = () => {
                 {imageSrc?.map((file, index) => {
                   if (index < 2)
                     return (
-                      <div className="h-1/3 rounded-lg overflow-hidden border-2">
+                      <div className="relative h-1/3 w-full rounded-lg overflow-hidden border-2">
+                        <div
+                          className="absolute right-1 top-1 flex justify-center items-center rounded-full border"
+                          onClick={() => handleRemovePhotos(index)}
+                        >
+                          <IconX className="text-text-primary" />
+                        </div>
                         <Image
                           src={file}
                           alt="Preview Images"
                           height={100}
                           width={100}
                         />
+                      </div>
+                    );
+                  else if (index === 2)
+                    return (
+                      <div className="h-1/3 w-full rounded-lg border-2 flex justify-center items-center">
+                        <IconPlus height={14} width={14} />
+                        <p className="font-medium text-text-primary text-md-subtitle-primary">
+                          {imageSrc.length - 2}
+                        </p>
                       </div>
                     );
                 })}
