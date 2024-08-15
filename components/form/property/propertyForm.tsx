@@ -132,9 +132,11 @@ const PropertyForm = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: true,
     onDrop: (accFiles, regFiles, event) => {
-      setAcceptedFiles(accFiles);
+      setAcceptedFiles((prev) => [...prev, ...accFiles]);
     },
   });
+
+  console.log({ acceptedFiles });
 
   const onSubmit = (data: PropertyFormData) => {
     console.log(data);
