@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,7 +23,9 @@ const propertySchema = z
     propertyType: z
       .string({ message: "Property type is required" })
       .min(1, "Property type is required"),
-    files: z.array(z.instanceof(File), { required_error: "File is required" }),
+    files: z
+      .array(z.instanceof(File), { required_error: "File is required" })
+      .min(1, "File is required"),
     washroomType: z.enum(["SHARED", "ATTACHED"]).default("SHARED"),
     beds: z
       .string()
@@ -116,6 +118,7 @@ const PropertyForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
@@ -124,13 +127,14 @@ const PropertyForm = () => {
   const router = useRouter();
 
   const { dispatch } = usePropertyFormContext();
+  const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
 
-  const { getRootProps, getInputProps, isDragActive, acceptedFiles } =
-    useDropzone({
-      multiple: true,
-    });
-
-  console.log(acceptedFiles);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    multiple: true,
+    onDrop: (accFiles, regFiles, event) => {
+      setAcceptedFiles(accFiles);
+    },
+  });
 
   const onSubmit = (data: PropertyFormData) => {
     console.log(data);
@@ -146,6 +150,9 @@ const PropertyForm = () => {
   const [imageSrc, setImageSrc] = useState<string[]>([]);
 
   useEffect(() => {
+    setImageSrc([]);
+    setValue("files", acceptedFiles, { shouldValidate: false });
+    if (acceptedFiles.length === 0) return;
     for (let i = 0; i < acceptedFiles.length; i++) {
       const url = URL.createObjectURL(acceptedFiles[i]); // Create a URL for the file
       setImageSrc((state) => state.concat([url]));
@@ -153,8 +160,18 @@ const PropertyForm = () => {
   }, [acceptedFiles]);
 
   const handleRemovePhotos = (idx: number) => {
-    acceptedFiles.filter((_, index) => idx !== index);
-    setImageSrc((state) => [...state.filter((file, index) => idx !== index)]);
+    // Update both acceptedFiles and imageSrc in one operation
+    setAcceptedFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles];
+      updatedFiles.splice(idx, 1); // Remove the file at the given index
+      return updatedFiles;
+    });
+
+    setImageSrc((prevSrc) => {
+      const updatedSrc = [...prevSrc];
+      updatedSrc.splice(idx, 1); // Remove the corresponding image URL at the same index
+      return updatedSrc;
+    });
   };
 
   return (
