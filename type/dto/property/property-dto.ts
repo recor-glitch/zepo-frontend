@@ -1,12 +1,13 @@
 export interface IPropertyDto {
   id?: string;
+  title: string;
   images: string[];
   description: string;
   is_popular: boolean;
   amenities: string[];
   property_type: string;
   like_count: number;
-  reviews?: any[];
+  review_id?: number;
   host_id: string;
   bed?: number;
   hall?: number;
@@ -20,6 +21,11 @@ export interface IPropertyDto {
   currency?: string;
   amount?: number;
   period?: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface IPropertyResponse {
+  message: string;
+  statusCode: number;
 }

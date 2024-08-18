@@ -1,13 +1,18 @@
 "use client";
 
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { useUserContext } from "@/context/user/user-context";
+import { useFileUpload } from "@/mutation/fileMutation";
+import { useCreateProperty } from "@/mutation/propertyMutation";
+import { IPropertyDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPlus, IconX } from "@tabler/icons-react";
+import { IconLoader, IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const washroomTypes = ["SHARED", "ATTACHED"];
@@ -136,12 +141,68 @@ const PropertyForm = () => {
     },
   });
 
-  console.log({ acceptedFiles });
+  const {
+    mutateAsync: uploadFn,
+    isError: IsfileUploadError,
+    data: fileUploadData,
+    isPending: IsfileUploadPending,
+    error: fileUploadError,
+    isSuccess: IsFileUploadSuccess,
+  } = useFileUpload();
 
-  const onSubmit = (data: PropertyFormData) => {
+  const {
+    mutateAsync: createPropertyFn,
+    error: PropertyError,
+    isError: IsPropertyError,
+    isPending: IsPropertyPending,
+    data: PropertyData,
+    context: PropertyContext,
+    isSuccess: IsPropertySuccess,
+  } = useCreateProperty();
+
+  const { user } = useUserContext();
+
+  const onSubmit = async (data: PropertyFormData) => {
     console.log(data);
+    const formData = new FormData();
+
+    acceptedFiles.forEach((file) => {
+      formData.append("files", file);
+    });
+    const fileRes = await uploadFn({ files: formData });
+
+    if (fileRes.statusCode !== 200) {
+      toast.error("file upload failed, please try again");
+      return;
+    }
+
+    const propertyDetails: IPropertyDto = {
+      title: data.title,
+      amenities: [],
+      description: data.description,
+      images: [...fileRes.urls.map((res) => res.URL)],
+      is_popular: false,
+      like_count: 0,
+      property_type: data.propertyType,
+      washroom_count: data.washrooms ?? 1,
+      washroom_type: data.washroomType,
+      host_id: user.id,
+      balcony: data.balcony ?? undefined,
+      bed: data.beds ?? undefined,
+      hall: data.halls ?? undefined,
+      kitchen: data.kitchens ?? undefined,
+    };
+
+    const propertyRes = await createPropertyFn(propertyDetails);
+
+    if (propertyRes.statusCode !== 201) {
+      toast.error("something went wrong");
+      return;
+    }
+
+    dispatch({ type: "setPropertyInfo", payload: propertyDetails });
+
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
-    // Handle form submission (e.g., send data to an API)
   };
 
   const handleOnCancel = () => {
@@ -454,7 +515,11 @@ const PropertyForm = () => {
             Cancel
           </button>
           <button className="filledBtn" type="submit">
-            Continue
+            {IsfileUploadPending || IsPropertyPending ? (
+              <IconLoader className="animate-spin text-white" />
+            ) : (
+              "Continue"
+            )}
           </button>
         </div>
       </div>

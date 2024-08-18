@@ -13,7 +13,7 @@ export async function GetUserById(id: string): Promise<any> {}
 
 export async function GetUserByEmail(email: string): Promise<IUserResponse> {
   const res = await axios.post<IUserResponse>(
-    `${process.env.BASE_URL}/get-by-email`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/get-by-email`,
     {
       email,
     }

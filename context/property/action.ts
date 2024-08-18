@@ -1,8 +1,9 @@
 import { IAddressDetails, IBenifitsAndExtra, IPropertyInfo } from "@/type/app";
+import { IPropertyDto } from "@/type/dto/property/property-dto";
 
 type SetPropertyInfo = {
   type: "setPropertyInfo";
-  payload: IPropertyInfo;
+  payload: IPropertyDto;
 };
 
 type SetAdressDetails = {

@@ -1,16 +1,16 @@
+import { CreateProperty } from "@/services/property-service/property-service";
 import {
-  UseMutationOptions,
-  useMutation
-} from "@tanstack/react-query";
+  IPropertyDto,
+  IPropertyResponse,
+} from "@/type/dto/property/property-dto";
+import { UseMutationOptions, useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
-export const useCreateProperty = ({
-  option,
-}: {
-  email: string;
-  option?: UseMutationOptions<any>;
-}) => {
-  return useMutation<any>({
-    mutationFn: () => Promise.resolve(),
+export const useCreateProperty = (
+  option?: UseMutationOptions<IPropertyResponse, AxiosError, IPropertyDto>
+) => {
+  return useMutation<IPropertyResponse, AxiosError, IPropertyDto>({
+    mutationFn: (property) => CreateProperty(property),
     mutationKey: ["create-property"],
     ...option,
   });

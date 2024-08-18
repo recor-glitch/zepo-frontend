@@ -9,7 +9,7 @@ axiosInstance.interceptors.request.use(
     try {
       // console.log("axios interceptor");
       // Retrieve the API base URL from Vite environment variables
-      const baseURL = `${process.env.BASE_URL}`;
+      const baseURL = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 
       // If the base URL is available, set it as the request's base URL
       if (baseURL) {
@@ -18,12 +18,14 @@ axiosInstance.interceptors.request.use(
 
       // Retrieve the JWT token from your storage (localStorage)
       const token = AccessTokenStorage.getAccessToken();
-      // console.log({ token });
+      console.log({ token });
 
       // Add the token to the request headers if it exists
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
+
+      console.log("axios config ", { config });
 
       return config;
     } catch (error) {
@@ -36,5 +38,3 @@ axiosInstance.interceptors.request.use(
 );
 
 export default axiosInstance;
-
-

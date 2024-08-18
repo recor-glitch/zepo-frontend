@@ -43,7 +43,6 @@ export const nextAuthOptions: NextAuthOptions = {
         }
         return { ...session, profile: { ...token, role: "user" } };
       } catch (err) {
-        console.log("I am here", err);
         return { ...session, profile: { ...token, role: "user" } };
       }
     },
@@ -51,7 +50,7 @@ export const nextAuthOptions: NextAuthOptions = {
     async signIn({ user }) {
       try {
         const emailRes = await axios.post<IUserResponse>(
-          `${process.env.BASE_URL}/get-by-email`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/get-by-email`,
           {
             email: user.email,
           }
@@ -59,20 +58,26 @@ export const nextAuthOptions: NextAuthOptions = {
         if (emailRes.status === 200) {
           return true;
         }
-        await axios.post<ICreateUserResponse>(`${process.env.BASE_URL}/user`, {
-          id: user.id,
-          email: user.email,
-          image: user.image,
-          name: user.name,
-        });
+        await axios.post<ICreateUserResponse>(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
+          {
+            id: user.id,
+            email: user.email,
+            image: user.image,
+            name: user.name,
+          }
+        );
         return true;
       } catch (error) {
-        await axios.post<ICreateUserResponse>(`${process.env.BASE_URL}/user`, {
-          id: user.id,
-          email: user.email,
-          image: user.image,
-          name: user.name,
-        });
+        await axios.post<ICreateUserResponse>(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
+          {
+            id: user.id,
+            email: user.email,
+            image: user.image,
+            name: user.name,
+          }
+        );
         return true;
       }
     },
