@@ -14,6 +14,8 @@ async function DashboardLayout({
   admin: React.ReactNode;
 }) {
   const session = await getServerSession(nextAuthOptions);
+
+  console.log({ session });
   return (
     <DashboardRedirectProvider>
       <div className="flex flex-col w-full">

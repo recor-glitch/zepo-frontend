@@ -27,59 +27,43 @@ export const nextAuthOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async session({ session, token }) {
+    async jwt({ token, user }) {
       try {
-        const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
-          email: session.user?.email,
+        const res = await axios.post<IUserResponse>("/get-by-email", {
+          email: user?.email,
         });
+
+        console.log({ res });
         if (res.status === 200) {
-          return {
-            ...session,
-            profile: {
-              ...token,
-              role: res.data.role,
-            },
-          };
+          return { ...token, ...user, role: res.data.role };
         }
-        return { ...session, profile: { ...token, role: "user" } };
+        return { ...token, ...user, role: "user" };
       } catch (err) {
-        return { ...session, profile: { ...token, role: "user" } };
+        return { ...token, ...user, role: "user" };
       }
     },
 
+    async session({ session, token }) {
+      return { ...session, profile: { ...token } };
+    },
+
     async signIn({ user }) {
-      try {
-        const emailRes = await axios.post<IUserResponse>(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/get-by-email`,
-          {
-            email: user.email,
-          }
-        );
-        if (emailRes.status === 200) {
-          return true;
+      const res = await axios.post<ICreateUserResponse>(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
+        {
+          id: user.id,
+          email: user.email,
+          image: user.image,
+          name: user.name,
         }
-        await axios.post<ICreateUserResponse>(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
-          {
-            id: user.id,
-            email: user.email,
-            image: user.image,
-            name: user.name,
-          }
-        );
-        return true;
-      } catch (error) {
-        await axios.post<ICreateUserResponse>(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
-          {
-            id: user.id,
-            email: user.email,
-            image: user.image,
-            name: user.name,
-          }
-        );
-        return true;
+      );
+
+      if (res.status === 201) {
+        user.accessToken = res.data.accessToken;
+        user.refreshToken = res.data.refreshToken;
       }
+
+      return true;
     },
   },
 

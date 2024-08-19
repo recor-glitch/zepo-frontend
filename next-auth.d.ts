@@ -13,4 +13,9 @@ declare module "next-auth" {
       picture: string;
     };
   }
+
+  interface User extends DefaultUser {
+    accessToken?: string;
+    refreshToken?: string;
+  }
 }
