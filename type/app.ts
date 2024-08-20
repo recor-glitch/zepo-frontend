@@ -205,12 +205,15 @@ export interface IPropertyInfo {
 
 export interface IAddressDetails {
   id?: number;
-  streetAddress1: string;
-  streetAddressLine2: string;
+  label: string;
+  streetAddress: string;
   city: string;
   state: string;
-  postal: string;
-  propertyId: number;
+  country: string;
+  postalCode: string;
+  propertyId?: number;
+  latitude: number;
+  longitude: number;
 }
 
 export interface IBenifitsAndExtra {

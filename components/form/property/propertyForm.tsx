@@ -4,6 +4,7 @@ import { usePropertyFormContext } from "@/context/property/property-fom-context"
 import { useUserContext } from "@/context/user/user-context";
 import { useFileUpload } from "@/mutation/fileMutation";
 import { useCreateProperty } from "@/mutation/propertyMutation";
+import { WashRoomType } from "@/type/app";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader, IconPlus, IconX } from "@tabler/icons-react";
@@ -131,8 +132,23 @@ const PropertyForm = () => {
 
   const router = useRouter();
 
-  const { dispatch } = usePropertyFormContext();
+  const { dispatch, addressDetails, status, propertyInfo } =
+    usePropertyFormContext();
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
+
+  useEffect(() => {
+    if (status === "EDIT") {
+      setValue("title", propertyInfo?.title!);
+      setValue("description", propertyInfo?.description!);
+      setValue("propertyType", propertyInfo?.property_type!);
+      setValue("washroomType", propertyInfo?.washroom_type! as WashRoomType);
+      setValue("washrooms", propertyInfo?.washroom_count ?? 1);
+      setValue("kitchens", propertyInfo?.kitchen ?? 0);
+      setValue("beds", propertyInfo?.bed ?? 0);
+      setValue("halls", propertyInfo?.hall ?? 0);
+      setValue("balcony", propertyInfo?.balcony ?? 0);
+    }
+  }, [status]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: true,
@@ -206,6 +222,8 @@ const PropertyForm = () => {
     });
 
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
+    if (!addressDetails)
+      dispatch({ type: "setFormStatus", payload: { status: "DRAFT" } });
   };
 
   const handleOnCancel = () => {

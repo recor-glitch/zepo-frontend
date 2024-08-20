@@ -1,7 +1,7 @@
 "use client";
 
 import { userContextDto } from "@/type/app";
-import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
 import { useSession } from "next-auth/react";
 import {
   createContext,
@@ -51,7 +51,7 @@ export function UserContextProvider({ children }: PropsWithChildren) {
   }, [session]);
 
   useEffect(() => {
-    AccessTokenStorage.setAccessToken(session?.profile?.accessToken || "");
+    TokenStorage.setAccessToken(session?.profile?.accessToken || "");
   }, [session]);
 
   return (

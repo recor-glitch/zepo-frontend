@@ -1,5 +1,5 @@
 import { ICreateUserResponse, IUserResponse } from "@/type/app";
-import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
@@ -34,7 +34,6 @@ export const nextAuthOptions: NextAuthOptions = {
           email: token?.email,
         });
 
-        console.log({ res });
         if (res.status === 200) {
           return { ...token, ...user, role: res.data.role };
         }
@@ -63,7 +62,8 @@ export const nextAuthOptions: NextAuthOptions = {
         user.accessToken = res.data.accessToken;
         user.refreshToken = res.data.refreshToken;
 
-        AccessTokenStorage.setAccessToken(res.data.accessToken);
+        TokenStorage.setAccessToken(res.data.accessToken);
+        TokenStorage.setRefreshToken(res.data.refreshToken);
       }
 
       return true;

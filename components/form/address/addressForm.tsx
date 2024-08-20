@@ -2,10 +2,14 @@
 
 import { MapComponent } from "@/components/map";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { useSaveAddress } from "@/mutation/addressMutation";
+import { IAddressDetails } from "@/type/app";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconLoader } from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const addressSchema = z.object({
@@ -45,11 +49,37 @@ const AddressForm = () => {
     lon: 0,
   });
 
-  const { dispatch } = usePropertyFormContext();
+  const { dispatch, propertyInfo } = usePropertyFormContext();
 
-  const onSubmit = (data: AddressFormData) => {
-    console.log(data);
-    dispatch({ type: "setActiveStep", payload: { step: 2 } });
+  const {
+    mutateAsync: saveAddressFn,
+    isPending: addressPending,
+    isError: addressError,
+    isSuccess: addressSuccess,
+  } = useSaveAddress();
+
+  const onSubmit = async (data: AddressFormData) => {
+    const addressDetails: IAddressDetails = {
+      city: data.city,
+      country: data.country,
+      label: data.label,
+      latitude: coords.lat,
+      longitude: coords.lon,
+      postalCode: data.postalCode?.toString() ?? "",
+      propertyId: propertyInfo?.id,
+      state: data.state,
+      streetAddress: data.streetAddress,
+    };
+
+    try {
+      const res = await saveAddressFn(addressDetails);
+      if (res.statusCode === 201) {
+        dispatch({ type: "setAdressDetails", payload: addressDetails });
+        dispatch({ type: "setActiveStep", payload: { step: 2 } });
+      }
+    } catch (err) {
+      toast.error("Something went wrong, please try again");
+    }
     // Handle form submission (e.g., send data to an API)
   };
 
@@ -64,6 +94,7 @@ const AddressForm = () => {
   });
 
   const handleOnBack = () => {
+    dispatch({ type: "setFormStatus", payload: { status: "EDIT" } });
     dispatch({ type: "setActiveStep", payload: { step: 0 } });
     return;
   };
@@ -231,7 +262,11 @@ const AddressForm = () => {
             Back
           </button>
           <button className="filledBtn" type="submit">
-            Continue
+            {addressPending ? (
+              <IconLoader className="animate-spin text-white" />
+            ) : (
+              "Continue"
+            )}
           </button>
         </div>
       </div>

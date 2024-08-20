@@ -10,8 +10,11 @@ export const propertyReducer = (
       return { ...state, activeStep: action.payload.step };
     case "setPropertyInfo":
       return { ...state, propertyInfo: action.payload };
+    case "setAdressDetails":
+      return { ...state, addressDetails: action.payload };
+    case "setFormStatus":
+      return { ...state, status: action.payload.status };
     default:
       return state;
   }
-  return state;
 };
