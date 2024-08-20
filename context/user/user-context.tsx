@@ -51,8 +51,8 @@ export function UserContextProvider({ children }: PropsWithChildren) {
   }, [session]);
 
   useEffect(() => {
-    AccessTokenStorage.setAccessToken(state.accessToken || "");
-  }, [state]);
+    AccessTokenStorage.setAccessToken(session?.profile?.accessToken || "");
+  }, [session]);
 
   return (
     <customUserContext.Provider value={{ ...state, dispatch }}>

@@ -1,4 +1,5 @@
 import { ICreateUserResponse, IUserResponse } from "@/type/app";
+import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
@@ -29,8 +30,8 @@ export const nextAuthOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       try {
-        const res = await axios.post<IUserResponse>("/get-by-email", {
-          email: user?.email,
+        const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
+          email: token?.email,
         });
 
         console.log({ res });
@@ -61,6 +62,8 @@ export const nextAuthOptions: NextAuthOptions = {
       if (res.status === 201) {
         user.accessToken = res.data.accessToken;
         user.refreshToken = res.data.refreshToken;
+
+        AccessTokenStorage.setAccessToken(res.data.accessToken);
       }
 
       return true;

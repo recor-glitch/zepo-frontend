@@ -7,7 +7,7 @@ const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use(
   async (config) => {
     try {
-      // console.log("axios interceptor");
+      console.log("axios interceptor");
       // Retrieve the API base URL from Vite environment variables
       const baseURL = `${process.env.NEXT_PUBLIC_BASE_URL}`;
 

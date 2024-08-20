@@ -8,6 +8,8 @@ export const propertyReducer = (
   switch (action.type) {
     case "setActiveStep":
       return { ...state, activeStep: action.payload.step };
+    case "setPropertyInfo":
+      return { ...state, propertyInfo: action.payload };
     default:
       return state;
   }

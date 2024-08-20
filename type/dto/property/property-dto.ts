@@ -1,5 +1,5 @@
 export interface IPropertyDto {
-  id?: string;
+  id?: number;
   title: string;
   images: string[];
   description: string;
@@ -27,5 +27,6 @@ export interface IPropertyDto {
 
 export interface IPropertyResponse {
   message: string;
+  propertyId: number;
   statusCode: number;
 }

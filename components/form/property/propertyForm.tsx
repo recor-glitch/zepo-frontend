@@ -200,7 +200,10 @@ const PropertyForm = () => {
       return;
     }
 
-    dispatch({ type: "setPropertyInfo", payload: propertyDetails });
+    dispatch({
+      type: "setPropertyInfo",
+      payload: { ...propertyDetails, id: propertyRes.propertyId },
+    });
 
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
   };

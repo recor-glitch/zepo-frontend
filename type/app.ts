@@ -4,6 +4,7 @@ import { Action } from "@/context/user/action";
 import { Action as PropertyAction } from "@/context/property/action";
 import { Icon, IconProps } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IPropertyDto } from "./dto/property/property-dto";
 
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
@@ -179,7 +180,7 @@ export interface propertyContextDto {
   dispatch: React.Dispatch<PropertyAction>;
   activeStep: number;
   status: FormStatus;
-  propertyInfo?: IPropertyInfo;
+  propertyInfo?: IPropertyDto;
   addressDetails?: IAddressDetails;
   benifitsAndExtras?: IBenifitsAndExtra;
 }
@@ -187,6 +188,7 @@ export interface propertyContextDto {
 export type FormStatus = "EDIT" | "PUBLISHED" | "DRAFT";
 
 export interface IPropertyInfo {
+  id?: number;
   title: string;
   description: string;
   propertyType: RoomType;
@@ -202,11 +204,13 @@ export interface IPropertyInfo {
 }
 
 export interface IAddressDetails {
+  id?: number;
   streetAddress1: string;
   streetAddressLine2: string;
   city: string;
   state: string;
   postal: string;
+  propertyId: number;
 }
 
 export interface IBenifitsAndExtra {
