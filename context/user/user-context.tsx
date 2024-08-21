@@ -52,6 +52,7 @@ export function UserContextProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     TokenStorage.setAccessToken(session?.profile?.accessToken || "");
+    TokenStorage.setRefreshToken(session?.profile?.refreshToken || "");
   }, [session]);
 
   return (

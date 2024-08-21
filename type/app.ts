@@ -206,12 +206,12 @@ export interface IPropertyInfo {
 export interface IAddressDetails {
   id?: number;
   label: string;
-  streetAddress: string;
+  street_address: string;
   city: string;
   state: string;
   country: string;
-  postalCode: string;
-  propertyId?: number;
+  postal_code: string;
+  property_id?: number;
   latitude: number;
   longitude: number;
 }

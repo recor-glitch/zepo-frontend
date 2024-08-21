@@ -65,10 +65,10 @@ const AddressForm = () => {
       label: data.label,
       latitude: coords.lat,
       longitude: coords.lon,
-      postalCode: data.postalCode?.toString() ?? "",
-      propertyId: propertyInfo?.id,
+      postal_code: data.postalCode?.toString() ?? "",
+      property_id: propertyInfo?.id,
       state: data.state,
-      streetAddress: data.streetAddress,
+      street_address: data.streetAddress,
     };
 
     try {
@@ -80,7 +80,6 @@ const AddressForm = () => {
     } catch (err) {
       toast.error("Something went wrong, please try again");
     }
-    // Handle form submission (e.g., send data to an API)
   };
 
   const onDrop = useCallback((acceptedFiles: File[]) => {

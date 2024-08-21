@@ -44,7 +44,35 @@ export const nextAuthOptions: NextAuthOptions = {
     },
 
     async session({ session, token }) {
-      return { ...session, profile: { ...token } };
+      console.log("session ", { session, token });
+
+      const accessToken = token?.accessToken
+        ? token?.accessToken
+        : session.profile?.accessToken;
+      const refreshToken = token?.refreshToken
+        ? token?.refreshToken
+        : session.profile?.refreshToken;
+
+      const res = await axiosInstance.post<ICreateUserResponse>("/invalidate", {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+      });
+
+      if (res.status === 200) {
+        TokenStorage.setAccessToken(res.data.accessToken || "");
+        TokenStorage.setRefreshToken(res.data.refreshToken || "");
+
+        return {
+          ...session,
+          profile: {
+            ...token,
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
+          },
+        };
+      }
+
+      return { ...session, profile: token };
     },
 
     async signIn({ user }) {
@@ -58,7 +86,9 @@ export const nextAuthOptions: NextAuthOptions = {
         }
       );
 
-      if (res.status === 201) {
+      console.log("My Signin", { res });
+
+      if (res.status >= 200) {
         user.accessToken = res.data.accessToken;
         user.refreshToken = res.data.refreshToken;
 
@@ -70,6 +100,9 @@ export const nextAuthOptions: NextAuthOptions = {
     },
   },
 
-  session: { strategy: "jwt" },
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
   secret: "abcd12345",
 };

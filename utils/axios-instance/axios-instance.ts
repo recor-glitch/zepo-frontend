@@ -15,25 +15,6 @@ axiosInstance.interceptors.request.use(
         config.baseURL = baseURL;
       }
 
-      if (TokenStorage.getAccessToken()) {
-        const res = await axios.post(`${baseURL}/validate`, {
-          accessToken: TokenStorage.getAccessToken(),
-        });
-
-        if (res.status === 200 && res.data.statusCode === 401) {
-          console.log("I am here", res.data);
-          const result = await axios.post(`${baseURL}/invalidate`, {
-            accessToken: TokenStorage.getAccessToken(),
-            refreshToken: TokenStorage.getRefreshToken(),
-          });
-
-          if (result.status === 200) {
-            TokenStorage.setAccessToken(result.data.accessToken);
-            TokenStorage.setRefreshToken(result.data.refreshToken);
-          }
-        }
-      }
-
       // Retrieve the JWT token from your storage (localStorage)
       const token = TokenStorage.getAccessToken();
 

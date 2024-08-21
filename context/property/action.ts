@@ -1,9 +1,8 @@
+import { FormStatus, IAddressDetails, IBenifitsAndExtra } from "@/type/app";
 import {
-  FormStatus,
-  IAddressDetails,
-  IBenifitsAndExtra
-} from "@/type/app";
-import { IPropertyDto } from "@/type/dto/property/property-dto";
+  IPropertyDto,
+  IPropertyUpdateDto,
+} from "@/type/dto/property/property-dto";
 
 type SetPropertyInfo = {
   type: "setPropertyInfo";
@@ -30,6 +29,11 @@ type SetFormStatus = {
   payload: IFormStatusPayload;
 };
 
+type SetUpdatePropertyInfo = {
+  type: "setUpdatePropertyInfo";
+  payload: IPropertyUpdateDto;
+};
+
 // PAYLOADS
 interface IActiveStep {
   step: number;
@@ -44,4 +48,5 @@ export type Action =
   | SetAdressDetails
   | SetBenifitsAndExtras
   | SetActiveStep
-  | SetFormStatus;
+  | SetFormStatus
+  | SetUpdatePropertyInfo;

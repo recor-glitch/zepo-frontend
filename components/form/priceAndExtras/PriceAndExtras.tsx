@@ -2,9 +2,14 @@
 
 import { ChipComponent } from "@/components/chip";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { useUpdateProperty } from "@/mutation/propertyMutation";
+import { IPropertyUpdateDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconLoader } from "@tabler/icons-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 const priceAndExtraSchema = z.object({
@@ -13,11 +18,14 @@ const priceAndExtraSchema = z.object({
   currency: z.enum(["INR", "USD"]).default("INR"),
   price: z
     .string()
-    .nullable()
     .transform((val) => (val === "" ? null : Number(val)))
-    .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
-      message: "price must be a non-negative integer",
-    }),
+    .refine(
+      (val) =>
+        val !== null && val !== undefined && val > 0 && Number.isInteger(val),
+      {
+        message: "price must be a non-negative integer",
+      }
+    ),
   width: z
     .string()
     .transform((val) => (val === "" ? null : Number(val)))
@@ -53,11 +61,41 @@ const PriceAndEntrasForm = () => {
     setAmenitiestxt("");
   };
 
-  const { dispatch } = usePropertyFormContext();
+  const { dispatch, propertyInfo } = usePropertyFormContext();
 
-  const onSubmit = (data: PriceAndEntrasFormData) => {
-    console.log(data);
-    // Handle form submission (e.g., send data to an API)
+  const {
+    isPending: updatePending,
+    mutateAsync: updateFn,
+    error: updateError,
+    isSuccess: updateSuccess,
+  } = useUpdateProperty();
+
+  const router = useRouter();
+
+  const onSubmit = async (data: PriceAndEntrasFormData) => {
+    console.log({ data });
+    const propertyUpdateDetails: IPropertyUpdateDto = {
+      amenities: amenities,
+      amount: data.price || undefined,
+      currency: data.currency,
+      property_width: data.width || undefined,
+      property_length: data.length || undefined,
+      period: data.period,
+      unit: data.unit,
+    };
+
+    try {
+      const res = await updateFn({
+        propertyId: propertyInfo?.id!,
+        updateDetails: propertyUpdateDetails,
+      });
+
+      if (res.statusCode === 200) {
+        router.back();
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
   };
 
   const handleOnBack = () => {
@@ -110,14 +148,14 @@ const PriceAndEntrasForm = () => {
         </div>
         {/* PRICE */}
         <div className="flex flex-col gap-1 col-span-1">
-          <label htmlFor="title" className="text-text-secondary font-medium">
+          <label htmlFor="price" className="text-text-secondary font-medium">
             Price
           </label>
           <input
             className="p-sm rounded-default focus:outline-none border"
-            type="text"
-            id="title"
-            {...register("price")}
+            type="number"
+            id="price"
+            {...register("price", { required: true })}
             placeholder="Enter your price"
           />
           {errors.price && (
@@ -178,7 +216,7 @@ const PriceAndEntrasForm = () => {
         </div>
         {/* PROPERTY WIDTH */}
         <div className="flex flex-col gap-1 col-span-1">
-          <label htmlFor="beds" className="text-text-secondary font-medium">
+          <label htmlFor="width" className="text-text-secondary font-medium">
             width
           </label>
           <input
@@ -234,7 +272,11 @@ const PriceAndEntrasForm = () => {
             Back
           </button>
           <button className="filledBtn" type="submit">
-            Save Changes
+            {updatePending ? (
+              <IconLoader className="animate-spin text-white" />
+            ) : (
+              "Save Changes"
+            )}
           </button>
         </div>
       </div>
