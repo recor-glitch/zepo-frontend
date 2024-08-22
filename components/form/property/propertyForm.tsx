@@ -2,18 +2,17 @@
 
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
-import { useFileUpload } from "@/mutation/fileMutation";
-import { useCreateProperty } from "@/mutation/propertyMutation";
 import { WashRoomType } from "@/type/app";
-import { IPropertyDto } from "@/type/dto/property/property-dto";
+import {
+  IPropertyFormDto
+} from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconLoader, IconPlus, IconX } from "@tabler/icons-react";
+import { IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { z } from "zod";
 
 const washroomTypes = ["SHARED", "ATTACHED"];
@@ -137,7 +136,7 @@ const PropertyForm = () => {
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
 
   useEffect(() => {
-    if (status === "EDIT") {
+    if (status === "EDIT" && propertyInfo) {
       setValue("title", propertyInfo?.title!);
       setValue("description", propertyInfo?.description!);
       setValue("propertyType", propertyInfo?.property_type!);
@@ -147,6 +146,7 @@ const PropertyForm = () => {
       setValue("beds", propertyInfo?.bed ?? 0);
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
+      setAcceptedFiles(propertyInfo?.images);
     }
   }, [status]);
 
@@ -157,46 +157,15 @@ const PropertyForm = () => {
     },
   });
 
-  const {
-    mutateAsync: uploadFn,
-    isError: IsfileUploadError,
-    data: fileUploadData,
-    isPending: IsfileUploadPending,
-    error: fileUploadError,
-    isSuccess: IsFileUploadSuccess,
-  } = useFileUpload();
-
-  const {
-    mutateAsync: createPropertyFn,
-    error: PropertyError,
-    isError: IsPropertyError,
-    isPending: IsPropertyPending,
-    data: PropertyData,
-    context: PropertyContext,
-    isSuccess: IsPropertySuccess,
-  } = useCreateProperty();
-
   const { user } = useUserContext();
 
   const onSubmit = async (data: PropertyFormData) => {
     console.log(data);
-    const formData = new FormData();
-
-    acceptedFiles.forEach((file) => {
-      formData.append("files", file);
-    });
-    const fileRes = await uploadFn({ files: formData });
-
-    if (fileRes.statusCode !== 200) {
-      toast.error("file upload failed, please try again");
-      return;
-    }
-
-    const propertyDetails: IPropertyDto = {
+    const propertyDetails: IPropertyFormDto = {
       title: data.title,
       amenities: [],
       description: data.description,
-      images: [...fileRes.urls.map((res) => res.URL)],
+      images: acceptedFiles,
       is_popular: false,
       like_count: 0,
       property_type: data.propertyType,
@@ -208,17 +177,9 @@ const PropertyForm = () => {
       hall: data.halls ?? undefined,
       kitchen: data.kitchens ?? undefined,
     };
-
-    const propertyRes = await createPropertyFn(propertyDetails);
-
-    if (propertyRes.statusCode !== 201) {
-      toast.error("something went wrong");
-      return;
-    }
-
     dispatch({
       type: "setPropertyInfo",
-      payload: { ...propertyDetails, id: propertyRes.propertyId },
+      payload: { ...propertyDetails },
     });
 
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
@@ -536,11 +497,7 @@ const PropertyForm = () => {
             Cancel
           </button>
           <button className="filledBtn" type="submit">
-            {IsfileUploadPending || IsPropertyPending ? (
-              <IconLoader className="animate-spin text-white" />
-            ) : (
-              "Continue"
-            )}
+            Continue
           </button>
         </div>
       </div>

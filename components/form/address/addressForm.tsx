@@ -2,14 +2,10 @@
 
 import { MapComponent } from "@/components/map";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
-import { useSaveAddress } from "@/mutation/addressMutation";
-import { IAddressDetails } from "@/type/app";
+import { IAddressDetails, WashRoomType } from "@/type/app";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconLoader } from "@tabler/icons-react";
-import { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { z } from "zod";
 
 const addressSchema = z.object({
@@ -39,6 +35,7 @@ const AddressForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
@@ -49,14 +46,19 @@ const AddressForm = () => {
     lon: 0,
   });
 
-  const { dispatch, propertyInfo } = usePropertyFormContext();
+  const { dispatch, propertyInfo, status, addressDetails } =
+    usePropertyFormContext();
 
-  const {
-    mutateAsync: saveAddressFn,
-    isPending: addressPending,
-    isError: addressError,
-    isSuccess: addressSuccess,
-  } = useSaveAddress();
+  useEffect(() => {
+    if (status === "EDIT" && propertyInfo && addressDetails) {
+      setValue("city", addressDetails.city);
+      setValue("country", addressDetails.country);
+      setValue("label", addressDetails.label);
+      setValue("postalCode", Number(addressDetails.postal_code));
+      setValue("state", addressDetails.state);
+      setValue("streetAddress", addressDetails.street_address);
+    }
+  }, [status]);
 
   const onSubmit = async (data: AddressFormData) => {
     const addressDetails: IAddressDetails = {
@@ -71,26 +73,10 @@ const AddressForm = () => {
       street_address: data.streetAddress,
     };
 
-    try {
-      const res = await saveAddressFn(addressDetails);
-      if (res.statusCode === 201) {
-        dispatch({ type: "setAdressDetails", payload: addressDetails });
-        dispatch({ type: "setActiveStep", payload: { step: 2 } });
-      }
-    } catch (err) {
-      toast.error("Something went wrong, please try again");
-    }
+    dispatch({ type: "setAdressDetails", payload: addressDetails });
+    dispatch({ type: "setActiveStep", payload: { step: 2 } });
+    dispatch({ type: "setFormStatus", payload: { status: "DRAFT" } });
   };
-
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    // Handle the dropped files
-    console.log(acceptedFiles);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    multiple: true,
-  });
 
   const handleOnBack = () => {
     dispatch({ type: "setFormStatus", payload: { status: "EDIT" } });
@@ -261,11 +247,7 @@ const AddressForm = () => {
             Back
           </button>
           <button className="filledBtn" type="submit">
-            {addressPending ? (
-              <IconLoader className="animate-spin text-white" />
-            ) : (
-              "Continue"
-            )}
+            Continue
           </button>
         </div>
       </div>

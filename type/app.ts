@@ -1,10 +1,10 @@
 // NAVBAR ITEMS
 
-import { Action } from "@/context/user/action";
 import { Action as PropertyAction } from "@/context/property/action";
+import { Action } from "@/context/user/action";
 import { Icon, IconProps } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
-import { IPropertyDto } from "./dto/property/property-dto";
+import { IPropertyFormDto } from "./dto/property/property-dto";
 
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
@@ -180,7 +180,7 @@ export interface propertyContextDto {
   dispatch: React.Dispatch<PropertyAction>;
   activeStep: number;
   status: FormStatus;
-  propertyInfo?: IPropertyDto;
+  propertyInfo?: IPropertyFormDto;
   addressDetails?: IAddressDetails;
   benifitsAndExtras?: IBenifitsAndExtra;
 }

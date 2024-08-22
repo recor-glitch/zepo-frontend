@@ -2,8 +2,18 @@
 
 import { ChipComponent } from "@/components/chip";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
-import { useUpdateProperty } from "@/mutation/propertyMutation";
-import { IPropertyUpdateDto } from "@/type/dto/property/property-dto";
+import { useUserContext } from "@/context/user/user-context";
+import { useSaveAddress } from "@/mutation/addressMutation";
+import { useFileUpload } from "@/mutation/fileMutation";
+import {
+  useCreateProperty,
+  useUpdateProperty,
+} from "@/mutation/propertyMutation";
+import { IAddressDetails } from "@/type/app";
+import {
+  IPropertyDto,
+  IPropertyUpdateDto,
+} from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -61,50 +71,113 @@ const PriceAndEntrasForm = () => {
     setAmenitiestxt("");
   };
 
-  const { dispatch, propertyInfo } = usePropertyFormContext();
+  const { dispatch, propertyInfo, addressDetails } = usePropertyFormContext();
 
   const {
-    isPending: updatePending,
-    mutateAsync: updateFn,
-    error: updateError,
-    isSuccess: updateSuccess,
-  } = useUpdateProperty();
+    mutateAsync: uploadFn,
+    isError: IsfileUploadError,
+    data: fileUploadData,
+    isPending: fileUploadPending,
+    error: fileUploadError,
+    isSuccess: IsFileUploadSuccess,
+  } = useFileUpload();
+
+  const {
+    mutateAsync: createPropertyFn,
+    error: PropertyError,
+    isError: IsPropertyError,
+    isPending: IsPropertyPending,
+    data: PropertyData,
+    context: PropertyContext,
+    isSuccess: IsPropertySuccess,
+  } = useCreateProperty();
+
+  const {
+    mutateAsync: saveAddressFn,
+    isPending: addressPending,
+    isError: addressError,
+    isSuccess: addressSuccess,
+  } = useSaveAddress();
 
   const router = useRouter();
+  const { user } = useUserContext();
 
   const onSubmit = async (data: PriceAndEntrasFormData) => {
-    console.log({ data });
-    const propertyUpdateDetails: IPropertyUpdateDto = {
-      amenities: amenities,
-      amount: data.price || undefined,
-      currency: data.currency,
-      property_width: data.width || undefined,
-      property_length: data.length || undefined,
-      period: data.period,
-      unit: data.unit,
-    };
+    const formData = new FormData();
 
-    try {
-      const res = await updateFn({
-        propertyId: propertyInfo?.id!,
-        updateDetails: propertyUpdateDetails,
+    // PROPERTY FORM
+    propertyInfo?.images.forEach((file) => {
+      formData.append("files", file);
+    });
+    const fileRes = await uploadFn({ files: formData });
+
+    if (fileRes.statusCode !== 200) {
+      toast.error("file upload failed, please try again");
+      return;
+    }
+
+    if (propertyInfo && addressDetails) {
+      const propertyDetails: IPropertyDto = {
+        title: propertyInfo?.title,
+        amenities: amenities,
+        description: propertyInfo?.description,
+        images: [...fileRes.urls.map((res) => res.URL)],
+        is_popular: propertyInfo?.is_popular,
+        like_count: propertyInfo?.like_count,
+        property_type: propertyInfo?.property_type,
+        washroom_count: propertyInfo?.washroom_count ?? 1,
+        washroom_type: propertyInfo?.washroom_type,
+        host_id: propertyInfo?.id?.toString() ?? user.id,
+        balcony: propertyInfo?.balcony ?? undefined,
+        bed: propertyInfo?.bed ?? undefined,
+        hall: propertyInfo?.hall ?? undefined,
+        kitchen: propertyInfo?.kitchen ?? undefined,
+        property_length: data.length ?? undefined,
+        property_width: data.width ?? undefined,
+        amount: data.price ?? undefined,
+        currency: data.currency,
+        unit: data.unit,
+        period: data.period,
+      };
+
+      const propertyRes = await createPropertyFn({
+        ...propertyDetails,
+        images: [...fileRes.urls.map((url) => url.URL)],
+      });
+      if (propertyRes.statusCode !== 201) {
+        toast.error("something went wrong");
+        return;
+      }
+
+      dispatch({
+        type: "setPropertyInfo",
+        payload: {
+          ...propertyDetails,
+          images: propertyInfo?.images,
+          id: propertyRes.propertyId,
+        },
       });
 
-      if (res.statusCode === 200) {
-        router.back();
+      const res = await saveAddressFn({
+        ...addressDetails,
+        property_id: propertyRes.propertyId,
+      });
+      if (res.statusCode !== 201) {
+        toast.error("something went wrong");
       }
-    } catch (err) {
-      toast.error("Something went wrong");
+
+      router.back();
     }
   };
 
   const handleOnBack = () => {
     dispatch({ type: "setActiveStep", payload: { step: 1 } });
+    dispatch({ type: "setFormStatus", payload: { status: "EDIT" } });
     return;
   };
 
   const handleUnselected = (idx: number) => {
-    setAmenities((prev) => [...prev.filter((amenity, index) => idx !== index)]);
+    setAmenities((prev) => [...prev.filter((_, index) => idx !== index)]);
   };
 
   return (
@@ -272,7 +345,7 @@ const PriceAndEntrasForm = () => {
             Back
           </button>
           <button className="filledBtn" type="submit">
-            {updatePending ? (
+            {fileUploadPending || IsPropertyPending || addressPending ? (
               <IconLoader className="animate-spin text-white" />
             ) : (
               "Save Changes"

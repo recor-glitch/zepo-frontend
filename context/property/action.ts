@@ -1,12 +1,12 @@
 import { FormStatus, IAddressDetails, IBenifitsAndExtra } from "@/type/app";
 import {
-  IPropertyDto,
-  IPropertyUpdateDto,
+  IPropertyFormDto,
+  IPropertyUpdateDto
 } from "@/type/dto/property/property-dto";
 
 type SetPropertyInfo = {
   type: "setPropertyInfo";
-  payload: IPropertyDto;
+  payload: IPropertyFormDto;
 };
 
 type SetAdressDetails = {
