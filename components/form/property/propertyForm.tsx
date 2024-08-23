@@ -3,16 +3,14 @@
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { WashRoomType } from "@/type/app";
-import {
-  IPropertyFormDto
-} from "@/type/dto/property/property-dto";
+import { IPropertyFormDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const washroomTypes = ["SHARED", "ATTACHED"];
@@ -33,37 +31,37 @@ const propertySchema = z
       .min(1, "File is required"),
     washroomType: z.enum(["SHARED", "ATTACHED"]).default("SHARED"),
     beds: z
-      .string()
+      .number()
       .nullable()
-      .transform((val) => (val === "" ? null : Number(val)))
+      .transform((val) => Number(val))
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
         message: "Beds must be a non-negative integer",
       }),
     halls: z
-      .string()
-      .transform((val) => (val === "" ? null : Number(val)))
+      .number()
       .nullable()
+      .transform((val) => Number(val))
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
         message: "halls must be a non-negative integer",
       }),
     kitchens: z
-      .string()
-      .transform((val) => (val === "" ? null : Number(val)))
+      .number()
       .nullable()
+      .transform((val) => Number(val))
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
         message: "kitchens must be a non-negative integer",
       }),
     washrooms: z
-      .string()
-      .transform((val) => (val === "" ? null : Number(val)))
-      .nullable()
+      .number()
+      .default(1)
+      .transform((val) => Number(val))
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
         message: "washrooms must be a non-negative integer",
       }),
     balcony: z
-      .string()
-      .transform((val) => (val === "" ? null : Number(val)))
+      .number()
       .nullable()
+      .transform((val) => Number(val))
       .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
         message: "balcony must be a non-negative integer",
       }),
@@ -124,6 +122,7 @@ const PropertyForm = () => {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
   } = useForm<PropertyFormData>({
     resolver: zodResolver(propertySchema),
@@ -148,7 +147,7 @@ const PropertyForm = () => {
       setValue("balcony", propertyInfo?.balcony ?? 0);
       setAcceptedFiles(propertyInfo?.images);
     }
-  }, [status]);
+  }, [status, propertyInfo]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     multiple: true,
@@ -367,13 +366,22 @@ const PropertyForm = () => {
               <label htmlFor="beds" className="text-text-secondary font-medium">
                 Number of bed rooms
               </label>
-              <input
-                type="number"
-                className="p-sm rounded-default focus:outline-none border"
-                id="beds"
-                {...register("beds")}
-                placeholder="Enter the number of bed rooms"
+
+              <Controller
+                control={control}
+                name="beds"
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    className="p-sm rounded-default focus:outline-none border"
+                    id="beds"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    placeholder="Enter the number of bed rooms"
+                  />
+                )}
               />
+
               {errors.beds && (
                 <p className="text-error text-sm-subtitle font-medium">
                   {errors.beds?.message}
@@ -388,12 +396,19 @@ const PropertyForm = () => {
               >
                 Number of halls
               </label>
-              <input
-                type="number"
-                className="p-sm rounded-default focus:outline-none border"
-                id="halls"
-                {...register("halls")}
-                placeholder="Enter the number of halls"
+              <Controller
+                control={control}
+                name="halls"
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    className="p-sm rounded-default focus:outline-none border"
+                    id="halls"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    placeholder="Enter the number of halls"
+                  />
+                )}
               />
               {errors.halls && (
                 <p className="text-error text-sm-subtitle font-medium">
@@ -409,12 +424,20 @@ const PropertyForm = () => {
               >
                 Number of kitchens
               </label>
-              <input
-                type="number"
-                className="p-sm rounded-default focus:outline-none border"
-                id="kitchens"
-                {...register("kitchens")}
-                placeholder="Enter the number of kitchens"
+
+              <Controller
+                control={control}
+                name="kitchens"
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    className="p-sm rounded-default focus:outline-none border"
+                    id="kitchens"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    placeholder="Enter the number of kitchens"
+                  />
+                )}
               />
               {errors.kitchens && (
                 <p className="text-error text-sm-subtitle font-medium">
@@ -430,12 +453,20 @@ const PropertyForm = () => {
               >
                 Number of balcony
               </label>
-              <input
-                type="number"
-                className="p-sm rounded-default focus:outline-none border"
-                id="balcony"
-                {...register("balcony")}
-                placeholder="Enter the number of balcony"
+
+              <Controller
+                control={control}
+                name="balcony"
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    className="p-sm rounded-default focus:outline-none border"
+                    id="balcony"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    placeholder="Enter the number of halls"
+                  />
+                )}
               />
               {errors.balcony && (
                 <p className="text-error text-sm-subtitle font-medium">
@@ -476,13 +507,21 @@ const PropertyForm = () => {
               >
                 Number of washrooms *
               </label>
-              <input
-                defaultValue={1}
-                type="number"
-                className="p-sm rounded-default focus:outline-none border"
-                id="washrooms"
-                {...register("washrooms")}
-                placeholder="Enter the number of washrooms"
+
+              <Controller
+                control={control}
+                name="washrooms"
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    className="p-sm rounded-default focus:outline-none border"
+                    id="washrooms"
+                    {...field}
+                    value={field.value || 1}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    placeholder="Enter the number of washrooms"
+                  />
+                )}
               />
               {errors.washrooms && (
                 <p className="text-error text-sm-subtitle font-medium">

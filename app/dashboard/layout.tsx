@@ -20,7 +20,7 @@ async function DashboardLayout({
     <DashboardRedirectProvider>
       <div className="flex flex-col w-full">
         <div className="flex gap-h p-h bg-bg-primary h-full w-full">
-          <div className="flex-col gap-default justify-between items-center w-1/6 h-full hidden md:flex border-r-2">
+          <div className="flex-col gap-default justify-between items-center w-1/6 h-full hidden lg:flex border-r-2">
             <NavbarDashboard />
           </div>
           <div className="flex flex-col flex-1">

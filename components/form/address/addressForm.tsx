@@ -5,7 +5,7 @@ import { usePropertyFormContext } from "@/context/property/property-fom-context"
 import { IAddressDetails, WashRoomType } from "@/type/app";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const addressSchema = z.object({
@@ -21,9 +21,9 @@ const addressSchema = z.object({
     .string({ message: "country is required" })
     .min(1, "country is required"),
   postalCode: z
-    .string()
+    .number()
     .min(1, "postal code is required")
-    .transform((val) => (val === "" ? null : Number(val)))
+    .transform((val) => Number(val))
     .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
       message: "postal code must be a non-negative integer",
     }),
@@ -36,6 +36,7 @@ const AddressForm = () => {
     register,
     handleSubmit,
     setValue,
+    control,
     formState: { errors },
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
@@ -92,7 +93,12 @@ const AddressForm = () => {
   };
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);
+    if (status === "EDIT" && addressDetails) {
+      setCoords({
+        lat: addressDetails.latitude,
+        lon: addressDetails.longitude,
+      });
+    } else navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);
   }, []);
 
   const handleCurrentLocation = () => {
@@ -196,12 +202,19 @@ const AddressForm = () => {
           >
             postal code *
           </label>
-          <input
-            type="text"
-            className="p-sm rounded-default focus:outline-none border"
-            id="postalCode"
-            {...register("postalCode")}
-            placeholder="Enter your postal code"
+          <Controller
+            control={control}
+            name="postalCode"
+            render={({ field }) => (
+              <input
+                type="text"
+                className="p-sm rounded-default focus:outline-none border"
+                id="postalCode"
+                {...field}
+                onChange={(e) => field.onChange(Number(e.target.value))}
+                placeholder="Enter your postal code"
+              />
+            )}
           />
           {errors.postalCode && (
             <p className="text-error text-sm-subtitle font-medium">
@@ -237,13 +250,21 @@ const AddressForm = () => {
         <div className=" flex flex-col justify-center items-center col-span-2 gap-default">
           <MapComponent onLocationSelect={setCoords} defaultPosition={coords} />
           <div className="flex col-span-2 gap-default justify-start items-center w-full">
-            <button className="outlinedBtn" onClick={handleCurrentLocation}>
+            <button
+              className="outlinedBtn"
+              type="button"
+              onClick={handleCurrentLocation}
+            >
               Current location
             </button>
           </div>
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">
-          <button className="outlinedBtn" onClick={() => handleOnBack()}>
+          <button
+            className="outlinedBtn"
+            type="button"
+            onClick={() => handleOnBack()}
+          >
             Back
           </button>
           <button className="filledBtn" type="submit">
