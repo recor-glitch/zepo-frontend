@@ -1,3 +1,4 @@
+import { IAddressDetails } from "@/type/app";
 import {
   IPropertyDto,
   IPropertyUpdateDto,
@@ -5,8 +6,20 @@ import {
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 
 export async function CreateProperty(property: IPropertyDto): Promise<any> {
-  const res = await axiosInstance.post("/property", {
+  const res = await axiosInstance.post("/property/create", {
     ...property,
+  });
+
+  return res.data;
+}
+
+export async function CreatePropertyWithAddress(
+  property: IPropertyDto,
+  address: IAddressDetails
+): Promise<any> {
+  const res = await axiosInstance.post("/property", {
+    property,
+    address,
   });
 
   return res.data;

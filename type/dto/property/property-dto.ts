@@ -1,3 +1,5 @@
+import { IAddressDetails } from "@/type/app";
+
 export interface IPropertyDto {
   id?: number;
   title: string;
@@ -77,9 +79,11 @@ export interface IPropertyUpdateDto {
   updated_at?: string;
 }
 
-export interface IPropertyResponse {
-  message: string;
+export interface IPropertyResponse extends DefaultResponse {
   propertyId: number;
+}
+export interface DefaultResponse {
+  message: string;
   statusCode: number;
 }
 
@@ -91,4 +95,9 @@ export interface IPropertyUpdateVariables {
 export interface IPropertyUpdateResponse {
   message: string;
   statusCode: number;
+}
+
+export interface IPropertyWithAddressVariables {
+  property: IPropertyDto;
+  address: IAddressDetails;
 }

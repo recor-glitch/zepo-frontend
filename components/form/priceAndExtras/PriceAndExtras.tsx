@@ -3,17 +3,9 @@
 import { ChipComponent } from "@/components/chip";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
-import { useSaveAddress } from "@/mutation/addressMutation";
 import { useFileUpload } from "@/mutation/fileMutation";
-import {
-  useCreateProperty,
-  useUpdateProperty,
-} from "@/mutation/propertyMutation";
-import { IAddressDetails } from "@/type/app";
-import {
-  IPropertyDto,
-  IPropertyUpdateDto,
-} from "@/type/dto/property/property-dto";
+import { useCreatePropertyWithAddress } from "@/mutation/propertyMutation";
+import { IPropertyDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -90,14 +82,7 @@ const PriceAndEntrasForm = () => {
     data: PropertyData,
     context: PropertyContext,
     isSuccess: IsPropertySuccess,
-  } = useCreateProperty();
-
-  const {
-    mutateAsync: saveAddressFn,
-    isPending: addressPending,
-    isError: addressError,
-    isSuccess: addressSuccess,
-  } = useSaveAddress();
+  } = useCreatePropertyWithAddress();
 
   const router = useRouter();
   const { user } = useUserContext();
@@ -141,8 +126,11 @@ const PriceAndEntrasForm = () => {
       };
 
       const propertyRes = await createPropertyFn({
-        ...propertyDetails,
-        images: [...fileRes.urls.map((url) => url.URL)],
+        property: {
+          ...propertyDetails,
+          images: [...fileRes.urls.map((url) => url.URL)],
+        },
+        address: addressDetails,
       });
       if (propertyRes.statusCode !== 201) {
         toast.error("something went wrong");
@@ -154,17 +142,8 @@ const PriceAndEntrasForm = () => {
         payload: {
           ...propertyDetails,
           images: propertyInfo?.images,
-          id: propertyRes.propertyId,
         },
       });
-
-      const res = await saveAddressFn({
-        ...addressDetails,
-        property_id: propertyRes.propertyId,
-      });
-      if (res.statusCode !== 201) {
-        toast.error("something went wrong");
-      }
 
       router.back();
     }
@@ -345,7 +324,7 @@ const PriceAndEntrasForm = () => {
             Back
           </button>
           <button className="filledBtn" type="submit">
-            {fileUploadPending || IsPropertyPending || addressPending ? (
+            {fileUploadPending || IsPropertyPending ? (
               <IconLoader className="animate-spin text-white" />
             ) : (
               "Save Changes"

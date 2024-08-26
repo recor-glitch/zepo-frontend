@@ -58,7 +58,7 @@ export const nextAuthOptions: NextAuthOptions = {
         refreshToken: refreshToken,
       });
 
-      if (res.status === 200) {
+      if (res.status === 201) {
         TokenStorage.setAccessToken(res.data.accessToken || "");
         TokenStorage.setRefreshToken(res.data.refreshToken || "");
 
