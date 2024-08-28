@@ -35,14 +35,18 @@ export type RoomType = "SINGLE" | "DOUBLE" | "BHK" | "VILLA" | "SHARED";
 export type WashRoomType = "SHARED" | "ATTACHED";
 
 export interface IRoomInfo {
-  images: Iimage[];
-  price: Iprice;
+  images: string[];
+  amount: number;
+  currency: CurrencyType;
+  period: PeriodType;
+  unit: SizeType;
   desc: string;
   isPopular: boolean;
   likeCount: number;
   title: string;
-  address: string;
-  size: IRoomSize;
+  address?: {};
+  propertyWidth?: number;
+  propertyHeight?: number;
   amenities: string[];
 }
 export interface ISingleRoom extends IRoomInfo {

@@ -1,5 +1,6 @@
-import { IAddressDetails } from "@/type/app";
+import { IAddressDetails, propertyContextDto } from "@/type/app";
 import {
+  IAllPropertyResponse,
   IPropertyDto,
   IPropertyUpdateDto,
 } from "@/type/dto/property/property-dto";
@@ -29,9 +30,15 @@ export async function UpdateProperty(
   propertyId: number,
   property: IPropertyUpdateDto
 ): Promise<any> {
-  const res = await axiosInstance.patch(`property/${propertyId}`, {
+  const res = await axiosInstance.patch(`/property/${propertyId}`, {
     ...property,
   });
+
+  return res.data;
+}
+
+export async function GetAllProperties(): Promise<IAllPropertyResponse> {
+  const res = await axiosInstance.get(`/property`);
 
   return res.data;
 }

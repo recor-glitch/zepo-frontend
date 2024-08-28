@@ -1,11 +1,24 @@
+"use client";
+
 import { DashboardStatCard, RentCard } from "@/components/cards";
 import { dummyReviews, dummyRoomRent } from "@/constants";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Image from "next/image";
 import DummyAvatar from "@/public/dummy-avatar.svg";
 import { AdminNavbar } from "@/components/navbar";
+import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
+import { useGetAllProperties } from "@/query/propertyQuery";
 
 const AdminPage = () => {
+  const {
+    data: allProperties,
+    isLoading,
+    isError,
+    error,
+  } = useGetAllProperties({});
+
+  console.log({ allProperties });
+
   return (
     <div className="flex flex-col h-full gap-default">
       <AdminNavbar />
@@ -21,17 +34,27 @@ const AdminPage = () => {
         </div>
         {/* BODY */}
         <div className="grid md:grid-cols-3 grid-cols-1 gap-default">
-          <div className="md:col-span-2 grid md:grid-cols-3 gap-default">
-            {dummyRoomRent.map((rent, index) => {
-              if (index < 6)
-                return (
-                  <RentCard
-                    showPopular={false}
-                    rent={rent}
-                    key={rent.title + index}
-                  />
-                );
-            })}
+          <div
+            className={`md:col-span-2 grid md:grid-cols-3 gap-default ${
+              !allProperties?.data &&
+              `flex flex-col justify-center items-center`
+            }`}
+          >
+            {allProperties && allProperties.data ? (
+              allProperties.data?.map((rent, index) => (
+                <RentCard
+                  showPopular={false}
+                  rent={rent}
+                  key={rent.title + index}
+                />
+              ))
+            ) : isLoading ? (
+              [...new Array(6)].map((_) => <RentCardSkeleton />)
+            ) : !isError ? (
+              <p>No data found</p>
+            ) : (
+              <p>Something went wrong</p>
+            )}
           </div>
           <div className="col-span-1 flex-col flex gap-default">
             <div className="flex flex-col border gap-default rounded-default px-sm-h py-sm-v h-fit m-h-3/5">
