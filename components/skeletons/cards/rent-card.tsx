@@ -1,6 +1,6 @@
 import React from "react";
 
-const RentCardSkeleton = () => {
+const RentCardSkeleton: React.FC = () => {
   return (
     <div className="h-full w-full border-2 rounded-default animate-pulse gap-default">
       <div className="flex w-full h-1/2 bg-skeleton rounded-md" />

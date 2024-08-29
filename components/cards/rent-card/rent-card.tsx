@@ -31,6 +31,7 @@ function RentCard({
       className={`rentContainer ${
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
       } ${className}`}
+      id={rent.title + rent.description}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (
@@ -66,7 +67,7 @@ function RentCard({
             <p className="">{rent.currency === "INR" ? rupee : dollar}</p>
             <p className=""> {rent.amount}/ </p>
             <p className="text-md-subtitle-secondary font-medium">
-              {rent.period}
+              {rent.period.toString().toLowerCase()}
             </p>
           </span>
           {showLike && (
