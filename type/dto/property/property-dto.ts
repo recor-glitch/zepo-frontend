@@ -36,7 +36,7 @@ export interface IPropertyDto {
 export interface IPropertyFormDto {
   id?: number;
   title: string;
-  images: File[];
+  images: File[] | string[];
   description: string;
   is_popular: boolean;
   amenities: string[];
