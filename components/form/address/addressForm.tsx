@@ -99,7 +99,7 @@ const AddressForm = () => {
         lon: addressDetails.longitude,
       });
     } else navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);
-  }, []);
+  });
 
   const handleCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);

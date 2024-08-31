@@ -274,7 +274,10 @@ const PropertyForm = () => {
                 {imageSrc?.map((file, index) => {
                   if (index < 2)
                     return (
-                      <div className="relative h-1/3 w-full rounded-lg overflow-hidden border-2">
+                      <div
+                        className="relative h-1/3 w-full rounded-lg overflow-hidden border-2"
+                        key={file + index}
+                      >
                         <div
                           className="absolute right-1 top-1 flex justify-center items-center rounded-full border"
                           onClick={() => handleRemovePhotos(index)}
@@ -291,7 +294,10 @@ const PropertyForm = () => {
                     );
                   else if (index === 2)
                     return (
-                      <div className="h-1/3 w-full rounded-lg border-2 flex justify-center items-center">
+                      <div
+                        className="h-1/3 w-full rounded-lg border-2 flex justify-center items-center"
+                        key={file + index}
+                      >
                         <IconPlus height={14} width={14} />
                         <p className="font-medium text-text-primary text-md-subtitle-primary">
                           {imageSrc.length - 2}
@@ -321,8 +327,10 @@ const PropertyForm = () => {
             className="p-sm rounded-default text-text-secondary focus:outline-none border"
             {...register("propertyType")}
           >
-            {propertyType.map((type) => (
-              <option value={type}>{type}</option>
+            {propertyType.map((type, idx) => (
+              <option value={type} key={type + idx}>
+                {type}
+              </option>
             ))}
           </select>
           {errors.propertyType && (
