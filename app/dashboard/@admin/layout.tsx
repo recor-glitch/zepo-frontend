@@ -1,15 +1,6 @@
-import { AdminNavbar } from "@/components/navbar";
-import React, { Children } from "react";
+import React from "react";
 
-const AdminLayout = ({
-  children,
-  review,
-  listing,
-}: {
-  children: React.ReactNode;
-  review: React.ReactNode;
-  listing: React.ReactNode;
-}) => {
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full h-full  flex flex-col flex-1 gap-default">
       {children}
