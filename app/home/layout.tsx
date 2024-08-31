@@ -8,6 +8,13 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Zepo",
   description: "Find yourself a home",
+  openGraph: {
+    images: [
+      "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
+    ],
+    title: "Zepo",
+    description: "Find yourself a home",
+  },
   twitter: {
     images: [
       {
