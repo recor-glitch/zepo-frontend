@@ -9,8 +9,13 @@ export const metadata: Metadata = {
   title: "Zepo",
   description: "Find yourself a home",
   openGraph: {
+    siteName: "Zepo Rental",
+    url: "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
     images: [
-      "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
+      {
+        url: "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
+        alt: "zepo rental logo",
+      },
     ],
     title: "Zepo",
     description: "Find yourself a home",
