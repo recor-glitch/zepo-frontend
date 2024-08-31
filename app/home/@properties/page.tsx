@@ -1,7 +1,12 @@
+"use client";
+
 import { RentCard } from "@/components/cards";
-import { dummyRoomRent } from "@/constants";
+import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
+import { useGetAllProperties } from "@/query/propertyQuery";
 
 export default function LaningSection() {
+  const { data, isLoading } = useGetAllProperties({});
+
   return (
     <div className="flex flex-col py-property-h gap-h md:px-40 px-sm-h">
       <div className="flex flex-col md:flex-row justify-between items-center gap-text-spacing">
@@ -19,9 +24,15 @@ export default function LaningSection() {
       </div>
       {/* PROPERTIES GRID */}
       <div className="grid md:grid-cols-4 gap-h w-full">
-        {dummyRoomRent?.map((rent, index) => (
-          <RentCard rent={rent} showLike key={rent.title + index} />
-        ))}
+        {isLoading ? (
+          [...new Array(6)].map((_) => <RentCardSkeleton />)
+        ) : data && data.data ? (
+          data.data?.map((rent, index) => (
+            <RentCard rent={rent} showLike key={rent.title + index} />
+          ))
+        ) : (
+          <>Something went wrong</>
+        )}
       </div>
     </div>
   );

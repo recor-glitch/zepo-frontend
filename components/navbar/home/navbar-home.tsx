@@ -2,12 +2,12 @@
 
 import { navItems } from "@/constants";
 import { useDrawerContext } from "@/context";
+import DummyAvatar from "@/public/dummy-avatar.svg";
 import MenuIcon from "@/public/menu.svg";
 import ZepoLogo from "@/public/zepo-logo.svg";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import DummyAvatar from "@/public/dummy-avatar.svg";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();
@@ -15,7 +15,7 @@ function NavbarHome() {
   const { data: session, status } = useSession();
 
   const handleSignIn = async () => {
-    // await signIn("google", { redirect: true });
+    await signIn("google", { redirect: true });
   };
 
   return (
@@ -54,12 +54,14 @@ function NavbarHome() {
           <button className="outlinedBtn" onClick={handleSignIn}>
             Login
           </button>
-          <button className="filledBtn">Signup</button>
+          <button className="filledBtn" onClick={handleSignIn}>
+            Signup
+          </button>
         </div>
       ) : status === "loading" ? (
-        <div />
+        "Loading..."
       ) : (
-        <div className="circle-div">
+        <div className="circle-div hidden md:flex">
           <Image
             src={session?.user?.image ?? DummyAvatar}
             alt="profile Image"

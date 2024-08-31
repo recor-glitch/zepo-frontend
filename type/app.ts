@@ -1,8 +1,10 @@
 // NAVBAR ITEMS
 
+import { Action as PropertyAction } from "@/context/property/action";
 import { Action } from "@/context/user/action";
 import { Icon, IconProps } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
+import { IPropertyFormDto } from "./dto/property/property-dto";
 
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
@@ -33,16 +35,22 @@ export type RoomType = "SINGLE" | "DOUBLE" | "BHK" | "VILLA" | "SHARED";
 export type WashRoomType = "SHARED" | "ATTACHED";
 
 export interface IRoomInfo {
-  images: Iimage[];
-  price: Iprice;
+  images: string[];
+  amount: number;
+  currency: CurrencyType;
+  period: PeriodType;
+  unit: SizeType;
   desc: string;
   isPopular: boolean;
   likeCount: number;
   title: string;
-  address: string;
-  size: IRoomSize;
+  address?: {};
+  propertyWidth?: number;
+  propertyHeight?: number;
+  amenities: string[];
 }
 export interface ISingleRoom extends IRoomInfo {
+  id?: number;
   type: "SINGLE";
   washroom: {
     type: WashRoomType;
@@ -51,6 +59,7 @@ export interface ISingleRoom extends IRoomInfo {
 }
 
 export interface IDoubleRoom extends IRoomInfo {
+  id?: number;
   type: "DOUBLE";
   washroom: {
     type: WashRoomType;
@@ -59,6 +68,7 @@ export interface IDoubleRoom extends IRoomInfo {
 }
 
 export interface IBHKRoom extends IRoomInfo {
+  id?: number;
   type: "BHK";
   beds: number;
   halls: number;
@@ -71,6 +81,7 @@ export interface IBHKRoom extends IRoomInfo {
 }
 
 export interface ISharedRoom extends IRoomInfo {
+  id?: number;
   type: "SHARED";
   beds: number;
   halls: number;
@@ -83,6 +94,7 @@ export interface ISharedRoom extends IRoomInfo {
 }
 
 export interface IVilla extends IRoomInfo {
+  id?: number;
   type: "VILLA";
   swimmingpool: boolean;
   beds: number;
@@ -131,8 +143,9 @@ export interface IStatCard {
 // USER
 
 export interface IReview {
+  user: IUser;
   msg: string;
-  ratting: number;
+  rating: number;
 }
 
 export type UserRole = "user" | "admin" | "superuser";
@@ -167,6 +180,55 @@ export interface userContextDto {
   dispatch: React.Dispatch<Action>;
 }
 
+export interface propertyContextDto {
+  dispatch: React.Dispatch<PropertyAction>;
+  activeStep: number;
+  status: FormStatus;
+  propertyInfo?: IPropertyFormDto;
+  addressDetails?: IAddressDetails;
+  benifitsAndExtras?: IBenifitsAndExtra;
+}
+
+export type FormStatus = "EDIT" | "PUBLISHED" | "DRAFT";
+
+export interface IPropertyInfo {
+  id?: number;
+  title: string;
+  description: string;
+  propertyType: RoomType;
+  bed?: number;
+  hall?: number;
+  kitchen?: number;
+  balcony?: number;
+  washroom: number;
+  washroomType: WashRoomType;
+  price: number;
+  currency?: CurrencyType;
+  period?: PeriodType;
+}
+
+export interface IAddressDetails {
+  id?: number;
+  label: string;
+  street_address: string;
+  city: string;
+  state: string;
+  country: string;
+  postal_code: string;
+  property_id?: number;
+  latitude: number;
+  longitude: number;
+}
+
+export interface IBenifitsAndExtra {
+  amenities: string[];
+  propertySize: {
+    width: number;
+    length: number;
+    unit: SizeType;
+  };
+}
+
 // DATABASE API
 
 export interface ICreateUserResponse {
@@ -186,10 +248,9 @@ export interface IDashboardNavItem {
   link: string;
 }
 
-
 // WAITLIST
 export interface IWaitlistResponse {
-  id : number;
+  id: number;
   email: string;
   createdAt: string;
 }

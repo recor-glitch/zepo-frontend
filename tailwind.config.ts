@@ -38,6 +38,7 @@ const config: Config = {
         "primary-lighter": "#F0EFFB",
         "primary-light": "#D9D6F5",
         secondary: "#E0DEF7",
+        skeleton: "#E2E8F0",
 
         // DARK SHADES
         "primary-dark": "#100A55",
@@ -49,6 +50,7 @@ const config: Config = {
         "text-secondary-dark": "#6C727F",
         "text-normal": "#001619" /* 70% */,
         "text-white": "#FFFFFF",
+        error: "#FF0000",
 
         // BORDER
         "border-primary": "#DEDEF7",

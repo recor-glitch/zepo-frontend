@@ -80,7 +80,7 @@ body {
   }
 
   .searchContainer {
-    @apply flex justify-start items-center w-full h-md-container rounded-default bg-white md:hidden gap-4 p-sm-h;
+    @apply flex justify-start items-center max-w-[10rem] max-h-[12rem] rounded-default bg-white md:hidden gap-4 p-sm-h;
   }
 
   .rentContainer {

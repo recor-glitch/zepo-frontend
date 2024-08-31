@@ -1,17 +1,16 @@
 "use client";
 
 import { userContextDto } from "@/type/app";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import { useSession } from "next-auth/react";
 import {
   createContext,
   PropsWithChildren,
   useContext,
   useEffect,
-  useMemo,
   useReducer,
 } from "react";
 import { userReducer } from "./reducer";
-import { AccessTokenStorage } from "@/utils/access-token-storage/access-token-storage";
-import { useSession } from "next-auth/react";
 
 const initialValue: userContextDto = {
   accessToken: "",
@@ -52,8 +51,9 @@ export function UserContextProvider({ children }: PropsWithChildren) {
   }, [session]);
 
   useEffect(() => {
-    AccessTokenStorage.setAccessToken(state.accessToken || "");
-  }, [state]);
+    TokenStorage.setAccessToken(session?.profile?.accessToken || "");
+    TokenStorage.setRefreshToken(session?.profile?.refreshToken || "");
+  }, [session]);
 
   return (
     <customUserContext.Provider value={{ ...state, dispatch }}>

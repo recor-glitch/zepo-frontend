@@ -63,6 +63,7 @@ export default async function LaningSection() {
         <RentCard
           className="absolute top-[3rem] right-[30rem]"
           rent={dummyRoomRent[0]}
+          isSmall
           showPopular={false}
         />
         <RentCard

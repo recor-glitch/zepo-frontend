@@ -1,18 +1,17 @@
-import { RentRoomType } from "@/type/app";
-import React from "react";
-import Image from "next/image";
-import DummyImg from "@/public/dummy-rent.svg";
 import { dollar, rupee } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
-import WashIcon from "@/public/wash-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
-import StarIcon from "@/public/stars-icon.svg";
-import PointedEdge from "@/public/pointed-edge.svg";
+import DummyImg from "@/public/dummy-rent.svg";
 import HeartIcon from "@/public/heart-icon.svg";
+import PointedEdge from "@/public/pointed-edge.svg";
+import StarIcon from "@/public/stars-icon.svg";
+import WashIcon from "@/public/wash-icon.svg";
+import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
+import Image from "next/image";
 
 export interface rentProps {
   className?: string;
-  rent: RentRoomType;
+  rent: IBannerPropertyResponse;
   isSmall?: boolean;
   isLiked?: boolean;
   showLike?: boolean;
@@ -30,8 +29,9 @@ function RentCard({
   return (
     <div
       className={`rentContainer ${
-        isSmall && "h-mi-rent-card w-mi-rent-card"
+        isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
       } ${className}`}
+      id={rent.title + rent.description}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (
@@ -51,8 +51,8 @@ function RentCard({
         // <div className="bg-primary absolute rounded-bl-sm z-10 transform :bottom-0 left-0 translate-y-[1.2rem] translate-x-[-0.35rem] top-[11.9rem] rotate-45 h-3 w-3"></div>
       )}
       <Image
-        src={rent.images.length != 0 ? rent.images[0].url : DummyImg}
-        alt={rent.images[0].alt}
+        src={rent.images.length != 0 ? rent.images[0] : DummyImg}
+        alt={"Property images"}
         className="flex rounded-t-default w-full h-[52%] object-cover"
         width={300}
         height={250}
@@ -64,10 +64,10 @@ function RentCard({
       >
         <div className="flex justify-between items-start">
           <span className="w-full inline-flex items-center text-primary text-md-title font-extrabold">
-            <p className="">{rent.price.currency === "INR" ? rupee : dollar}</p>
-            <p className=""> {rent.price.amount}/ </p>
+            <p className="">{rent.currency === "INR" ? rupee : dollar}</p>
+            <p className=""> {rent.amount}/ </p>
             <p className="text-md-subtitle-secondary font-medium">
-              {rent.price.period.toLowerCase().slice(0, -2)}
+              {rent.period.toString().toLowerCase()}
             </p>
           </span>
           {showLike && (
@@ -81,11 +81,11 @@ function RentCard({
             </div>
           )}
         </div>
-        <p className="text-text-primary text-md-title font-bold">
+        <p className="text-text-primary text-md-title font-bold text-ellipsis line-clamp-1">
           {rent.title}
         </p>
         <p className="text-text-primary text-md-subtitle-primary font-medium line-clamp-1 text-ellipsis overflow-hidden">
-          {rent.address}
+          {rent.description}
         </p>
         <div className="divider-h h-[2px]" />
         <div className="flex flex-row justify-around items-center gap-sm">
@@ -93,11 +93,11 @@ function RentCard({
           <div className="flex flex-row justify-center items-center gap-xs">
             <Image className="text-primary" src={BedIcon} alt="Bed icon" />
             <p className="text-text-secondary-dark text-md-subtitle-secondary">
-              {rent.type === "SINGLE"
+              {rent.property_type === "SINGLE"
                 ? 1
-                : rent.type === "DOUBLE"
+                : rent.property_type === "DOUBLE"
                 ? 2
-                : rent.beds}
+                : rent.bed}
             </p>
           </div>
           {/* WASHROOM */}
@@ -108,7 +108,7 @@ function RentCard({
               alt="Wash room icon"
             />
             <p className="text-text-secondary-dark text-md-subtitle-secondary">
-              {rent.washroom.count}
+              {rent.washroom_count}
             </p>
           </div>
           {/* DIMENSIONS */}
@@ -119,8 +119,8 @@ function RentCard({
               alt="Dimension icon"
             />
             <p className="text-text-secondary-dark text-md-subtitle-secondary line-clamp-1">
-              {rent.size.dimensions.length}x{rent.size.dimensions.width}{" "}
-              {rent.size.type === "FEET" ? "ft" : "m"}
+              {rent.property_length}x{rent.property_width}{" "}
+              {rent.unit === "FEET" ? "ft" : "m"}
             </p>
           </div>
         </div>

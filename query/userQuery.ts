@@ -4,7 +4,6 @@ import {
   GetUserById,
   validateUser,
 } from "@/services";
-import { AddEmailToWaitlist } from "@/services/waitlist-service/waitlist-service";
 import { ICreateUserResponse, IUser } from "@/type/app";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 

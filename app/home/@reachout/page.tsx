@@ -1,6 +1,6 @@
 "use client";
 
-import { useSaveToWaitlist } from "@/query/waitlistQuery";
+import { useSaveToWaitlist } from "@/mutation/waitlistMutation";
 import { IconLoader } from "@tabler/icons-react";
 import {
   MouseEventHandler,
