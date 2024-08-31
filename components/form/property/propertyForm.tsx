@@ -145,7 +145,7 @@ const PropertyForm = () => {
       setValue("beds", propertyInfo?.bed ?? 0);
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
-      setAcceptedFiles(propertyInfo?.images);
+      setAcceptedFiles(propertyInfo?.images as File[]);
     }
   }, [status, propertyInfo]);
 
