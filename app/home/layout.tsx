@@ -3,32 +3,7 @@ import { FooterHome } from "@/components/footer-home";
 import { NavbarHome } from "@/components/navbar";
 import HomeRedirectProvider from "@/container/home-redirect-provider";
 import { UseDrawerContextProvider } from "@/context";
-import { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Zepo",
-  description: "Find yourself a home",
-  openGraph: {
-    siteName: "Zepo Rental",
-    url: "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
-    images: [
-      {
-        url: "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
-        alt: "zepo rental logo",
-      },
-    ],
-    title: "Zepo",
-    description: "Find yourself a home",
-  },
-  twitter: {
-    images: [
-      {
-        url: "https://ik.imagekit.io/zeporental/zepo-logo.png?updatedAt=1725130099698",
-        alt: "zepo rental logo",
-      },
-    ],
-  },
-};
 
 export default function HomeLayout({
   children,
