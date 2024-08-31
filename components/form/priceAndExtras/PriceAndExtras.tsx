@@ -315,6 +315,7 @@ const PriceAndEntrasForm = () => {
           {amenities?.map((chip, idx) => (
             <ChipComponent
               text={chip}
+              key={chip + idx}
               handleUnselected={() => handleUnselected(idx)}
             />
           ))}

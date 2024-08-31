@@ -25,7 +25,7 @@ export default function LaningSection() {
       {/* PROPERTIES GRID */}
       <div className="grid md:grid-cols-4 gap-h w-full">
         {isLoading ? (
-          [...new Array(6)].map((_) => <RentCardSkeleton />)
+          [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
         ) : data && data.data ? (
           data.data?.map((rent, index) => (
             <RentCard rent={rent} showLike key={rent.title + index} />

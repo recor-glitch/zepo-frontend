@@ -49,7 +49,7 @@ const AdminPage = () => {
                 />
               ))
             ) : isLoading ? (
-              [...new Array(6)].map((_) => <RentCardSkeleton />)
+              [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
             ) : !isError ? (
               <p>No data found</p>
             ) : (
