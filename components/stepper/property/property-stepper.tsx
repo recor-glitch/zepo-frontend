@@ -9,7 +9,10 @@ const PropertyStepper = ({ steps }: stepperProps) => {
   return (
     <div className="flex py-v items-center w-full">
       {steps.map((step, index) => (
-        <div className="flex items-center flex-1 cursor-pointer">
+        <div
+          className="flex items-center flex-1 cursor-pointer"
+          key={step.title + index}
+        >
           <div
             className={`flex  w-[15rem] min-w-52 ${
               index === steps.length - 1 && "w-28"
