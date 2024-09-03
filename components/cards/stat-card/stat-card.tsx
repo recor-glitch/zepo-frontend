@@ -4,7 +4,7 @@ import React from "react";
 
 function StatCard({ img, subtitle, title, floatingIcon }: IStatCard) {
   return (
-    <div className="flex md:flex-col flex-row gap-default items-center">
+    <div className="flex lg:flex-col flex-row gap-default items-center">
       {/* CIRCLE ICON */}
       <div className="rounded-full p-xs border-1 border-primary-light bg-white relative w-tab h-tab">
         {/* FLOATING ICON */}
@@ -22,7 +22,7 @@ function StatCard({ img, subtitle, title, floatingIcon }: IStatCard) {
           <Image src={img.url} alt={img.alt} height={32} width={32} />
         </div>
       </div>
-      <div className="flex flex-col md:items-center items-start text-center">
+      <div className="flex flex-col lg:items-center items-start text-center">
         <p className="text-text-primary font-bold text-md-title">{title}</p>
         <p className="text-sm-subtitle text-text-secondary-dark font-medium">
           {subtitle}

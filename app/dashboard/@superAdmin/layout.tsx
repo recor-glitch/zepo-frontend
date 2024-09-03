@@ -23,7 +23,7 @@ const SuperDashboardLayout = ({
           <IconNotification />
         </div>
       </div>
-      <div className="flex flex-col md:grid grid-cols-6 grid-rows-5 w-full h-full gap-h py-sm-v">
+      <div className="flex flex-col lg:grid grid-cols-6 grid-rows-5 w-full h-full gap-h py-sm-v">
         {/* BANNER */}
         <div className="flex justify-between items-center col-span-2 row-span-1 w-full h-full relative rounded-xl">
           <div className="flex flex-col gap-4 pl-h">

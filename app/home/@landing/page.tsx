@@ -8,10 +8,10 @@ import Image from "next/image";
 
 export default async function LaningSection() {
   return (
-    <div className="md:h-body flex justify-between items-center gap-h relative">
+    <div className="lg:h-body flex justify-between items-center gap-h relative">
       {/* LEFT SIDE SECTION */}
-      <section className="p-h h-full md:w-1/2 w-full flex flex-row md:ml-40">
-        <div className="flex md:w-3/4 w-full gap-text-spacing flex-col">
+      <section className="p-h h-full lg:w-1/2 w-full flex flex-row lg:ml-40">
+        <div className="flex lg:w-3/4 w-full gap-text-spacing flex-col">
           <p className="lgHeaderText">
             Buy, rent, or sell your property easily
           </p>
@@ -19,7 +19,7 @@ export default async function LaningSection() {
             A great platform to buy, sell, or even rent your properties without
             any commisions.
           </p>
-          <div className="flex gap-default md:relative bottom-0">
+          <div className="flex gap-default lg:relative bottom-0">
             <div className="gap-stat-v-divider flex justify-start items-center">
               <div className="divider-v" />
               <div className="flex flex-col gap-0 justify-start">
@@ -84,7 +84,7 @@ export default async function LaningSection() {
         </div>
       </section>
       {/* RIGHT SIDE SECTION */}
-      <section className="h-full w-1/2 md:block hidden">
+      <section className="h-full w-1/2 lg:block hidden">
         <RentCard
           className="absolute top-[3rem] right-[30rem]"
           rent={dummyRoomRent[0]}
@@ -105,7 +105,7 @@ export default async function LaningSection() {
         <Image
           src={RouteImg}
           alt="route image"
-          className="absolute md:visible top-0 right-[10rem] h-route-h w-route-w mt-body"
+          className="absolute lg:visible top-0 right-[10rem] h-route-h w-route-w mt-body"
         />
       </section>
     </div>

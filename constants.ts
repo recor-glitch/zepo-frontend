@@ -13,6 +13,8 @@ import {
   IconUsers,
   IconReport,
   IconSettings,
+  IconLifebuoy,
+  IconHeart,
 } from "@tabler/icons-react";
 import { IBannerPropertyResponse } from "./type/dto/property/property-dto";
 
@@ -383,4 +385,27 @@ export const dummyReviews: IReview[] = [
   //   msg: "Not satisfied with the service.",
   //   rating: 2,
   // },
+];
+
+export const profileMenuItems: IDashboardNavItem[] = [
+  {
+    icon: IconUser,
+    link: "/profile",
+    title: "Account",
+  },
+  {
+    icon: IconLifebuoy,
+    link: "/support",
+    title: "Help and Support",
+  },
+  {
+    icon: IconHeart,
+    link: "/wishlist",
+    title: "Wishlist",
+  },
+  {
+    icon: IconSettings,
+    link: "/settings",
+    title: "Settings",
+  },
 ];
