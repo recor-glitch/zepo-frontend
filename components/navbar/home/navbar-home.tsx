@@ -10,6 +10,8 @@ import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileMenuContent from "./profile-menu-content";
+import { useRouter } from "next/navigation";
+import { NavbarSelectComponent } from "@/components/select";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();
@@ -20,37 +22,17 @@ function NavbarHome() {
     await signIn("google", { redirect: true });
   };
 
+  const router = useRouter();
+
   return (
     <div className="h-24 flex flex-row gap-h justify-between items-center px-h py-v sticky top-0 z-50 bg-bg-primary">
-      <Image src={ZepoLogo} alt="Website logo" className="w-logo h-logo" />
-      <div className="flex flex-row items-center xs:hidden lg:flex gap-h h-full max-w-[34.75rem]">
-        <ul className="flex justify-evenly gap-h items-center w-full">
-          {navItems.map((item, index) => {
-            if (item.type === "SELECT") {
-              return (
-                <select
-                  className="bg-bg-primary text-md-subtitle-primary font-medium"
-                  key={item.title + index}
-                >
-                  <option>{item.title}</option>
-                  {/* {item.selectItems?.map((selectItem, idx) => (
-                    <option key={idx}>{selectItem.title}</option>
-                  ))} */}
-                </select>
-              );
-            } else
-              return (
-                <Link
-                  href={item.link}
-                  className="text-md-subtitle-primary font-medium"
-                  key={`${item.title} + ${index}`}
-                >
-                  {item.title}
-                </Link>
-              );
-          })}
-        </ul>
-      </div>
+      <Image
+        src={ZepoLogo}
+        alt="Website logo"
+        className="w-logo h-logo cursor-pointer"
+        onClick={() => router.replace("/home")}
+      />
+      <NavbarSelectComponent />
       {status === "unauthenticated" && session === null ? (
         <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden lg:flex">
           <button className="outlinedBtn" onClick={handleSignIn}>

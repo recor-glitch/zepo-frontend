@@ -86,13 +86,13 @@ export default async function LaningSection() {
       {/* RIGHT SIDE SECTION */}
       <section className="h-full w-1/2 lg:block hidden">
         <RentCard
-          className="absolute top-[3rem] right-[30rem]"
+          className="absolute top-[3rem] right-[30rem] z-10"
           rent={dummyRoomRent[0]}
           isSmall
           showPopular={false}
         />
         <RentCard
-          className="absolute top-[30rem] right-[10rem]"
+          className="absolute top-[30rem] right-[10rem] z-10"
           rent={dummyRoomRent[dummyRoomRent.length - 1]}
           isSmall
           showPopular={false}
