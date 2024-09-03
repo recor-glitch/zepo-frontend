@@ -33,9 +33,9 @@ const AdminPage = () => {
           </p>
         </div>
         {/* BODY */}
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-default">
+        <div className="grid lg:grid-cols-3 grid-cols-1 gap-default">
           <div
-            className={`md:col-span-2 grid md:grid-cols-3 gap-default ${
+            className={`lg:col-span-2 grid lg:grid-cols-3 gap-default ${
               !allProperties?.data &&
               `flex flex-col justify-center items-center`
             }`}
@@ -64,7 +64,7 @@ const AdminPage = () => {
                 </p>
                 <IconDotsVertical className="text-text-secondary" />
               </div>
-              <div className="flex col-span-4 md:flex-row flex-col w-full h-full gap-4">
+              <div className="flex col-span-4 lg:flex-row flex-col w-full h-full gap-4">
                 <DashboardStatCard
                   title="Income"
                   bgColor="bg-income-card-1-bg"

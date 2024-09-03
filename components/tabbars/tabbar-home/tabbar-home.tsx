@@ -23,7 +23,7 @@ function TabBarHome() {
 
   const handleOnClick = (i: number) => setActiveTab(i);
   return (
-    <div className="flex w-full md:w-sm-container flex-col self-center md:self-start drop-shadow-sm">
+    <div className="flex w-full lg:w-sm-container flex-col self-center lg:self-start drop-shadow-sm">
       <div className="tabbarHome">
         {TabBarItems.map((item, i) => {
           return (
