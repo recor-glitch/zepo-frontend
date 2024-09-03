@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default async function LaningSection() {
   return (
-    <div className="h-body flex justify-between items-center gap-h relative">
+    <div className="md:h-body flex justify-between items-center gap-h relative">
       {/* LEFT SIDE SECTION */}
       <section className="p-h h-full md:w-1/2 w-full flex flex-row md:ml-40">
         <div className="flex md:w-3/4 w-full gap-text-spacing flex-col">
@@ -19,7 +19,7 @@ export default async function LaningSection() {
             A great platform to buy, sell, or even rent your properties without
             any commisions.
           </p>
-          <div className="gap-text-spacing-stats flex absolute md:relative bottom-0 mb-h">
+          <div className="flex gap-default md:relative bottom-0">
             <div className="gap-stat-v-divider flex justify-start items-center">
               <div className="divider-v" />
               <div className="flex flex-col gap-0 justify-start">
@@ -45,6 +45,31 @@ export default async function LaningSection() {
           </div>
           <div className="flex flex-col gap-0">
             <TabBarHome />
+            {/* BROWSER PROPERTIES (FLOATING OVER LEFT SIDE)*/}
+            <div className="browseContainer">
+              <div className="flex flex-col min-w-fit h-fit">
+                <p className="text-text-normal font-medium text-md-subtitle-primary">
+                  Location
+                </p>
+                <p className="text-text-primary font-bold text-md-subtitle-main">
+                  Geetanagar, Panipath
+                </p>
+              </div>
+              <div className="thin-divider-v" />
+              <div className="flex flex-col min-w-fit h-fit">
+                <p className="text-text-normal font-medium text-md-subtitle-primary">
+                  When
+                </p>
+                <span className="flex flex-row gap-2">
+                  <p className="text-text-primary font-bold text-md-subtitle-main">
+                    Select Move-in Date
+                  </p>
+                  <IconCalendar className="text-text-secondary" />
+                </span>
+              </div>
+              <div className="thin-divider-v" />
+              <button className="filledBtn">Browse Properties</button>
+            </div>
             {/* SEARCH FIELD */}
             <div className="searchContainer">
               <input
@@ -83,31 +108,6 @@ export default async function LaningSection() {
           className="absolute md:visible top-0 right-[10rem] h-route-h w-route-w mt-body"
         />
       </section>
-      {/* BROWSER PROPERTIES (FLOATING OVER LEFT SIDE)*/}
-      <div className="browseContainer">
-        <div className="flex flex-col min-w-fit h-fit">
-          <p className="text-text-normal font-medium text-md-subtitle-primary">
-            Location
-          </p>
-          <p className="text-text-primary font-bold text-md-subtitle-main">
-            Geetanagar, Panipath
-          </p>
-        </div>
-        <div className="thin-divider-v" />
-        <div className="flex flex-col min-w-fit h-fit">
-          <p className="text-text-normal font-medium text-md-subtitle-primary">
-            When
-          </p>
-          <span className="flex flex-row gap-2">
-            <p className="text-text-primary font-bold text-md-subtitle-main">
-              Select Move-in Date
-            </p>
-            <IconCalendar className="text-text-secondary" />
-          </span>
-        </div>
-        <div className="thin-divider-v" />
-        <button className="filledBtn">Browse Properties</button>
-      </div>
     </div>
   );
 }

@@ -54,8 +54,8 @@ function RentCard({
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         alt={"Property images"}
         className="flex rounded-t-default w-full h-[52%] object-cover"
-        width={300}
-        height={250}
+        width={100}
+        height={80}
       />
       <div
         className={`flex flex-col ${

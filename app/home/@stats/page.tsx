@@ -5,10 +5,10 @@ import Image from "next/image";
 
 export default function StatSection() {
   return (
-    <div className="md:h-body-stats w-full h-fit flex flex-col md:flex-row justify-between items-center gap-h relative md:px-40 py-20 mb-20">
+    <div className="md:h-body-stats w-full h-fit flex flex-col md:flex-row justify-between items-center gap-h relative md:px-40 py-20">
       <div className="flex w-full h-full flex-col md:flex-row rounded-default bg-ascent">
         {/* LEFT SIDE SECTION */}
-        <section className="pl-lg py-lg h-full md:w-1/2 w-full flex flex-col gap-h">
+        <section className="px-lg h-full md:w-1/2 w-full flex flex-col gap-h">
           <p className="text-md-header text-text-primary font-bold md:w-3/5 w-full">
             The new way to find your new home
           </p>

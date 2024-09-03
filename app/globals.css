@@ -68,7 +68,7 @@ body {
   }
 
   .browseContainer {
-    @apply absolute left-[10.9%] bottom-[12%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container w-md-container z-10 md:flex hidden items-center drop-shadow-sm;
   }
 
   .virtualTourContainer {
@@ -80,7 +80,7 @@ body {
   }
 
   .searchContainer {
-    @apply flex justify-start items-center max-w-[10rem] max-h-[12rem] rounded-default bg-white md:hidden gap-4 p-sm-h;
+    @apply flex justify-between items-center w-full h-[5rem] md:max-w-[10rem] md:max-h-[12rem] rounded-default bg-white md:hidden p-sm-h;
   }
 
   .rentContainer {
