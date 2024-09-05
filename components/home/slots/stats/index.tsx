@@ -3,7 +3,7 @@ import { dummyStatsData } from "@/constants";
 import DummyImg from "@/public/dummy-rent-4.svg";
 import Image from "next/image";
 
-export default function StatSection() {
+export function StatSection() {
   return (
     <div className="lg:h-body-stats w-full h-fit flex flex-col lg:flex-row justify-between items-center gap-h relative lg:px-40 py-20">
       <div className="flex w-full h-full flex-col lg:flex-row rounded-default bg-ascent">

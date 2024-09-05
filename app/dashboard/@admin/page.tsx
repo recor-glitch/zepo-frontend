@@ -1,13 +1,13 @@
 "use client";
 
 import { DashboardStatCard, RentCard } from "@/components/cards";
-import { dummyReviews, dummyRoomRent } from "@/constants";
-import { IconDotsVertical } from "@tabler/icons-react";
-import Image from "next/image";
-import DummyAvatar from "@/public/dummy-avatar.svg";
 import { AdminNavbar } from "@/components/navbar";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
+import { dummyReviews } from "@/constants";
+import DummyAvatar from "@/public/dummy-avatar.svg";
 import { useGetAllProperties } from "@/query/propertyQuery";
+import { IconDotsVertical } from "@tabler/icons-react";
+import Image from "next/image";
 
 const AdminPage = () => {
   const {

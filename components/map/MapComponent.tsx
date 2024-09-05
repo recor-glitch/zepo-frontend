@@ -139,7 +139,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   return (
     <div
       ref={mapRef}
-      style={{ width: "100%", height: "400px", cursor: "pointer" }}
+      style={{ width: "100%", height: "100%", cursor: "pointer" }}
     ></div>
   );
 };

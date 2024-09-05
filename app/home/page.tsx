@@ -1,3 +1,21 @@
+import {
+  BrowsePropertySection,
+  LaningSection,
+  ReachOutSection,
+  StatSection,
+  TestimonialSection,
+  TourSection,
+} from "@/components/home";
+
 export default async function Home() {
-  return <></>;
+  return (
+    <>
+      <LaningSection />
+      <TourSection />
+      <StatSection />
+      <BrowsePropertySection />
+      <TestimonialSection />
+      <ReachOutSection />
+    </>
+  );
 }

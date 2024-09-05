@@ -5,6 +5,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
+import { ThemeModeScript } from "flowbite-react";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
@@ -15,6 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <ThemeModeScript />
+      </head>
       <body className={jakarta.className}>
         <ReactQueryProvider>
           <NextAuthSessionProvider>

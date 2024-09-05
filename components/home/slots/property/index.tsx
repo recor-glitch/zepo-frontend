@@ -4,7 +4,7 @@ import { RentCard } from "@/components/cards";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { useGetAllProperties } from "@/query/propertyQuery";
 
-export default function LaningSection() {
+export function BrowsePropertySection() {
   const { data, isLoading } = useGetAllProperties({});
 
   return (
@@ -31,7 +31,7 @@ export default function LaningSection() {
             <RentCard rent={rent} showLike key={rent.title + index} />
           ))
         ) : (
-          <>Something went wrong</>
+          <>No property listed yet</>
         )}
       </div>
     </div>

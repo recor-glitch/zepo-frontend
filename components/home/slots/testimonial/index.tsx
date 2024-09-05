@@ -1,6 +1,6 @@
 import { ProfileAvatar } from "@/components/avatar";
 
-export default function TestimonialSection() {
+export function TestimonialSection() {
   return (
     <div className="w-full h-fit flex flex-col justify-between items-center gap-md lg:py-lg lg:px-huge px-sm-h mb-20">
       <div className="flex flex-col justify-center items-center gap-default text-center">

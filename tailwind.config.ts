@@ -1,11 +1,14 @@
 import type { Config } from "tailwindcss";
 
+const flowbite = require("flowbite-react/tailwind");
+
 const config: Config = {
   darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    flowbite.content(),
   ],
   theme: {
     screens: {
@@ -165,7 +168,7 @@ const config: Config = {
         icon: "2rem",
         "route-w": "15.344rem",
         "sm-container": "18.563rem",
-        "md-container": "48.938rem",
+        "md-container": "51.5rem",
         "detail-container": "9.313rem",
         logo: "8.375rem",
         tab: "4rem",
@@ -198,6 +201,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbite.plugin()],
 };
 export default config;

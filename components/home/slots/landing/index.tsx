@@ -6,7 +6,7 @@ import RouteImg from "@/public/route.svg";
 import { IconCalendar, IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 
-export default async function LaningSection() {
+export async function LaningSection() {
   return (
     <div className="lg:h-body flex justify-between items-center gap-h relative">
       {/* LEFT SIDE SECTION */}
@@ -68,7 +68,7 @@ export default async function LaningSection() {
                 </span>
               </div>
               <div className="thin-divider-v" />
-              <button className="filledBtn">Browse Properties</button>
+              <button className="filledBtn">Browse&nbsp;Properties</button>
             </div>
             {/* SEARCH FIELD */}
             <div className="searchContainer">

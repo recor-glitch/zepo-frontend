@@ -5,7 +5,7 @@ import HomeIcon from "@/public/home.svg";
 import { OutlinedTab } from "@/components/tabbars";
 import { IconChevronRight } from "@tabler/icons-react";
 
-export default function TourSection() {
+export function TourSection() {
   return (
     <div className="lg:h-body-tour h-fit flex flex-col lg:flex-row justify-between items-center gap-h relative mb-20">
       {/* FLOATING VIRTUAL HOME TOUR BANNER */}
