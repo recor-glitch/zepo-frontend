@@ -1,9 +1,11 @@
 "use client";
 
+import { ImageCarousel } from "@/components/carousel";
 import { MapComponent } from "@/components/map";
 import { rupee } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
+import DummyImage from "@/public/dummy_property.png";
 import WashIcon from "@/public/wash-icon.svg";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
 import {
@@ -12,6 +14,7 @@ import {
   IconArrowLeft,
   IconArrowNarrowRight,
   IconBrandAsana,
+  IconCalendarCheck,
   IconCalendarMonth,
   IconFlame,
   IconHeart,
@@ -20,6 +23,8 @@ import {
   IconPlugConnected,
   IconProps,
   IconRipple,
+  IconTag,
+  IconTimeline,
   IconUsers,
 } from "@tabler/icons-react";
 import Image from "next/image";
@@ -85,7 +90,7 @@ const dummyRent: IPropertyDto = {
 
 const PropertyDetailPage = (rent: IPropertyDto) => {
   return (
-    <div className="flex flex-col lg:grid grid-cols-3 grid-rows-12 gap-default w-full px-default lg:px-[15rem] py-default">
+    <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-12 gap-default px-default 2xl:px-[15rem] py-default">
       <div className="col-span-3 row-span-1 flex justify-between items-center">
         <div className="rounded-full border-2 p-2">
           <IconArrowLeft
@@ -116,13 +121,7 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
         </button>
       </div>
       <div className="col-span-1 row-span-5 rounded-default overflow-hidden">
-        <Image
-          src={dummyRent.images[0]}
-          alt="Dummy image"
-          className="h-full w-full object-fill"
-          height={100}
-          width={200}
-        />
+        <ImageCarousel />
       </div>
       <div className="col-span-2 row-span-5 flex flex-col gap-default p-default">
         <div className="flex flex-col gap-default">
@@ -133,7 +132,7 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
         </div>
         <div className="flex-col gap-default flex-grow">
           <p className="font-bold text-text-primary">Details</p>
-          <div className="flex flex-wrap gap-default">
+          <div className="flex flex-wrap gap-default py-default">
             {tags.map((tag) => (
               <div className="rounded-full flex gap-default border-2 p-sm justify-center items-center">
                 <tag.icon className="text-text-secondary" />
@@ -142,6 +141,52 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
                 </p>
               </div>
             ))}
+          </div>
+          <div className="flex gap-default justify-between items-center flex-wrap py-default">
+            <div className="flex flex-col">
+              <div className="inline-flex items-center gap-2 justify-start">
+                <IconTag className="text-text-secondary" />
+                <p className="text-md-subtitle-primary font-bold text-text-secondary">
+                  Discounted Price
+                </p>
+              </div>
+              <p className="text-md-subtitle-main font-bold text-primary">
+                {`${rupee}`} {dummyRent.amount}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className="inline-flex items-center gap-2 justify-start">
+                <IconTag className="text-text-secondary" />
+                <p className="text-md-subtitle-primary font-bold text-text-secondary">
+                  Actual Price
+                </p>
+              </div>
+              <p className="text-md-subtitle-main font-bold text-primary">
+                {rupee} {dummyRent.amount! + 500}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className="inline-flex items-center gap-2 justify-start">
+                <IconTimeline className="text-text-secondary" />
+                <p className="text-md-subtitle-primary font-bold text-text-secondary">
+                  Tenure
+                </p>
+              </div>
+              <p className="text-md-subtitle-main font-bold text-primary">
+                {dummyRent.period?.toLocaleLowerCase()}
+              </p>
+            </div>
+            <div className="flex flex-col">
+              <div className="inline-flex items-center gap-2 justify-start">
+                <IconCalendarCheck className="text-text-secondary" />
+                <p className="text-md-subtitle-primary font-bold text-text-secondary">
+                  Listed
+                </p>
+              </div>
+              <p className="text-md-subtitle-main font-bold text-primary">
+                21 days ago
+              </p>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-default">
@@ -262,12 +307,12 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
         </div>
       </div>
       {/* MAP */}
-      <div className="col-span-2 row-span-4">
+      <div className="col-span-2 row-span-4 rounded-lg overflow-hidden">
         <MapComponent defaultPosition={{ lat: 0, lon: 0 }} />
       </div>
       <div className="col-span-3 row-span-2 p-default flex border flex-col gap-default">
-        <p className="font-bold text-text-primary">Inspection Times</p>
-        <p className="font-medium text-text-secondary text-md-subtitle-secondary line-clamp-1 overflow-hidden text-ellipsis">
+        <p className="font-bold text-text-primary">Property Information</p>
+        <p className="font-medium text-text-secondary text-md-subtitle-secondary line-clamp-1 overflow-hidden text-ellipsis lg:w-2/3">
           {dummyRent.description}
         </p>
       </div>
