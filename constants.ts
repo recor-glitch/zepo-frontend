@@ -15,8 +15,16 @@ import {
   IconSettings,
   IconLifebuoy,
   IconHeart,
+  Icon,
+  IconBrandAsana,
+  IconFlame,
+  IconPaw,
+  IconPlugConnected,
+  IconProps,
+  IconRipple,
 } from "@tabler/icons-react";
 import { IBannerPropertyResponse } from "./type/dto/property/property-dto";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
 
 // CURRENCY
 export const rupee = "₹";
@@ -45,6 +53,7 @@ export const dummyRoomRent: IBannerPropertyResponse[] = [
     washroom_count: 2,
     washroom_type: "SHARED",
     title: "Beverly Springfield",
+    id: 0,
   },
   {
     images: ["/dummy-rent-9.svg"],
@@ -67,6 +76,7 @@ export const dummyRoomRent: IBannerPropertyResponse[] = [
     washroom_count: 2,
     washroom_type: "SHARED",
     title: "Beverly Springfield",
+    id: 0,
   },
   {
     images: ["/dummy-rent-2.svg"],
@@ -89,6 +99,7 @@ export const dummyRoomRent: IBannerPropertyResponse[] = [
     washroom_count: 2,
     washroom_type: "SHARED",
     title: "Beverly Springfield",
+    id: 0,
   },
   {
     images: ["/dummy-rent-5.svg"],
@@ -111,6 +122,7 @@ export const dummyRoomRent: IBannerPropertyResponse[] = [
     washroom_count: 2,
     washroom_type: "SHARED",
     title: "Beverly Springfield",
+    id: 0,
   },
 ];
 
@@ -407,5 +419,35 @@ export const profileMenuItems: IDashboardNavItem[] = [
     icon: IconSettings,
     link: "/settings",
     title: "Settings",
+  },
+];
+
+export const tags: {
+  title: string;
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+}[] = [
+  {
+    icon: IconUsers,
+    title: "4 Adults",
+  },
+  {
+    icon: IconPaw,
+    title: "Pets Allowed",
+  },
+  {
+    icon: IconRipple,
+    title: "Lake nearby",
+  },
+  {
+    icon: IconPlugConnected,
+    title: "Unsecluded",
+  },
+  {
+    icon: IconFlame,
+    title: "Bonfire",
+  },
+  {
+    icon: IconBrandAsana,
+    title: "Sauna",
   },
 ];

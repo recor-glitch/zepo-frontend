@@ -1,6 +1,7 @@
 import { IAddressDetails, propertyContextDto } from "@/type/app";
 import {
   IAllPropertyResponse,
+  IPropertyByIdResponse,
   IPropertyDto,
   IPropertyUpdateDto,
 } from "@/type/dto/property/property-dto";
@@ -39,6 +40,14 @@ export async function UpdateProperty(
 
 export async function GetAllProperties(): Promise<IAllPropertyResponse> {
   const res = await axiosInstance.get(`/property`);
+
+  return res.data;
+}
+
+export async function GetPropertyById(
+  id: string
+): Promise<IPropertyByIdResponse> {
+  const res = await axiosInstance.get(`/property/${id}`);
 
   return res.data;
 }

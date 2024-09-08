@@ -247,7 +247,7 @@ const AddressForm = () => {
             </p>
           )}
         </div>
-        <div className=" flex flex-col justify-center items-center col-span-2 gap-default">
+        <div className=" flex flex-col justify-center items-center col-span-2 gap-default min-h-80">
           <MapComponent onLocationSelect={setCoords} defaultPosition={coords} />
           <div className="flex col-span-2 gap-default justify-start items-center w-full">
             <button

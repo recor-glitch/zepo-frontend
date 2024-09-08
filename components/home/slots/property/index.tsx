@@ -28,7 +28,7 @@ export function BrowsePropertySection() {
           [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
         ) : data && data.data ? (
           data.data?.map((rent, index) => (
-            <RentCard rent={rent} showLike key={rent.title + index} />
+            <RentCard rent={rent} clickable showLike key={rent.title + index} />
           ))
         ) : (
           <>No property listed yet</>

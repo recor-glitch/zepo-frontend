@@ -2,63 +2,25 @@
 
 import { ImageCarousel } from "@/components/carousel";
 import { MapComponent } from "@/components/map";
-import { rupee } from "@/constants";
+import { rupee, tags } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
-import DummyImage from "@/public/dummy_property.png";
 import WashIcon from "@/public/wash-icon.svg";
+import { useGetPropertyById } from "@/query/propertyQuery";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
 import {
-  Icon,
   IconAdjustmentsDollar,
   IconArrowLeft,
   IconArrowNarrowRight,
-  IconBrandAsana,
   IconCalendarCheck,
   IconCalendarMonth,
-  IconFlame,
   IconHeart,
-  IconPaw,
   IconPhoneCall,
-  IconPlugConnected,
-  IconProps,
-  IconRipple,
   IconTag,
   IconTimeline,
-  IconUsers,
 } from "@tabler/icons-react";
 import Image from "next/image";
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-
-const tags: {
-  title: string;
-  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
-}[] = [
-  {
-    icon: IconUsers,
-    title: "4 Adults",
-  },
-  {
-    icon: IconPaw,
-    title: "Pets Allowed",
-  },
-  {
-    icon: IconRipple,
-    title: "Lake nearby",
-  },
-  {
-    icon: IconPlugConnected,
-    title: "Unsecluded",
-  },
-  {
-    icon: IconFlame,
-    title: "Bonfire",
-  },
-  {
-    icon: IconBrandAsana,
-    title: "Sauna",
-  },
-];
+import { usePathname, useRouter } from "next/navigation";
 
 const dummyRent: IPropertyDto = {
   id: 10,
@@ -89,10 +51,33 @@ const dummyRent: IPropertyDto = {
 };
 
 const PropertyDetailPage = (rent: IPropertyDto) => {
+  const path = usePathname();
+
+  const paths = path.split("/");
+  const paramId = paths[paths.length - 1];
+
+  console.log({ paramId });
+
+  const { data, refetch, error, isError, isSuccess, isLoading } =
+    useGetPropertyById({
+      id: paramId,
+    });
+
+  console.log({ data });
+
+  const router = useRouter();
+
+  const handleBack = () => {
+    router.back();
+  };
+
   return (
     <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-12 gap-default px-default 2xl:px-[15rem] py-default">
       <div className="col-span-3 row-span-1 flex justify-between items-center">
-        <div className="rounded-full border-2 p-2">
+        <div
+          className="rounded-full border-2 p-2 cursor-pointer"
+          onClick={handleBack}
+        >
           <IconArrowLeft
             className="text-text-secondary"
             height={25}

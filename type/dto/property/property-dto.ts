@@ -87,6 +87,7 @@ export interface IPropertyUpdateDto {
 }
 
 export interface IBannerPropertyResponse {
+  id: number;
   images: string[];
   description: string;
   amount: number;
@@ -110,6 +111,11 @@ export interface IBannerPropertyResponse {
 
 export interface IAllPropertyResponse {
   data?: IBannerPropertyResponse[];
+  statusCode: number;
+}
+
+export interface IPropertyByIdResponse {
+  data?: IPropertyDto;
   statusCode: number;
 }
 
