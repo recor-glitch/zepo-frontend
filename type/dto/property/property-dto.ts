@@ -1,11 +1,11 @@
 import {
   CurrencyType,
-  IAddressDetails,
   PeriodType,
   RoomType,
   SizeType,
   WashRoomType,
 } from "@/type/app";
+import { IAddressDetails } from "../address/address-dto";
 
 export interface IPropertyDto {
   id?: number;
@@ -115,7 +115,7 @@ export interface IAllPropertyResponse {
 }
 
 export interface IPropertyByIdResponse {
-  data?: IPropertyDto;
+  data?: { property: IPropertyDto; address: IAddressDetails };
   statusCode: number;
 }
 
