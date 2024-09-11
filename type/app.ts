@@ -5,6 +5,7 @@ import { Action } from "@/context/user/action";
 import { Icon, IconProps } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 import { IPropertyFormDto } from "./dto/property/property-dto";
+import { IAddressDetails } from "./dto/address/address-dto";
 
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
 
@@ -205,19 +206,6 @@ export interface IPropertyInfo {
   price: number;
   currency?: CurrencyType;
   period?: PeriodType;
-}
-
-export interface IAddressDetails {
-  id?: number;
-  label: string;
-  street_address: string;
-  city: string;
-  state: string;
-  country: string;
-  postal_code: string;
-  property_id?: number;
-  latitude: number;
-  longitude: number;
 }
 
 export interface IBenifitsAndExtra {

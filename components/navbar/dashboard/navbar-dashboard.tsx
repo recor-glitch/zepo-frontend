@@ -5,7 +5,7 @@ import DashboardItemSkeleton from "@/components/skeletons/cards/dashboard-items"
 import { dashboardAdminNavItems } from "@/constants";
 import DummyAvatar from "@/public/dummy-avatar.svg";
 import { IconLogout } from "@tabler/icons-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -45,7 +45,12 @@ const NavbarDashboard = () => {
             ))}
           </div>
           <div className="divider-h" />
-          <div className="flex w-full gap-8 justify-start items-center">
+          <div
+            className="flex w-full gap-8 justify-start items-center cursor-pointer"
+            onClick={() => {
+              signOut();
+            }}
+          >
             <IconLogout />
             <p className="text-md-subtitle-main font-bold text-text-secondary">
               Logout

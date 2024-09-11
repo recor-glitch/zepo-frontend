@@ -1,14 +1,40 @@
 import {
   CurrencyType,
-  IAddressDetails,
   PeriodType,
   RoomType,
   SizeType,
   WashRoomType,
 } from "@/type/app";
+import { IAddressDetails } from "../address/address-dto";
 
 export interface IPropertyDto {
   id?: number;
+  title: string;
+  images: string[];
+  description: string;
+  is_popular: boolean;
+  amenities: string[];
+  property_type: string;
+  like_count: number;
+  review_id?: number;
+  host_id: string;
+  bed?: number;
+  hall?: number;
+  kitchen?: number;
+  balcony?: number;
+  washroom_type: string;
+  washroom_count: number;
+  property_width?: number;
+  property_length?: number;
+  unit?: string;
+  currency?: string;
+  amount?: number;
+  period?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+export interface IPropertyDtoWithIdRequired {
+  id: number;
   title: string;
   images: string[];
   description: string;
@@ -87,6 +113,7 @@ export interface IPropertyUpdateDto {
 }
 
 export interface IBannerPropertyResponse {
+  id: number;
   images: string[];
   description: string;
   amount: number;
@@ -110,6 +137,11 @@ export interface IBannerPropertyResponse {
 
 export interface IAllPropertyResponse {
   data?: IBannerPropertyResponse[];
+  statusCode: number;
+}
+
+export interface IPropertyByIdResponse {
+  data?: { property: IPropertyDtoWithIdRequired; address: IAddressDetails };
   statusCode: number;
 }
 

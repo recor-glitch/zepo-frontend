@@ -2,13 +2,10 @@
 
 import { useSaveToWaitlist } from "@/mutation/waitlistMutation";
 import { IconLoader } from "@tabler/icons-react";
-import {
-  MouseEventHandler,
-  useState
-} from "react";
+import { MouseEventHandler, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function ReachOutSection() {
+export function ReachOutSection() {
   const [email, setEmail] = useState<string>("");
 
   const { refetch, data, isSuccess, isLoading, error, isError } =
@@ -31,7 +28,7 @@ export default function ReachOutSection() {
 
     try {
       if (email.length === 0) {
-        toast.error("Please add your email address")
+        toast.error("Please add your email address");
         return;
       }
       await refetch();
@@ -39,7 +36,7 @@ export default function ReachOutSection() {
   };
 
   return (
-    <div className="w-full h-fit flex flex-col justify-between items-center text-center gap-h py-lg md:px-huge px-sm-h mb-20 bg-primary-dark">
+    <div className="w-full h-fit flex flex-col justify-between items-center text-center gap-h py-lg lg:px-huge px-sm-h mb-20 bg-primary-dark">
       {/* <p className="text-md-title text-primary font-bold">Join our community</p> */}
       <div className="flex flex-col gap-default">
         <p className="text-md-header text-white font-bold">Join our waitlist</p>
@@ -47,7 +44,7 @@ export default function ReachOutSection() {
           Are you ready to get home from inovative rent owners
         </p>
       </div>
-      <div className="hidden flex-col gap-default w-full md:flex">
+      <div className="hidden flex-col gap-default w-full lg:flex">
         {/* SEARCH FIELD */}
         <div className="flex justify-between items-center w-full rounded-default px-sm-h bg-white">
           <input
@@ -78,7 +75,7 @@ export default function ReachOutSection() {
         </span>
       </div>
       {/* SEARCH FIELD */}
-      <div className="flex  md:hidden flex-col justify-between items-center gap-v w-full">
+      <div className="flex  lg:hidden flex-col justify-between items-center gap-v w-full">
         <div className="flex justify-between items-center w-full rounded-default px-sm-h bg-white">
           <input
             name="email"

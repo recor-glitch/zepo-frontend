@@ -1,3 +1,5 @@
+"use client";
+
 import { dollar, rupee } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
@@ -8,6 +10,7 @@ import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export interface rentProps {
   className?: string;
@@ -16,6 +19,7 @@ export interface rentProps {
   isLiked?: boolean;
   showLike?: boolean;
   showPopular?: boolean;
+  clickable?: boolean;
 }
 
 function RentCard({
@@ -25,13 +29,16 @@ function RentCard({
   isLiked = false,
   showLike = false,
   showPopular = true,
+  clickable = false,
 }: rentProps) {
+  const router = useRouter();
   return (
     <div
       className={`rentContainer ${
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
-      } ${className}`}
+      } ${className} ${clickable && "cursor-pointer"}`}
       id={rent.title + rent.description}
+      onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (
@@ -54,8 +61,8 @@ function RentCard({
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         alt={"Property images"}
         className="flex rounded-t-default w-full h-[52%] object-cover"
-        width={300}
-        height={250}
+        width={100}
+        height={80}
       />
       <div
         className={`flex flex-col ${

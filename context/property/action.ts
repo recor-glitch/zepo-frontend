@@ -1,7 +1,8 @@
-import { FormStatus, IAddressDetails, IBenifitsAndExtra } from "@/type/app";
+import { FormStatus, IBenifitsAndExtra } from "@/type/app";
+import { IAddressDetails } from "@/type/dto/address/address-dto";
 import {
   IPropertyFormDto,
-  IPropertyUpdateDto
+  IPropertyUpdateDto,
 } from "@/type/dto/property/property-dto";
 
 type SetPropertyInfo = {

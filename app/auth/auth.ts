@@ -104,5 +104,5 @@ export const nextAuthOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
-  secret: "abcd12345",
+  secret: process.env.GOOGLE_SIGNIN_SECRET || "abcdefghijklmnopqrstuv",
 };

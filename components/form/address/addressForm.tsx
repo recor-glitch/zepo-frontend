@@ -2,7 +2,8 @@
 
 import { MapComponent } from "@/components/map";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
-import { IAddressDetails, WashRoomType } from "@/type/app";
+import { WashRoomType } from "@/type/app";
+import { IAddressDetails } from "@/type/dto/address/address-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -66,8 +67,8 @@ const AddressForm = () => {
       city: data.city,
       country: data.country,
       label: data.label,
-      latitude: coords.lat,
-      longitude: coords.lon,
+      latitude: coords.lat.toString(),
+      longitude: coords.lon.toString(),
       postal_code: data.postalCode?.toString() ?? "",
       property_id: propertyInfo?.id,
       state: data.state,
@@ -95,8 +96,8 @@ const AddressForm = () => {
   useEffect(() => {
     if (status === "EDIT" && addressDetails) {
       setCoords({
-        lat: addressDetails.latitude,
-        lon: addressDetails.longitude,
+        lat: Number(addressDetails.latitude),
+        lon: Number(addressDetails.longitude),
       });
     } else navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);
   });
@@ -247,7 +248,7 @@ const AddressForm = () => {
             </p>
           )}
         </div>
-        <div className=" flex flex-col justify-center items-center col-span-2 gap-default">
+        <div className=" flex flex-col justify-center items-center col-span-2 gap-default min-h-80">
           <MapComponent onLocationSelect={setCoords} defaultPosition={coords} />
           <div className="flex col-span-2 gap-default justify-start items-center w-full">
             <button

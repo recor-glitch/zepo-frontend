@@ -5,9 +5,9 @@ import HomeIcon from "@/public/home.svg";
 import { OutlinedTab } from "@/components/tabbars";
 import { IconChevronRight } from "@tabler/icons-react";
 
-export default function TourSection() {
+export function TourSection() {
   return (
-    <div className="md:h-body-tour h-fit flex flex-col md:flex-row justify-between items-center gap-h relative mb-20">
+    <div className="lg:h-body-tour h-fit flex flex-col lg:flex-row justify-between items-center gap-h relative mb-20">
       {/* FLOATING VIRTUAL HOME TOUR BANNER */}
       <div className="virtualTourContainer">
         <div className="rounded-full border-2 border-primary-light bg-ascent p-default">
@@ -39,8 +39,8 @@ export default function TourSection() {
         </div>
       </div>
       {/* LEFT SIDE SECTION */}
-      <section className="p-h h-full md:w-1/2 w-full flex flex-row md:ml-40 md:my-[6.25rem]">
-        <div className="flex md:w-3/4 w-full gap-text-spacing flex-col rounded-ss overflow-hidden">
+      <section className="p-h h-full lg:w-1/2 w-full flex flex-row lg:ml-40 lg:my-[6.25rem]">
+        <div className="flex lg:w-3/4 w-full gap-text-spacing flex-col rounded-ss overflow-hidden">
           <Image
             src={DummyRoomImage}
             alt="Dummy room image 3"
@@ -49,19 +49,19 @@ export default function TourSection() {
         </div>
       </section>
       {/* RIGHT SIDE SECTION */}
-      <section className="h-full md:w-1/2 w-full flex flex-col justify-center md:items-start items-center gap-sm px-sm-h md:p-0 text-center md:text-left">
+      <section className="h-full lg:w-1/2 w-full flex flex-col justify-center lg:items-start items-center gap-sm px-sm-h lg:p-0 text-center lg:text-left">
         <OutlinedTab
           tabs={[{ title: "For tenants" }, { title: "For landlords" }]}
         />
-        <p className="text-md-header text-text-primary font-bold md:w-3/5 w-full">
+        <p className="text-md-header text-text-primary font-bold lg:w-3/5 w-full">
           We make it easy for tenants and landlords.
         </p>
-        <p className="text-subtitle-primary text-text-secondary-dark font-medium md:w-3/5 w-full">
+        <p className="text-subtitle-primary text-text-secondary-dark font-medium lg:w-3/5 w-full">
           Whether it’s selling your current home, getting financing, or buying a
           new home, we make it easy and efficient. The best part? you’ll save a
           bunch of money and time with our services.
         </p>
-        <button className="filledBtn md:w-fit w-full flex justify-center">
+        <button className="filledBtn lg:w-fit w-full flex justify-center">
           <span className="flex gap-xs text-white text-subtitle-primary">
             See more <IconChevronRight />
           </span>

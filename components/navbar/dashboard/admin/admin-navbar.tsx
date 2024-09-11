@@ -23,7 +23,7 @@ const AdminNavbar = () => {
         </div>
       </div>
       {/* SEARCH FIELDS */}
-      <div className="grid-cols-5 gap-default w-full md:grid hidden">
+      <div className="grid-cols-5 gap-default w-full lg:grid hidden">
         <div className="flex col-span-1 justify-between items-center rounded-full px-sm-h bg-white border">
           <input
             name="search"
