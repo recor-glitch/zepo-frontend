@@ -59,6 +59,7 @@ function RentCard({
       )}
       <Image
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
+        unoptimized
         alt={"Property images"}
         className="flex rounded-t-default w-full h-[52%] object-cover"
         width={100}
