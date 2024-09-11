@@ -1,6 +1,8 @@
 import { SaveAddress } from "@/services/address-service/address-service";
-import { IAddressDetails } from "@/type/app";
-import { IAddressResponse } from "@/type/dto/address/address-dto";
+import {
+  IAddressDetails,
+  IAddressResponse,
+} from "@/type/dto/address/address-dto";
 import { UseMutationOptions, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 

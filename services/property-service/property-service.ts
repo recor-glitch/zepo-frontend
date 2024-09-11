@@ -1,4 +1,5 @@
-import { IAddressDetails, propertyContextDto } from "@/type/app";
+import { propertyContextDto } from "@/type/app";
+import { IAddressDetails } from "@/type/dto/address/address-dto";
 import {
   IAllPropertyResponse,
   IPropertyByIdResponse,

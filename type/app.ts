@@ -208,8 +208,6 @@ export interface IPropertyInfo {
   period?: PeriodType;
 }
 
-
-
 export interface IBenifitsAndExtra {
   amenities: string[];
   propertySize: {

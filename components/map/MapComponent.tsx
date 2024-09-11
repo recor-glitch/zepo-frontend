@@ -3,9 +3,10 @@ import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
 import { Tile as TileLayer } from "ol/layer";
-import { fromLonLat, toLonLat } from "ol/proj";
+import { fromLonLat } from "ol/proj";
 import OSM from "ol/source/OSM";
-import { defaults as defaultControls } from "ol/control";
+import { defaults as defaultControls, Control } from "ol/control";
+import { defaults as defaultInteractions } from "ol/interaction";
 import { Vector as VectorLayer } from "ol/layer";
 import { Vector as VectorSource } from "ol/source";
 import { Point } from "ol/geom";
@@ -17,11 +18,13 @@ interface MapComponentProps {
     React.SetStateAction<{ lat: number; lon: number }>
   >;
   defaultPosition?: { lat: number; lon: number };
+  disableInteractions?: boolean; // Flag to disable interactions
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
   onLocationSelect,
   defaultPosition,
+  disableInteractions = false, // Default is false (interactions enabled)
 }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
@@ -39,7 +42,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           center: fromLonLat(
             defaultPosition
               ? [defaultPosition.lon, defaultPosition.lat]
-              : [0, 0] // Default to India's center
+              : [0, 0]
           ),
           zoom: 12,
         }),
@@ -48,10 +51,13 @@ const MapComponent: React.FC<MapComponentProps> = ({
             collapsible: true,
           },
         }),
+        interactions: disableInteractions
+          ? [] // Disable all interactions
+          : defaultInteractions(), // Enable default interactions
       });
 
+      // Add default marker if provided
       if (defaultPosition) {
-        // Place a marker at the default position
         const defaultCoords = fromLonLat([
           defaultPosition.lon,
           defaultPosition.lat,
@@ -61,7 +67,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
           geometry: new Point(defaultCoords),
         });
 
-        // Create a marker style
         defaultMarker.setStyle(
           new Style({
             image: new Icon({
@@ -71,7 +76,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
           })
         );
 
-        // Add the marker to a vector layer
         const vectorSource = new VectorSource({
           features: [defaultMarker],
         });
@@ -83,63 +87,62 @@ const MapComponent: React.FC<MapComponentProps> = ({
         initialMap.addLayer(vectorLayer);
       }
 
-      initialMap.on("singleclick", function (evt) {
-        const coords = evt.coordinate;
-        const lonLat = toLonLat(coords);
-        const [lon, lat] = lonLat;
+      // Click interaction for selecting location
+      if (!disableInteractions) {
+        initialMap.on("singleclick", function (evt) {
+          const coords = evt.coordinate;
+          const lonLat = fromLonLat(coords);
+          const [lon, lat] = lonLat;
 
-        // Place a marker at the clicked position
-        const marker = new Feature({
-          geometry: new Point(coords),
-        });
-
-        // Create a marker style
-        marker.setStyle(
-          new Style({
-            image: new Icon({
-              src: "/marker.png",
-              anchor: [0.5, 1],
-            }),
-          })
-        );
-
-        // Add the marker to a vector layer
-        const vectorSource = new VectorSource({
-          features: [marker],
-        });
-
-        const vectorLayer = new VectorLayer({
-          source: vectorSource,
-        });
-
-        // Clear previous markers and add the new one
-        initialMap
-          .getLayers()
-          .getArray()
-          .forEach((layer) => {
-            if (layer instanceof VectorLayer) {
-              initialMap.removeLayer(layer);
-            }
+          const marker = new Feature({
+            geometry: new Point(coords),
           });
 
-        initialMap.addLayer(vectorLayer);
+          marker.setStyle(
+            new Style({
+              image: new Icon({
+                src: "/marker.png",
+                anchor: [0.5, 1],
+              }),
+            })
+          );
 
-        // Send the coordinates to the parent component
-        if (onLocationSelect) {
-          onLocationSelect({ lon, lat });
-        }
-      });
+          const vectorSource = new VectorSource({
+            features: [marker],
+          });
+
+          const vectorLayer = new VectorLayer({
+            source: vectorSource,
+          });
+
+          initialMap
+            .getLayers()
+            .getArray()
+            .forEach((layer) => {
+              if (layer instanceof VectorLayer) {
+                initialMap.removeLayer(layer);
+              }
+            });
+
+          initialMap.addLayer(vectorLayer);
+
+          if (onLocationSelect) {
+            onLocationSelect({ lon, lat });
+          }
+        });
+      }
 
       setMap(initialMap);
 
       return () => initialMap.setTarget(undefined);
     }
-  }, [onLocationSelect, defaultPosition]);
+  }, [onLocationSelect, defaultPosition, disableInteractions]);
 
   return (
     <div
       ref={mapRef}
-      style={{ width: "100%", height: "100%", cursor: "pointer" }}
+      className="relative w-full h-64 sm:h-96" // Responsive height
+      style={{ cursor: "pointer" }}
     ></div>
   );
 };

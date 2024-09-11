@@ -2,12 +2,12 @@
 
 import { ImageCarousel } from "@/components/carousel";
 import { MapComponent } from "@/components/map";
+import { ReadMoreComponent } from "@/components/typography";
 import { rupee, tags } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { useGetPropertyById } from "@/query/propertyQuery";
-import { IPropertyDto } from "@/type/dto/property/property-dto";
 import {
   IconAdjustmentsDollar,
   IconArrowLeft,
@@ -21,38 +21,10 @@ import {
 } from "@tabler/icons-react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import PropertyLoadingPage from "./loading";
 import PropertyDetailErrorPage from "./error";
+import PropertyLoadingPage from "./loading";
 
-const dummyRent: IPropertyDto = {
-  id: 10,
-  description:
-    "Indulge in the epitome of luxury living with this stunning waterfront penthouse, where modern sophistication meets timeless elegance. Nestled on the top floor of an exclusive high-rise, this exquisite residence offers unparalleled panoramic ocean views from every room.\n\nSpanning over 4,000 square feet, the penthouse features a grand open-concept living area with floor-to-ceiling windows, filling the space with natural light and breathtaking vistas. The gourmet chef's kitchen, equipped with top-of-the-line appliances and custom cabinetry, is perfect for both intimate dinners and grand entertaining.\n\nRetreat to the opulent master suite, complete with a private balcony, spa-inspired bathroom, and expansive walk-in closet. Additional bedrooms are generously sized, each with its own luxurious en-suite bathroom.\n\nStep outside to the private rooftop terrace, a true sanctuary with a plunge pool, outdoor kitchen, and multiple lounging areas, all designed to offer the ultimate in relaxation and privacy.\n\nThis penthouse is located in a prestigious building with world-class amenities, including a 24-hour concierge, state-of-the-art fitness center, infinity pool, and private beach access. Situated just minutes from fine dining, shopping, and cultural attractions, this property offers a lifestyle of convenience and unparalleled luxury.\n\nExperience the height of sophistication and the beauty of oceanfront living in this extraordinary penthouse.",
-  images: [
-    "https://res.cloudinary.com/dpw6hr94k/image/upload/v1724869198/property/dj6yhyzojdjtvdo1i5fs.png",
-    "https://res.cloudinary.com/dpw6hr94k/image/upload/v1724869199/property/axyng79sftb8cgl7g0sj.png",
-  ],
-  is_popular: false,
-  property_type: "VILLA",
-  like_count: 0,
-  title: "Elegant Waterfront Penthouse with Panoramic Ocean Views",
-  bed: 2,
-  hall: 1,
-  kitchen: 1,
-  balcony: 1,
-  washroom_type: "ATTACHED",
-  washroom_count: 1,
-  property_width: 42,
-  property_length: 56,
-  unit: "FEET",
-  currency: "INR",
-  period: "MONTHLY",
-  amount: 1500,
-  amenities: [],
-  host_id: "",
-};
-
-const PropertyDetailPage = (rent: IPropertyDto) => {
+const PropertyDetailPage = () => {
   const path = usePathname();
 
   const paths = path.split("/");
@@ -111,15 +83,17 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
             </span>
           </button>
         </div>
-        <div className="col-span-1 row-span-5 rounded-default overflow-hidden">
+        <div className="col-span-1 row-span-5 rounded-default overflow-hidden min-h-[30vh]">
           <ImageCarousel images={response?.data?.property.images ?? []} />
         </div>
         <div className="col-span-2 row-span-5 flex flex-col gap-default p-default">
           <div className="flex flex-col gap-default">
             <p className="font-bold text-text-primary">Overview</p>
-            <p className="font-medium text-text-primary text-md-subtitle-secondary line-clamp-4 overflow-hidden text-ellipsis">
-              {response?.data?.property.description}
-            </p>
+            <ReadMoreComponent
+              id="property-detail-desc"
+              text={response.data.property.description}
+              className="font-medium text-text-primary text-md-subtitle-secondary"
+            />
           </div>
           <div className="flex-col gap-default flex-grow">
             <p className="font-bold text-text-primary">Details</p>
@@ -277,7 +251,7 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
             <button className="filledBtn inline-flex items-center">
               <IconPhoneCall className="text-white" height={25} width={25} />
               <p className="font-bold text-text-white text-md-subtitle-secondary">
-                &nbsp;&nbsp;CONTACT&nbsp;AGENT&&nbsp;VIEW&nbsp;LISTING
+                CONTACT AGENT & VIEW LISTING
               </p>
             </button>
           </div>
@@ -297,15 +271,14 @@ const PropertyDetailPage = (rent: IPropertyDto) => {
                 height={25}
                 width={25}
               />
-              <p className="text-primary">
-                &nbsp;&nbsp;ADD&nbsp;TO&nbsp;CALENDAR
-              </p>
+              <p className="text-primary">ADD TO CALENDAR</p>
             </button>
           </div>
         </div>
         {/* MAP */}
-        <div className="col-span-2 row-span-4 rounded-lg overflow-hidden">
+        <div className="col-span-2 row-span-4 rounded-default overflow-hidden">
           <MapComponent
+            disableInteractions
             defaultPosition={{
               lat: Number(response?.data?.address.latitude),
               lon: Number(response?.data?.address.longitude),

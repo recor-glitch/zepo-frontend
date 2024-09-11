@@ -34,7 +34,7 @@ function NavbarHome() {
         <NavbarSelectComponent />
       </div>
       {status === "unauthenticated" && session === null ? (
-        <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden lg:flex">
+        <div className="justify-between items-center gap-4 ml-nav-l hidden lg:flex">
           <button className="outlinedBtn" onClick={handleSignIn}>
             Login
           </button>

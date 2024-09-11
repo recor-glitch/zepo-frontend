@@ -5,18 +5,18 @@ import Image from "next/image";
 
 export function ImageCarousel({ images }: { images: string[] }) {
   return (
-    <div className="h-full w-full">
-      <Carousel slide={false}>
-        {images?.map((img, idx) => (
+    <Carousel slide={true}>
+      {images?.map((img, idx) => (
+        <div key={img + idx} className="relative w-full h-64 lg:h-full sm:h-96">
           <Image
-            key={img + idx}
+            unoptimized
             src={img}
             alt="Carousel Property Images"
-            width={200}
-            height={200}
+            layout="fill" // Makes the image responsive
+            objectFit="contain" // Ensures the image fits within the container
           />
-        ))}
-      </Carousel>
-    </div>
+        </div>
+      ))}
+    </Carousel>
   );
 }

@@ -22,8 +22,11 @@ const ProfileMenuContent = ({ subtitle, title }: IprofileContentProps) => {
       <div className="divider-h" />
       {/* MENU ITEMS */}
       <div className="flex flex-col gap-default p-default">
-        {profileMenuItems.map((item) => (
-          <div className="flex gap-default items-center justify-start">
+        {profileMenuItems.map((item, idx) => (
+          <div
+            className="flex gap-default items-center justify-start"
+            key={item.title + idx}
+          >
             <item.icon />
             <Link href={item.link}>{item.title}</Link>
           </div>
