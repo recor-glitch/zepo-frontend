@@ -24,7 +24,7 @@ function StatCard({ img, subtitle, title, floatingIcon }: IStatCard) {
       </div>
       <div className="flex flex-col lg:items-center items-start text-center">
         <p className="text-text-primary font-bold text-md-title">{title}</p>
-        <p className="text-sm-subtitle text-text-secondary-dark font-medium">
+        <p className="text-md-subtitle-secondary text-text-secondary-dark font-medium">
           {subtitle}
         </p>
       </div>

@@ -1,30 +1,29 @@
 import {
-  IDashboardNavItem,
-  INavItems,
-  IReview,
-  IStatCard,
-  RentRoomType,
-} from "./type/app";
-import {
-  IconLayoutDashboard,
-  IconBuildingEstate,
-  IconUser,
-  IconList,
-  IconUsers,
-  IconReport,
-  IconSettings,
-  IconLifebuoy,
-  IconHeart,
   Icon,
   IconBrandAsana,
+  IconBuildingEstate,
   IconFlame,
+  IconHeart,
+  IconLayoutDashboard,
+  IconLifebuoy,
+  IconList,
   IconPaw,
   IconPlugConnected,
   IconProps,
+  IconReport,
   IconRipple,
+  IconSettings,
+  IconUser,
+  IconUsers,
 } from "@tabler/icons-react";
-import { IBannerPropertyResponse } from "./type/dto/property/property-dto";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
+import {
+  IDashboardNavItem,
+  INavItems,
+  IReview,
+  IStatCard
+} from "./type/app";
+import { IBannerPropertyResponse } from "./type/dto/property/property-dto";
 
 // CURRENCY
 export const rupee = "₹";

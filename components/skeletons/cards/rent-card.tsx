@@ -2,7 +2,7 @@ import React from "react";
 
 const RentCardSkeleton: React.FC = () => {
   return (
-    <div className="h-full w-full border-2 rounded-default animate-pulse gap-default">
+    <div className="h-full min-h-[25vh] w-full border-1 rounded-default animate-pulse gap-default">
       <div className="flex w-full h-1/2 bg-skeleton rounded-md" />
       <div className={`flex flex-col border-red-500 p-default gap-default`}>
         <div className="flex justify-between items-start">

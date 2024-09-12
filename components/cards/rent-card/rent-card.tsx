@@ -61,9 +61,10 @@ function RentCard({
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         unoptimized
         alt={"Property images"}
-        className="flex rounded-t-default w-full h-[52%] object-cover"
+        className="flex rounded-t-default w-full h-[52%] min-h-[10vh]"
         width={100}
-        height={80}
+        height={100}
+        objectFit="contain" // Ensures the image fits within the container
       />
       <div
         className={`flex flex-col ${
