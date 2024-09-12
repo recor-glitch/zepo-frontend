@@ -7,13 +7,16 @@ export function ImageCarousel({ images }: { images: string[] }) {
   return (
     <Carousel slide={true}>
       {images?.map((img, idx) => (
-        <div key={img + idx} className="relative w-full h-64 lg:h-full sm:h-96">
+        <div
+          key={img + idx}
+          className="relative w-full h-full lg:h-full sm:h-96"
+        >
           <Image
             unoptimized
             src={img}
             alt="Carousel Property Images"
             layout="fill" // Makes the image responsive
-            objectFit="contain" // Ensures the image fits within the container
+            objectFit="cover" // Ensures the image fits within the container
           />
         </div>
       ))}

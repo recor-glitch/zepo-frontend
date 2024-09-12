@@ -43,7 +43,7 @@ function NavbarHome() {
           </button>
         </div>
       ) : status === "loading" ? (
-        "Loading..."
+        <></>
       ) : (
         <DefaultPopoverComponent
           triggerElement={
