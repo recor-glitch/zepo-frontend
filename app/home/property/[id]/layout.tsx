@@ -1,16 +1,11 @@
-import React, { Suspense } from "react";
-import PropertyLoadingPage from "./loading";
+import React from "react";
 
 const PropertyDetailLayoutPage = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  return (
-    <>
-      <Suspense fallback={<PropertyLoadingPage />}>{children}</Suspense>
-    </>
-  );
+  return <>{children}</>;
 };
 
 export default PropertyDetailLayoutPage;

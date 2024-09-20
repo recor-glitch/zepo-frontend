@@ -1,6 +1,7 @@
 "use client";
 
 import { DashboardStatCard, RentCard } from "@/components/cards";
+import ErrorComponent from "@/components/fallbacks/error";
 import { AdminNavbar } from "@/components/navbar";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { dummyReviews } from "@/constants";
@@ -35,12 +36,20 @@ const AdminPage = () => {
         {/* BODY */}
         <div className="grid lg:grid-cols-3 grid-cols-1 gap-default">
           <div
-            className={`lg:col-span-2 grid lg:grid-cols-3 gap-default ${
-              !allProperties?.data &&
-              `flex flex-col justify-center items-center`
+            className={`lg:col-span-2 gap-default ${
+              isError
+                ? `flex flex-col justify-center items-center`
+                : `grid lg:grid-cols-3`
             }`}
           >
-            {allProperties && allProperties.data ? (
+            {isLoading ? (
+              [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
+            ) : isError ? (
+              <ErrorComponent />
+            ) : allProperties && allProperties.data?.length === 0 ? (
+              <p>No data found</p>
+            ) : (
+              allProperties &&
               allProperties.data?.map((rent, index) => (
                 <RentCard
                   showPopular={false}
@@ -48,12 +57,6 @@ const AdminPage = () => {
                   key={rent.title + index}
                 />
               ))
-            ) : isLoading ? (
-              [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
-            ) : !isError ? (
-              <p>No data found</p>
-            ) : (
-              <p>Something went wrong</p>
             )}
           </div>
           <div className="col-span-1 flex-col flex gap-default">
