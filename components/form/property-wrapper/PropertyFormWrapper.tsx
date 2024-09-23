@@ -5,7 +5,6 @@ import { usePropertyFormContext } from "@/context/property/property-fom-context"
 import AddressFom from "../address/addressForm";
 import PriceAndEntrasForm from "../priceAndExtras/PriceAndExtras";
 import PropertyForm from "../property/propertyForm";
-import { useEffect, useState } from "react";
 
 const propertySteps = [
   { title: "Property info" },
@@ -14,7 +13,7 @@ const propertySteps = [
 ];
 
 const PropertyFormWrapper = () => {
-  const { activeStep } = usePropertyFormContext();
+  const { activeStep, } = usePropertyFormContext();
 
   return (
     <div className="flex flex-col justify-center gap-default items-center w-full">
