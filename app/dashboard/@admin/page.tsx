@@ -9,6 +9,7 @@ import DummyAvatar from "@/public/dummy-avatar.svg";
 import { useGetAllProperties } from "@/query/propertyQuery";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const AdminPage = () => {
   const {
@@ -18,7 +19,7 @@ const AdminPage = () => {
     error,
   } = useGetAllProperties({});
 
-  console.log({ allProperties });
+  const router = useRouter();
 
   return (
     <div className="flex flex-col h-full gap-default">
@@ -55,6 +56,10 @@ const AdminPage = () => {
                   showPopular={false}
                   rent={rent}
                   key={rent.title + index}
+                  editEnabled
+                  editCallback={() => {
+                    router.push(`/dashboard/listing?id=${rent.id}&edit=true`);
+                  }}
                 />
               ))
             )}

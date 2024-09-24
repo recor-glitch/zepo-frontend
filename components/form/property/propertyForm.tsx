@@ -27,8 +27,10 @@ const propertySchema = z
       .string({ message: "Property type is required" })
       .min(1, "Property type is required"),
     files: z
-      .array(z.instanceof(File), { required_error: "File is required" })
-      .min(1, "File is required"),
+      .array(z.union([z.string(), z.instanceof(File)]), {
+        required_error: "File is required",
+      })
+      .min(1, "Files is required"),
     washroomType: z.enum(["SHARED", "ATTACHED"]).default("SHARED"),
     beds: z
       .number()
@@ -118,6 +120,7 @@ type PropertyFormData = z.infer<typeof propertySchema>;
 const propertyType = ["SINGLE", "DOUBLE", "BHK", "VILLA", "SHARED"];
 
 const PropertyForm = () => {
+  const [_, setRerender] = useState(0);
   const {
     register,
     handleSubmit,
@@ -133,6 +136,7 @@ const PropertyForm = () => {
   const { dispatch, addressDetails, status, propertyInfo } =
     usePropertyFormContext();
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
+  const [imageSrc, setImageSrc] = useState<string[]>([]);
 
   useEffect(() => {
     if (status === "EDIT" && propertyInfo) {
@@ -145,7 +149,11 @@ const PropertyForm = () => {
       setValue("beds", propertyInfo?.bed ?? 0);
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
-      setAcceptedFiles(propertyInfo?.images as File[]);
+      setValue("files", propertyInfo?.images || [], { shouldValidate: false });
+
+      if (typeof propertyInfo.images[0] === "string") {
+        setImageSrc(propertyInfo?.images as string[]);
+      } else setAcceptedFiles(propertyInfo?.images as File[]);
     }
   }, [status, propertyInfo]);
 
@@ -162,9 +170,14 @@ const PropertyForm = () => {
     console.log(data);
     const propertyDetails: IPropertyFormDto = {
       title: data.title,
-      amenities: [],
+      amenities: status === "EDIT" ? propertyInfo?.amenities || [] : [],
       description: data.description,
-      images: acceptedFiles,
+      images:
+        status === "EDIT" &&
+        propertyInfo &&
+        typeof propertyInfo.images[0] === "string"
+          ? propertyInfo.images
+          : acceptedFiles,
       is_popular: false,
       like_count: 0,
       property_type: data.propertyType,
@@ -191,16 +204,21 @@ const PropertyForm = () => {
     return;
   };
 
-  const [imageSrc, setImageSrc] = useState<string[]>([]);
-
   useEffect(() => {
+    if (acceptedFiles?.length === 0) return;
+
     setImageSrc([]);
     setValue("files", acceptedFiles, { shouldValidate: false });
-    if (acceptedFiles.length === 0) return;
+
+    const images: string[] = [];
+
     for (let i = 0; i < acceptedFiles.length; i++) {
       const url = URL.createObjectURL(acceptedFiles[i]); // Create a URL for the file
-      setImageSrc((state) => state.concat([url]));
+      images.push(url);
     }
+
+    console.log({ images });
+    setImageSrc(images);
   }, [acceptedFiles]);
 
   const handleRemovePhotos = (idx: number) => {

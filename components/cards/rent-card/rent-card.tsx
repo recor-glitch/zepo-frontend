@@ -9,6 +9,7 @@ import PointedEdge from "@/public/pointed-edge.svg";
 import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
+import { IconEdit } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -20,6 +21,8 @@ export interface rentProps {
   showLike?: boolean;
   showPopular?: boolean;
   clickable?: boolean;
+  editEnabled?: boolean;
+  editCallback?: () => void;
 }
 
 function RentCard({
@@ -30,6 +33,8 @@ function RentCard({
   showLike = false,
   showPopular = true,
   clickable = false,
+  editEnabled = false,
+  editCallback,
 }: rentProps) {
   const router = useRouter();
   return (
@@ -38,7 +43,7 @@ function RentCard({
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
       } ${className} ${clickable && "cursor-pointer"}`}
       id={rent.title + rent.description}
-      onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
+      onClick={() => clickable && router.push(`/property/${rent.id}`)}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (
@@ -56,6 +61,15 @@ function RentCard({
           className="absolute top-[56.6%] transform translate-x-[-0.5rem]"
         />
         // <div className="bg-primary absolute rounded-bl-sm z-10 transform :bottom-0 left-0 translate-y-[1.2rem] translate-x-[-0.35rem] top-[11.9rem] rotate-45 h-3 w-3"></div>
+      )}
+      {/* EDITABLE */}
+      {editEnabled && (
+        <div
+          className="absolute top-5 right-5 rounded-full bg-white opacity-70 cursor-pointer p-2"
+          onClick={editCallback}
+        >
+          <IconEdit className="text-text-primary" />
+        </div>
       )}
       <Image
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}

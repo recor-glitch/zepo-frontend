@@ -81,6 +81,8 @@ const AddressForm = () => {
   };
 
   const handleOnBack = () => {
+    console.log("Handle back", { status, propertyInfo });
+
     dispatch({ type: "setFormStatus", payload: { status: "EDIT" } });
     dispatch({ type: "setActiveStep", payload: { step: 0 } });
     return;
