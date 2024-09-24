@@ -120,7 +120,6 @@ type PropertyFormData = z.infer<typeof propertySchema>;
 const propertyType = ["SINGLE", "DOUBLE", "BHK", "VILLA", "SHARED"];
 
 const PropertyForm = () => {
-  const [_, setRerender] = useState(0);
   const {
     register,
     handleSubmit,
@@ -152,7 +151,12 @@ const PropertyForm = () => {
       setValue("files", propertyInfo?.images || [], { shouldValidate: false });
 
       if (typeof propertyInfo.images[0] === "string") {
-        setImageSrc(propertyInfo?.images as string[]);
+        setAcceptedFiles((prev) =>
+          propertyInfo?.images.filter((img) => typeof img !== "string")
+        );
+        setImageSrc(
+          propertyInfo?.images.filter((img) => typeof img === "string")
+        );
       } else setAcceptedFiles(propertyInfo?.images as File[]);
     }
   }, [status, propertyInfo]);
@@ -176,7 +180,7 @@ const PropertyForm = () => {
         status === "EDIT" &&
         propertyInfo &&
         typeof propertyInfo.images[0] === "string"
-          ? propertyInfo.images
+          ? [...propertyInfo.images, ...acceptedFiles]
           : acceptedFiles,
       is_popular: false,
       like_count: 0,
@@ -208,7 +212,15 @@ const PropertyForm = () => {
     if (acceptedFiles?.length === 0) return;
 
     setImageSrc([]);
-    setValue("files", acceptedFiles, { shouldValidate: false });
+    setValue(
+      "files",
+      [
+        ...(propertyInfo?.images.filter((img) => typeof img === "string") ??
+          []),
+        ...acceptedFiles,
+      ] || [],
+      { shouldValidate: false }
+    );
 
     const images: string[] = [];
 
@@ -217,23 +229,18 @@ const PropertyForm = () => {
       images.push(url);
     }
 
-    console.log({ images });
-    setImageSrc(images);
+    setImageSrc([
+      ...(propertyInfo?.images.filter((img) => typeof img === "string") ?? []),
+      ...images,
+    ]);
   }, [acceptedFiles]);
 
-  const handleRemovePhotos = (idx: number) => {
-    // Update both acceptedFiles and imageSrc in one operation
-    setAcceptedFiles((prevFiles) => {
-      const updatedFiles = [...prevFiles];
-      updatedFiles.splice(idx, 1); // Remove the file at the given index
-      return updatedFiles;
-    });
-
-    setImageSrc((prevSrc) => {
-      const updatedSrc = [...prevSrc];
-      updatedSrc.splice(idx, 1); // Remove the corresponding image URL at the same index
-      return updatedSrc;
-    });
+  const handleRemovePhotos = (file: string | File) => {
+    if (typeof file === "string") {
+      setImageSrc((prev) => prev.filter((img) => img !== file));
+    } else {
+      setAcceptedFiles((prev) => prev.filter((f) => f.name !== file.name));
+    }
   };
 
   return (
@@ -298,7 +305,7 @@ const PropertyForm = () => {
                       >
                         <div
                           className="absolute right-1 top-1 flex justify-center items-center rounded-full border"
-                          onClick={() => handleRemovePhotos(index)}
+                          onClick={() => handleRemovePhotos(file)}
                         >
                           <IconX className="text-text-primary" />
                         </div>

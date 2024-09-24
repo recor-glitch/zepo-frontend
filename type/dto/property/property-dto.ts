@@ -62,7 +62,7 @@ export interface IPropertyDtoWithIdRequired {
 export interface IPropertyFormDto {
   id?: number;
   title: string;
-  images: File[] | string[];
+  images: (File | string)[];
   description: string;
   is_popular: boolean;
   amenities: string[];
