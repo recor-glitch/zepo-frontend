@@ -27,10 +27,8 @@ const propertySchema = z
       .string({ message: "Property type is required" })
       .min(1, "Property type is required"),
     files: z
-      .array(z.union([z.string(), z.instanceof(File)]), {
-        required_error: "File is required",
-      })
-      .min(1, "Files is required"),
+      .array(z.instanceof(File), { required_error: "File is required" })
+      .min(1, "File is required"),
     washroomType: z.enum(["SHARED", "ATTACHED"]).default("SHARED"),
     beds: z
       .number()
@@ -135,7 +133,6 @@ const PropertyForm = () => {
   const { dispatch, addressDetails, status, propertyInfo } =
     usePropertyFormContext();
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
-  const [imageSrc, setImageSrc] = useState<string[]>([]);
 
   useEffect(() => {
     if (status === "EDIT" && propertyInfo) {
@@ -148,16 +145,7 @@ const PropertyForm = () => {
       setValue("beds", propertyInfo?.bed ?? 0);
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
-      setValue("files", propertyInfo?.images || [], { shouldValidate: false });
-
-      if (typeof propertyInfo.images[0] === "string") {
-        setAcceptedFiles((prev) =>
-          propertyInfo?.images.filter((img) => typeof img !== "string")
-        );
-        setImageSrc(
-          propertyInfo?.images.filter((img) => typeof img === "string")
-        );
-      } else setAcceptedFiles(propertyInfo?.images as File[]);
+      setAcceptedFiles(propertyInfo?.images as File[]);
     }
   }, [status, propertyInfo]);
 
@@ -174,14 +162,9 @@ const PropertyForm = () => {
     console.log(data);
     const propertyDetails: IPropertyFormDto = {
       title: data.title,
-      amenities: status === "EDIT" ? propertyInfo?.amenities || [] : [],
+      amenities: [],
       description: data.description,
-      images:
-        status === "EDIT" &&
-        propertyInfo &&
-        typeof propertyInfo.images[0] === "string"
-          ? [...propertyInfo.images, ...acceptedFiles]
-          : acceptedFiles,
+      images: acceptedFiles,
       is_popular: false,
       like_count: 0,
       property_type: data.propertyType,
@@ -208,39 +191,31 @@ const PropertyForm = () => {
     return;
   };
 
+  const [imageSrc, setImageSrc] = useState<string[]>([]);
+
   useEffect(() => {
-    if (acceptedFiles?.length === 0) return;
-
     setImageSrc([]);
-    setValue(
-      "files",
-      [
-        ...(propertyInfo?.images.filter((img) => typeof img === "string") ??
-          []),
-        ...acceptedFiles,
-      ] || [],
-      { shouldValidate: false }
-    );
-
-    const images: string[] = [];
-
+    setValue("files", acceptedFiles, { shouldValidate: false });
+    if (acceptedFiles.length === 0) return;
     for (let i = 0; i < acceptedFiles.length; i++) {
       const url = URL.createObjectURL(acceptedFiles[i]); // Create a URL for the file
-      images.push(url);
+      setImageSrc((state) => state.concat([url]));
     }
-
-    setImageSrc([
-      ...(propertyInfo?.images.filter((img) => typeof img === "string") ?? []),
-      ...images,
-    ]);
   }, [acceptedFiles]);
 
-  const handleRemovePhotos = (file: string | File) => {
-    if (typeof file === "string") {
-      setImageSrc((prev) => prev.filter((img) => img !== file));
-    } else {
-      setAcceptedFiles((prev) => prev.filter((f) => f.name !== file.name));
-    }
+  const handleRemovePhotos = (idx: number) => {
+    // Update both acceptedFiles and imageSrc in one operation
+    setAcceptedFiles((prevFiles) => {
+      const updatedFiles = [...prevFiles];
+      updatedFiles.splice(idx, 1); // Remove the file at the given index
+      return updatedFiles;
+    });
+
+    setImageSrc((prevSrc) => {
+      const updatedSrc = [...prevSrc];
+      updatedSrc.splice(idx, 1); // Remove the corresponding image URL at the same index
+      return updatedSrc;
+    });
   };
 
   return (
@@ -305,7 +280,7 @@ const PropertyForm = () => {
                       >
                         <div
                           className="absolute right-1 top-1 flex justify-center items-center rounded-full border"
-                          onClick={() => handleRemovePhotos(file)}
+                          onClick={() => handleRemovePhotos(index)}
                         >
                           <IconX className="text-text-primary" />
                         </div>
