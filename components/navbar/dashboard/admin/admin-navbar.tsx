@@ -1,6 +1,7 @@
 "use client";
 
-import { FilterDrawerDialog } from "@/components/modal/filter-modal";
+import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
+import { DrawerClose } from "@/components/ui/drawer";
 import {
   IconAdjustmentsHorizontal,
   IconChevronDown,
@@ -21,12 +22,14 @@ const AdminNavbar = () => {
           <Link href={{ pathname: "/dashboard/listing" }}>
             <IconSquareRoundedPlus />
           </Link>
-          <FilterDrawerDialog
+          <ResponsiveDrawerDialog
             trigger={
               <Link href={{ pathname: "" }}>
                 <IconAdjustmentsHorizontal />
               </Link>
             }
+            title="Edit Filters"
+            description="Apply appropriate filters to the selected properties"
             content={
               <div className="flex flex-col gap-default">
                 <div className="flex col-span-1 justify-between items-center rounded-default px-sm-h bg-white border">
@@ -75,6 +78,12 @@ const AdminNavbar = () => {
                     onChange={() => {}}
                   />
                   <IconAdjustmentsHorizontal />
+                </div>
+                <div className="flex gap-default w-full">
+                  <DrawerClose asChild>
+                    <button className="outlinedBtn flex-1">Cancel</button>
+                  </DrawerClose>
+                  <button className="filledBtn flex-1">Apply</button>
                 </div>
               </div>
             }

@@ -5,12 +5,11 @@ import { usePropertyFormContext } from "@/context/property/property-fom-context"
 import { useUserContext } from "@/context/user/user-context";
 import { useFileUpload } from "@/mutation/fileMutation";
 import { useCreatePropertyWithAddress } from "@/mutation/propertyMutation";
-import { CurrencyType } from "@/type/app";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -47,11 +46,10 @@ const priceAndExtraSchema = z.object({
 
 type PriceAndEntrasFormData = z.infer<typeof priceAndExtraSchema>;
 
-const PriceAndEntrasForm = () => {
+const PriceAndExtrasEditForm = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<PriceAndEntrasFormData>({
     resolver: zodResolver(priceAndExtraSchema),
@@ -65,8 +63,7 @@ const PriceAndEntrasForm = () => {
     setAmenitiestxt("");
   };
 
-  const { dispatch, propertyInfo, addressDetails, status } =
-    usePropertyFormContext();
+  const { dispatch, propertyInfo, addressDetails } = usePropertyFormContext();
 
   const {
     mutateAsync: uploadFn,
@@ -89,14 +86,6 @@ const PriceAndEntrasForm = () => {
 
   const router = useRouter();
   const { user } = useUserContext();
-
-  useEffect(() => {
-    if (status === "EDIT" && propertyInfo) {
-      setValue("price", propertyInfo.amount || 0);
-      setValue("length", propertyInfo.property_length || 0);
-      setValue("width", propertyInfo.property_width || 0);
-    }
-  }, [status, propertyInfo]);
 
   const onSubmit = async (data: PriceAndEntrasFormData) => {
     const formData = new FormData();
@@ -348,4 +337,4 @@ const PriceAndEntrasForm = () => {
   );
 };
 
-export default PriceAndEntrasForm;
+export default PriceAndExtrasEditForm;

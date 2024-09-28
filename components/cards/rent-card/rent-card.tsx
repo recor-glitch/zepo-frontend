@@ -1,5 +1,7 @@
 "use client";
 
+import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm";
+import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
 import { dollar, rupee } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
@@ -64,12 +66,16 @@ function RentCard({
       )}
       {/* EDITABLE */}
       {editEnabled && (
-        <div
-          className="absolute top-5 right-5 rounded-full bg-white opacity-70 cursor-pointer p-2"
-          onClick={editCallback}
-        >
-          <IconEdit className="text-text-primary" />
-        </div>
+        <ResponsiveDrawerDialog
+          title="Edit Property"
+          description="Make sure the property details provided are correct"
+          trigger={
+            <div className="absolute top-5 right-5 rounded-full bg-white opacity-70 cursor-pointer p-2">
+              <IconEdit className="text-text-primary" />
+            </div>
+          }
+          content={<PropertyEditComponent id={rent.id.toString()} />}
+        />
       )}
       <Image
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
