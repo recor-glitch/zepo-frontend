@@ -131,7 +131,7 @@ const PropertyEditForm = () => {
     resolver: zodResolver(propertySchema),
   });
 
-  const { dispatch, addressDetails, status, propertyInfo } =
+  const { dispatch, addressDetails, status, propertyInfo, extras } =
     usePropertyFormContext();
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
   const [imageSrc, setImageSrc] = useState<string[]>([]);
@@ -200,6 +200,8 @@ const PropertyEditForm = () => {
   const onSubmit = async (data: PropertyFormData) => {
     console.log(data);
     const propertyDetails: IPropertyFormDto = {
+      ...propertyInfo,
+      id: propertyInfo?.id,
       title: data.title,
       amenities: propertyInfo?.amenities ?? [],
       description: data.description,
@@ -233,6 +235,11 @@ const PropertyEditForm = () => {
   };
 
   const handleRemovePhotos = (file: string) => {
+    dispatch({
+      type: "setRemovedUrlInExtras",
+      payload: { urls: [...(extras?.removedUrls || []), file] },
+    });
+
     setImageSrc((prev) => [...prev.filter((img) => img !== file)]);
 
     if (file.includes("blob")) {

@@ -6,3 +6,6 @@ export interface IUploadResponse {
 export interface IUploadVariable {
   files: FormData;
 }
+export interface IUploadDeleteVariable {
+  urls: string[];
+}

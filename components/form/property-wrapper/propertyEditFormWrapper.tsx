@@ -5,8 +5,8 @@ import { useGetPropertyById } from "@/query/propertyQuery";
 import { IAddressDetails } from "@/type/dto/address/address-dto";
 import { IPropertyFormDto } from "@/type/dto/property/property-dto";
 import { useEffect } from "react";
-import AddressFom from "../address/addressForm";
-import PriceAndEntrasForm from "../priceAndExtras/PriceAndExtras";
+import AddressEditForm from "../address/addressEditForm";
+import PriceAndExtrasEditForm from "../priceAndExtras/priceAdnExtrasEditForm";
 import PropertyEditForm from "../property/propertyEditForm";
 
 const propertySteps = [
@@ -57,14 +57,16 @@ const PropertyEditFormWrapper = ({ id }: { id: string }) => {
     }
   }, [propertyData]);
 
+  console.log(propertyInfo, addressDetails);
+
   return (
     <div className="flex flex-col justify-center gap-default items-center w-full">
       {activeStep === 0 ? (
         <PropertyEditForm />
       ) : activeStep === 1 ? (
-        <AddressFom />
+        <AddressEditForm />
       ) : (
-        <PriceAndEntrasForm />
+        <PriceAndExtrasEditForm />
       )}
     </div>
   );

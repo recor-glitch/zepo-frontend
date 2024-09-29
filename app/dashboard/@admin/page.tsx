@@ -35,7 +35,7 @@ const AdminPage = () => {
           </p>
         </div>
         {/* BODY */}
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-default">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-default">
           <div
             className={`lg:col-span-2 gap-default ${
               isError

@@ -64,23 +64,23 @@ const AddressEditForm = () => {
         lat: Number(addressDetails.latitude),
         lon: Number(addressDetails.longitude),
       });
-    }
-  }, [status]);
+    } else navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);
+  }, [status, addressDetails]);
 
   const onSubmit = async (data: AddressFormData) => {
-    const addressDetails: IAddressDetails = {
+    const addDetails: IAddressDetails = {
+      id: addressDetails?.id,
       city: data.city,
       country: data.country,
       label: data.label,
       latitude: coords.lat.toString(),
       longitude: coords.lon.toString(),
       postal_code: data.postalCode?.toString() ?? "",
-      property_id: propertyInfo?.id,
       state: data.state,
       street_address: data.streetAddress,
     };
 
-    dispatch({ type: "setAdressDetails", payload: addressDetails });
+    dispatch({ type: "setAdressDetails", payload: addDetails });
     dispatch({ type: "setActiveStep", payload: { step: 2 } });
   };
 
@@ -96,15 +96,6 @@ const AddressEditForm = () => {
       lon: position.coords.longitude,
     });
   };
-
-  useEffect(() => {
-    if (status === "EDIT" && addressDetails) {
-      setCoords({
-        lat: Number(addressDetails.latitude),
-        lon: Number(addressDetails.longitude),
-      });
-    } else navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);
-  });
 
   const handleCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(onSuccessLocationRetrive);

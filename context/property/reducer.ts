@@ -30,6 +30,11 @@ export const propertyReducer = (
       });
 
       return { ...state, propertyInfo: updatedProperties as IPropertyDto };
+    case "setRemovedUrlInExtras":
+      return {
+        ...state,
+        extras: { ...state.extras, removedUrls: action.payload.urls },
+      };
     default:
       return state;
   }

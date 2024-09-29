@@ -187,7 +187,7 @@ export interface propertyContextDto {
   status: FormStatus;
   propertyInfo?: IPropertyFormDto;
   addressDetails?: IAddressDetails;
-  benifitsAndExtras?: IBenifitsAndExtra;
+  extras?: IExtras;
 }
 
 export type FormStatus = "EDIT" | "PUBLISHED" | "DRAFT";
@@ -208,13 +208,8 @@ export interface IPropertyInfo {
   period?: PeriodType;
 }
 
-export interface IBenifitsAndExtra {
-  amenities: string[];
-  propertySize: {
-    width: number;
-    length: number;
-    unit: SizeType;
-  };
+export interface IExtras {
+  removedUrls: string[];
 }
 
 // DATABASE API
@@ -241,4 +236,9 @@ export interface IWaitlistResponse {
   id: number;
   email: string;
   createdAt: string;
+}
+
+export interface IDefaultResponse {
+  message: string;
+  statusCode: number;
 }

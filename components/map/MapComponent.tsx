@@ -3,7 +3,7 @@ import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
 import { Tile as TileLayer } from "ol/layer";
-import { fromLonLat } from "ol/proj";
+import { fromLonLat, toLonLat } from "ol/proj"; // Import both functions
 import OSM from "ol/source/OSM";
 import { defaults as defaultControls, Control } from "ol/control";
 import { defaults as defaultInteractions } from "ol/interaction";
@@ -91,7 +91,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
       if (!disableInteractions) {
         initialMap.on("singleclick", function (evt) {
           const coords = evt.coordinate;
-          const lonLat = fromLonLat(coords);
+          const lonLat = toLonLat(coords); // Correctly convert to lon/lat
           const [lon, lat] = lonLat;
 
           const marker = new Feature({
@@ -115,6 +115,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
             source: vectorSource,
           });
 
+          // Remove previous markers
           initialMap
             .getLayers()
             .getArray()
@@ -141,7 +142,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   return (
     <div
       ref={mapRef}
-      className="relative w-full h-64 sm:h-96" // Responsive height
+      className="relative w-full h-64 sm:h-96"
       style={{ cursor: "pointer" }}
     ></div>
   );

@@ -1,15 +1,22 @@
 "use client";
 
 import { ChipComponent } from "@/components/chip";
+import { DrawerClose } from "@/components/ui/drawer";
 import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
-import { useFileUpload } from "@/mutation/fileMutation";
-import { useCreatePropertyWithAddress } from "@/mutation/propertyMutation";
+import { useUpdateAddress } from "@/mutation/addressMutation";
+import { useFileDelete, useFileUpload } from "@/mutation/fileMutation";
+import {
+  useCreatePropertyWithAddress,
+  useUpdateProperty,
+} from "@/mutation/propertyMutation";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
+import { IUploadResponse } from "@/type/dto/upload/upload-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DialogClose } from "@radix-ui/react-dialog";
 import { IconLoader } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -19,28 +26,25 @@ const priceAndExtraSchema = z.object({
   unit: z.enum(["FEET", "METER"]).default("METER"),
   currency: z.enum(["INR", "USD"]).default("INR"),
   price: z
-    .string()
-    .transform((val) => (val === "" ? null : Number(val)))
-    .refine(
-      (val) =>
-        val !== null && val !== undefined && val > 0 && Number.isInteger(val),
-      {
-        message: "price must be a non-negative integer",
-      }
-    ),
-  width: z
-    .string()
-    .transform((val) => (val === "" ? null : Number(val)))
+    .number()
     .nullable()
+    .transform((val) => Number(val))
+    .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
+      message: "price must be a non-negative integer",
+    }),
+  width: z
+    .number()
+    .nullable()
+    .transform((val) => Number(val))
     .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
       message: "width must be a non-negative integer",
     }),
   length: z
-    .string()
-    .transform((val) => (val === "" ? null : Number(val)))
+    .number()
     .nullable()
+    .transform((val) => Number(val))
     .refine((val) => val === null || (val >= 0 && Number.isInteger(val)), {
-      message: "height must be a non-negative integer",
+      message: "length must be a non-negative integer",
     }),
 });
 
@@ -50,6 +54,7 @@ const PriceAndExtrasEditForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<PriceAndEntrasFormData>({
     resolver: zodResolver(priceAndExtraSchema),
@@ -59,15 +64,37 @@ const PriceAndExtrasEditForm = () => {
   const [amenities, setAmenities] = useState<string[]>([]);
 
   const handleAddAmenities = () => {
+    if (amenitiestxt.length === 0) return;
     setAmenities((prev) => [...prev, ...amenitiestxt.split(",")]);
     setAmenitiestxt("");
   };
 
-  const { dispatch, propertyInfo, addressDetails } = usePropertyFormContext();
+  const { dispatch, propertyInfo, addressDetails, extras } =
+    usePropertyFormContext();
+
+  console.log({ propertyInfo, addressDetails });
+
+  useEffect(() => {
+    if (propertyInfo && addressDetails) {
+      setValue("price", propertyInfo.amount ?? 0);
+      setValue("length", propertyInfo.property_length ?? 0);
+      setValue("width", propertyInfo.property_width ?? 0);
+      setAmenities(propertyInfo.amenities);
+    }
+  }, [propertyInfo, addressDetails]);
+
+  const {
+    mutateAsync: deleteFn,
+    isError: IsfileUploadError,
+    data: fileUploadDeleteData,
+    isPending: fileUploadDeletePending,
+    error: fileUploadDeleteError,
+    isSuccess: IsFileUploadDeleteSuccess,
+  } = useFileDelete();
 
   const {
     mutateAsync: uploadFn,
-    isError: IsfileUploadError,
+    isError: IsfileDeleteError,
     data: fileUploadData,
     isPending: fileUploadPending,
     error: fileUploadError,
@@ -75,38 +102,68 @@ const PriceAndExtrasEditForm = () => {
   } = useFileUpload();
 
   const {
-    mutateAsync: createPropertyFn,
-    error: PropertyError,
-    isError: IsPropertyError,
-    isPending: IsPropertyPending,
-    data: PropertyData,
-    context: PropertyContext,
-    isSuccess: IsPropertySuccess,
-  } = useCreatePropertyWithAddress();
+    mutateAsync: updatePropertyFn,
+    isPending: IsPropertyUpdatePending,
+    isError: IsPropertyUpdateError,
+    isSuccess: IsPropertyUpdateSuccess,
+  } = useUpdateProperty();
+
+  const {
+    mutateAsync: updateAddressFn,
+    isPending: IsAddressUpdatePending,
+    isError: IsAddressUpdateError,
+    isSuccess: IsAddressUpdateSuccess,
+  } = useUpdateAddress();
 
   const router = useRouter();
   const { user } = useUserContext();
 
   const onSubmit = async (data: PriceAndEntrasFormData) => {
+    // DELETE UNWANTED FILES FROM CLOUDINARY
+    if (extras) {
+      await deleteFn({ urls: extras?.removedUrls });
+    }
+
     const formData = new FormData();
 
     // PROPERTY FORM
     propertyInfo?.images.forEach((file) => {
-      formData.append("files", file);
+      if (typeof file !== "string") formData.append("files", file);
     });
-    const fileRes = await uploadFn({ files: formData });
 
-    if (fileRes.statusCode !== 200) {
-      toast.error("file upload failed, please try again");
-      return;
+    let newImages: string[] = [];
+
+    if (propertyInfo?.images.some((img) => typeof img !== "string")) {
+      try {
+        const fileRes = await uploadFn({ files: formData });
+
+        if (fileRes.statusCode !== 200) {
+          toast.error("file upload failed, please try again");
+          return;
+        }
+
+        newImages = [...fileRes.urls.map((url) => url.URL)];
+      } catch (e) {
+        toast.error(
+          "Image you have added is too large, please resize it or try some other alternative"
+        );
+        return;
+      }
     }
+
+    newImages = [
+      ...newImages,
+      ...(propertyInfo?.images.filter(
+        (img) => typeof img === "string"
+      ) as string[]),
+    ];
 
     if (propertyInfo && addressDetails) {
       const propertyDetails: IPropertyDto = {
         title: propertyInfo?.title,
         amenities: amenities,
         description: propertyInfo?.description,
-        images: [...fileRes.urls.map((res) => res.URL)],
+        images: newImages,
         is_popular: propertyInfo?.is_popular,
         like_count: propertyInfo?.like_count,
         property_type: propertyInfo?.property_type,
@@ -125,27 +182,21 @@ const PriceAndExtrasEditForm = () => {
         period: data.period,
       };
 
-      const propertyRes = await createPropertyFn({
-        property: {
-          ...propertyDetails,
-          images: [...fileRes.urls.map((url) => url.URL)],
-        },
-        address: addressDetails,
+      const res = await updatePropertyFn({
+        propertyId: propertyInfo.id || -1,
+        updateDetails: { ...propertyDetails },
       });
-      if (propertyRes.statusCode !== 201) {
-        toast.error("something went wrong");
-        return;
+
+      const addRes = await updateAddressFn({
+        ...addressDetails,
+        latitude: Number(addressDetails.latitude),
+        longitude: Number(addressDetails.longitude),
+        id: addressDetails.id!.toString(),
+      });
+
+      if (res.statusCode === 200 && addRes.statusCode === 200) {
+        toast.success("Successfully updated property");
       }
-
-      dispatch({
-        type: "setPropertyInfo",
-        payload: {
-          ...propertyDetails,
-          images: propertyInfo?.images,
-        },
-      });
-
-      router.back();
     }
   };
 
@@ -305,13 +356,14 @@ const PriceAndExtrasEditForm = () => {
             placeholder="Enter the property amenities that are available"
           />
           <button
+            type="button"
             className="filledBtn col-span-1"
             onClick={() => handleAddAmenities()}
           >
             Add
           </button>
         </div>
-        <div className="grid gap-default grid-cols-5 col-span-2">
+        <div className="flex flex-wrap gap-default col-span-2">
           {amenities?.map((chip, idx) => (
             <ChipComponent
               text={chip}
@@ -324,13 +376,21 @@ const PriceAndExtrasEditForm = () => {
           <button className="outlinedBtn" onClick={() => handleOnBack()}>
             Back
           </button>
-          <button className="filledBtn" type="submit">
-            {fileUploadPending || IsPropertyPending ? (
-              <IconLoader className="animate-spin text-white" />
-            ) : (
-              "Save Changes"
-            )}
-          </button>
+          {IsPropertyUpdateSuccess && IsAddressUpdateSuccess ? (
+            <DialogClose>
+              <button className="outlinedBtn">Continue to dashboard</button>
+            </DialogClose>
+          ) : (
+            <button className="filledBtn" type="submit">
+              {fileUploadPending ||
+              IsPropertyUpdatePending ||
+              IsAddressUpdatePending ? (
+                <IconLoader className="animate-spin text-white" />
+              ) : (
+                "Save Changes"
+              )}
+            </button>
+          )}
         </div>
       </div>
     </form>

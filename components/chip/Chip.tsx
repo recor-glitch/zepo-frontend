@@ -21,7 +21,7 @@ const ChipComponent: React.FC<chipProps> = ({
       className={`p-sm border-2 flex justify-between line-clamp-1 text-ellipsis items-center gap-default rounded-full bg-[${color}] ${className}`}
     >
       {children || (
-        <p className="text-text-primary font-medium text-md-subtitle-secondary line-clamp-1 text-ellipsis">
+        <p className="text-text-primary font-medium text-md-subtitle-secondary line-clamp-1 overflow-hidden text-ellipsis">
           {text}
         </p>
       )}
