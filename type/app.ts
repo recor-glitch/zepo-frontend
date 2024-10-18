@@ -1,10 +1,14 @@
 // NAVBAR ITEMS
 
-import { Action as PropertyAction } from "@/context/property/action";
+import { Action as PropertyAction } from "@/context/property/property-form/action";
+import { Action as FilterAction } from "@/context/property/property-filter/action";
 import { Action } from "@/context/user/action";
 import { Icon, IconProps } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
-import { IPropertyFormDto } from "./dto/property/property-dto";
+import {
+  IPropertyFiltersDto,
+  IPropertyFormDto,
+} from "./dto/property/property-dto";
 import { IAddressDetails } from "./dto/address/address-dto";
 
 export type NavbarItemType = "STANDARD" | "SELECT" | "LINK";
@@ -175,6 +179,11 @@ export interface ISuperUser extends IUser {
 export type UserType = INormalUser | IAdminUser | ISuperUser;
 
 // CONTEXT
+export interface propertyFilterContentDto {
+  dispatch: React.Dispatch<FilterAction>;
+  filters: IPropertyFiltersDto;
+}
+
 export interface userContextDto {
   accessToken: string;
   user: IUser;

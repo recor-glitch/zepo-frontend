@@ -1,7 +1,6 @@
 import { propertyContextDto } from "@/type/app";
-import { Action } from "./action";
-import { object } from "zod";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
+import { Action } from "./action";
 
 export const propertyReducer = (
   state: propertyContextDto,

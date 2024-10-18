@@ -1,7 +1,6 @@
 "use client";
 
 import { PropertyStepper } from "@/components/stepper";
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
 import { useGetPropertyById } from "@/query/propertyQuery";
 import { IAddressDetails } from "@/type/dto/address/address-dto";
 import { IPropertyFormDto } from "@/type/dto/property/property-dto";
@@ -10,6 +9,7 @@ import { useEffect, useState } from "react";
 import AddressFom from "../address/addressForm";
 import PriceAndEntrasForm from "../priceAndExtras/PriceAndExtras";
 import PropertyForm from "../property/propertyForm";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 
 const propertySteps = [
   { title: "Property info" },

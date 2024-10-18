@@ -1,6 +1,6 @@
 "use client";
 
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { WashRoomType } from "@/type/app";
 import { IPropertyFormDto } from "@/type/dto/property/property-dto";
