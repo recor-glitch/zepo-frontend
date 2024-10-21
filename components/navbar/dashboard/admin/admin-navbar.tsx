@@ -1,8 +1,10 @@
 "use client";
 
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
-import MultiRangeSlider from "@/components/slider/multi-range-slider";
+import { SelectInput } from "@/components/select";
+import { DualRangeSlider } from "@/components/slider/multi-range-slider";
 import { DrawerClose } from "@/components/ui/drawer";
+import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import {
   IconAdjustmentsHorizontal,
   IconChevronDown,
@@ -12,8 +14,24 @@ import {
   IconSquareRoundedPlus,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { useState } from "react";
+
+const propertyTypes = ["ALL", "SINGLE", "DOUBLE", "BHK", "VILLA"];
 
 const AdminNavbar = () => {
+  const { dispatch, filters } = usePropertyFilterContext();
+  const [values, setValues] = useState([
+    filters.min_price ?? 500,
+    filters.max_price ?? 10000,
+  ]);
+
+  const handleClear = () => {
+    dispatch({ type: "clearPropertyFilter", payload: {} });
+    setValues([filters.min_price ?? 500, filters.max_price ?? 10000]);
+  };
+
+  const handleApplyFilters = () => {};
+
   return (
     <div className="flex w-full flex-col justify-between items-center gap-default">
       <div className="flex w-full justify-between items-center">
@@ -33,13 +51,19 @@ const AdminNavbar = () => {
             description="Apply appropriate filters to the selected properties"
             content={
               <div className="flex flex-col gap-default">
-                <MultiRangeSlider
-                  min={0}
-                  max={10000}
-                  onChange={({ min, max }: { min: number; max: number }) =>
-                    console.log(`min = ${min}, max = ${max}`)
-                  }
-                />
+                <div className="flex flex-col gap-default">
+                  <p className="text-text-secondary text-md-subtitle-primary font-medium">
+                    Price range:
+                  </p>
+                  <DualRangeSlider
+                    label={(value) => value}
+                    value={values}
+                    onValueChange={setValues}
+                    min={500}
+                    max={10000}
+                    step={1}
+                  />
+                </div>
                 <div className="flex col-span-1 justify-between items-center rounded-default px-sm-h bg-white border">
                   <input
                     name="search"
@@ -50,37 +74,27 @@ const AdminNavbar = () => {
                   <IconSearch />
                 </div>
                 <div className="col-span-2 grid grid-cols-2 justify-between gap-default items-center">
-                  <div className="flex col-span-1 justify-between items-center rounded-default px-sm-h bg-white border">
-                    <input
-                      name="price"
-                      placeholder="Price"
-                      className="placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
-                      onChange={() => {}}
-                    />
-                    <IconCurrencyDollar />
-                  </div>
-                  <div className="flex col-span-1 justify-between items-center flex-1 rounded-default px-sm-h bg-white border">
-                    <input
-                      name="propertyType"
-                      placeholder="Property Type"
-                      className="placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
-                      onChange={() => {}}
-                    />
-                    <IconChevronDown />
-                  </div>
-                </div>
-                <div className="flex colspan-1 justify-between items-center rounded-default px-sm-h bg-white border">
-                  <input
-                    name="location"
-                    placeholder="location"
-                    className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
-                    onChange={() => {}}
+                  <SelectInput
+                    // label="Property type"
+                    placeholder="Beds"
+                    selectList={["1", "2", "3", "4"]}
                   />
-                  <IconChevronDown />
+                  <SelectInput
+                    // label="Property type"
+                    placeholder="Property type"
+                    selectList={propertyTypes}
+                  />
                 </div>
+                <SelectInput
+                  className="col-span-1"
+                  // label="Property type"
+                  placeholder="Location"
+                  selectList={["Guwahati"]}
+                />
                 <div className="flex col-span-1 justify-between items-center rounded-default px-sm-h bg-white border">
                   <input
                     name="filter"
+                    disabled
                     placeholder="Filters"
                     className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-medium placeholder:text-text-secondary-dark focus:outline-none flex py-default"
                     onChange={() => {}}
@@ -89,9 +103,19 @@ const AdminNavbar = () => {
                 </div>
                 <div className="flex gap-default w-full">
                   <DrawerClose asChild>
-                    <button className="outlinedBtn flex-1">Cancel</button>
+                    <button
+                      className="outlinedBtn flex-1"
+                      onClick={handleClear}
+                    >
+                      Clear
+                    </button>
                   </DrawerClose>
-                  <button className="filledBtn flex-1">Apply</button>
+                  <button
+                    className="filledBtn flex-1"
+                    onClick={handleApplyFilters}
+                  >
+                    Apply
+                  </button>
                 </div>
               </div>
             }

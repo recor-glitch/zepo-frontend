@@ -1,108 +1,58 @@
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-} from "react";
-import classnames from "classnames";
-import "./multiRangeSlider.css";
+"use client";
 
-interface MultiRangeSliderProps {
-  min: number;
-  max: number;
-  onChange: Function;
+import * as React from "react";
+import * as SliderPrimitive from "@radix-ui/react-slider";
+
+import { cn } from "@/lib/utils";
+
+interface DualRangeSliderProps
+  extends React.ComponentProps<typeof SliderPrimitive.Root> {
+  labelPosition?: "top" | "bottom";
+  label?: (value: number | undefined) => React.ReactNode;
 }
 
-const MultiRangeSlider: FC<MultiRangeSliderProps> = ({
-  min,
-  max,
-  onChange,
-}) => {
-  const [minVal, setMinVal] = useState(min);
-  const [maxVal, setMaxVal] = useState(max);
-  const minValRef = useRef<HTMLInputElement>(null);
-  const maxValRef = useRef<HTMLInputElement>(null);
-  const range = useRef<HTMLDivElement>(null);
-
-  // Convert to percentage
-  const getPercent = useCallback(
-    (value: number) => Math.round(((value - min) / (max - min)) * 100),
-    [min, max]
-  );
-
-  // Set width of the range to decrease from the left side
-  useEffect(() => {
-    if (maxValRef.current) {
-      const minPercent = getPercent(minVal);
-      const maxPercent = getPercent(+maxValRef.current.value); // Precede with '+' to convert the value from type string to type number
-
-      if (range.current) {
-        range.current.style.left = `${minPercent}%`;
-        range.current.style.width = `${maxPercent - minPercent}%`;
-      }
-    }
-  }, [minVal, getPercent]);
-
-  // Set width of the range to decrease from the right side
-  useEffect(() => {
-    if (minValRef.current) {
-      const minPercent = getPercent(+minValRef.current.value);
-      const maxPercent = getPercent(maxVal);
-
-      if (range.current) {
-        range.current.style.width = `${maxPercent - minPercent}%`;
-      }
-    }
-  }, [maxVal, getPercent]);
-
-  // Get min and max values when their state changes
-  useEffect(() => {
-    onChange({ min: minVal, max: maxVal });
-  }, [minVal, maxVal, onChange]);
+const DualRangeSlider = React.forwardRef<
+  React.ElementRef<typeof SliderPrimitive.Root>,
+  DualRangeSliderProps
+>(({ className, label, labelPosition = "top", ...props }, ref) => {
+  const initialValue = Array.isArray(props.value)
+    ? props.value
+    : [props.min, props.max];
 
   return (
-    <div className="container">
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={minVal}
-        ref={minValRef}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          const value = Math.min(+event.target.value, maxVal - 1);
-          setMinVal(value);
-          event.target.value = value.toString();
-        }}
-        className={classnames("thumb thumb--zindex-3", {
-          "thumb--zindex-5": minVal > max - 100,
-        })}
-      />
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={maxVal}
-        ref={maxValRef}
-        onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          const value = Math.max(+event.target.value, minVal + 1);
-          setMaxVal(value);
-          event.target.value = value.toString();
-        }}
-        className="thumb thumb--zindex-4"
-      />
-
-      <div className="slider">
-        <div className="slider__track"></div>
-        <div ref={range} className="slider__range"></div>
-        <div className="slider__left-value">
-          Min price: {minVal}
-        </div>
-        <div className="slider__right-value">Max price: {maxVal}</div>
-      </div>
-    </div>
+    <SliderPrimitive.Root
+      ref={ref}
+      className={cn(
+        "relative flex w-full touch-none select-none items-center mt-4",
+        className
+      )}
+      {...props}
+    >
+      <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+        <SliderPrimitive.Range className="absolute h-full bg-primary" />
+      </SliderPrimitive.Track>
+      {initialValue.map((value, index) => (
+        <React.Fragment key={index}>
+          <SliderPrimitive.Thumb className="relative block h-4 w-4 rounded-full border-2 border-primary bg-primary ring-offset-primary transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+            {label && (
+              <span
+                className={cn(
+                  `absolute flex w-full text-text-secondary ${
+                    index === 0 ? `justify-start` : `justify-end`
+                  }`,
+                  labelPosition === "top" && "-top-7",
+                  labelPosition === "bottom" && "top-4"
+                )}
+              >
+                {label(value)?.toLocaleString()}
+              </span>
+            )}
+          </SliderPrimitive.Thumb>
+        </React.Fragment>
+      ))}
+    </SliderPrimitive.Root>
   );
-};
+});
+DualRangeSlider.displayName = "DualRangeSlider";
 
-export default MultiRangeSlider;
+export { DualRangeSlider };
