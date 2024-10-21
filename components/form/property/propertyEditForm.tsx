@@ -1,6 +1,6 @@
 "use client";
 
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { WashRoomType } from "@/type/app";
 import { IPropertyFormDto } from "@/type/dto/property/property-dto";
@@ -8,7 +8,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Controller, useForm } from "react-hook-form";

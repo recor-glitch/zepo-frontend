@@ -1,6 +1,6 @@
 "use client";
 
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useGetPropertyById } from "@/query/propertyQuery";
 import { IAddressDetails } from "@/type/dto/address/address-dto";
 import { IPropertyFormDto } from "@/type/dto/property/property-dto";

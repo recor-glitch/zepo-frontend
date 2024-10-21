@@ -1,4 +1,4 @@
-import { UsePropertyFormContextProvider } from "@/context/property/property-fom-context";
+import { UsePropertyFormContextProvider } from "@/context/property/property-form/property-fom-context";
 import PropertyEditFormWrapper from "../../property-wrapper/propertyEditFormWrapper";
 
 const PropertyEditComponent = ({ id }: { id: string }) => {

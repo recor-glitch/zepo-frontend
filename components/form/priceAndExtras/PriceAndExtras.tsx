@@ -1,7 +1,7 @@
 "use client";
 
 import { ChipComponent } from "@/components/chip";
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { useFileUpload } from "@/mutation/fileMutation";
 import { useCreatePropertyWithAddress } from "@/mutation/propertyMutation";

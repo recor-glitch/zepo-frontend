@@ -10,6 +10,7 @@ import { useGetAllProperties } from "@/query/propertyQuery";
 import { IconDotsVertical } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 const AdminPage = () => {
   const {

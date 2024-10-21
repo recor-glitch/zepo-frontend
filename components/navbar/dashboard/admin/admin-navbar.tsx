@@ -1,6 +1,7 @@
 "use client";
 
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
+import MultiRangeSlider from "@/components/slider/multi-range-slider";
 import { DrawerClose } from "@/components/ui/drawer";
 import {
   IconAdjustmentsHorizontal,
@@ -32,6 +33,13 @@ const AdminNavbar = () => {
             description="Apply appropriate filters to the selected properties"
             content={
               <div className="flex flex-col gap-default">
+                <MultiRangeSlider
+                  min={0}
+                  max={10000}
+                  onChange={({ min, max }: { min: number; max: number }) =>
+                    console.log(`min = ${min}, max = ${max}`)
+                  }
+                />
                 <div className="flex col-span-1 justify-between items-center rounded-default px-sm-h bg-white border">
                   <input
                     name="search"

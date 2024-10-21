@@ -1,17 +1,14 @@
 "use client";
 
 import { ChipComponent } from "@/components/chip";
-import { DrawerClose } from "@/components/ui/drawer";
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { useUpdateAddress } from "@/mutation/addressMutation";
 import { useFileDelete, useFileUpload } from "@/mutation/fileMutation";
 import {
-  useCreatePropertyWithAddress,
-  useUpdateProperty,
+  useUpdateProperty
 } from "@/mutation/propertyMutation";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
-import { IUploadResponse } from "@/type/dto/upload/upload-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { IconLoader } from "@tabler/icons-react";
