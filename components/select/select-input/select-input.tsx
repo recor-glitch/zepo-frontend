@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import {
   Select,
   SelectContent,
@@ -15,6 +13,8 @@ interface ISelectProps {
   label?: string;
   placeholder: string;
   className?: string;
+  defaultValue?: string;
+  onChange: (value: string) => void; // Add an onChange prop to handle value changes
 }
 
 export function SelectInput({
@@ -22,13 +22,18 @@ export function SelectInput({
   placeholder,
   selectList,
   className,
+  defaultValue,
+  onChange, // Get the onChange function passed from the parent component
 }: ISelectProps) {
   return (
-    <Select>
+    <Select onValueChange={(value) => onChange(value)}>
+      {" "}
+      {/* Capture the selected value */}
       <SelectTrigger className={`min-h-[3.6rem] h-full w-full ${className}`}>
         <SelectValue
           className="*:text-text-secondary *:text-md-subtitle-secondary *:font-medium selection:text-text-secondary"
           placeholder={placeholder}
+          defaultValue={defaultValue}
         />
       </SelectTrigger>
       <SelectContent className="bg-white">
@@ -40,6 +45,7 @@ export function SelectInput({
           )}
           {selectList?.map((item) => (
             <SelectItem
+              key={item} // Add key prop to avoid React warnings
               className="*:text-text-secondary text-md-subtitle-secondary font-medium"
               value={item}
             >

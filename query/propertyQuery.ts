@@ -2,16 +2,19 @@ import { GetAllProperties, GetPropertyById } from "@/services";
 import {
   IAllPropertyResponse,
   IPropertyByIdResponse,
+  IPropertyFiltersDto,
 } from "@/type/dto/property/property-dto";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
 export const useGetAllProperties = ({
+  filters,
   option,
 }: {
+  filters: IPropertyFiltersDto;
   option?: UseQueryOptions<IAllPropertyResponse>;
 }) => {
   return useQuery<IAllPropertyResponse>({
-    queryFn: () => GetAllProperties(),
+    queryFn: () => GetAllProperties({ ...filters }),
     queryKey: ["getAllProperties"],
     ...option,
   });

@@ -5,6 +5,7 @@ import ErrorComponent from "@/components/fallbacks/error";
 import { AdminNavbar } from "@/components/navbar";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { dummyReviews } from "@/constants";
+import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import DummyAvatar from "@/public/dummy-avatar.svg";
 import { useGetAllProperties } from "@/query/propertyQuery";
 import { IconDotsVertical } from "@tabler/icons-react";
@@ -13,12 +14,14 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 const AdminPage = () => {
+  const { filters } = usePropertyFilterContext();
+
   const {
     data: allProperties,
     isLoading,
     isError,
     error,
-  } = useGetAllProperties({});
+  } = useGetAllProperties({ filters });
 
   const router = useRouter();
 

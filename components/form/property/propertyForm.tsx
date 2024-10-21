@@ -540,7 +540,7 @@ const PropertyForm = () => {
           </div>
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">
-          <button className="outlinedBtn" onClick={() => handleOnCancel()}>
+          <button className="outlinedBtn" onClick={handleOnCancel}>
             Cancel
           </button>
           <button className="filledBtn" type="submit">
