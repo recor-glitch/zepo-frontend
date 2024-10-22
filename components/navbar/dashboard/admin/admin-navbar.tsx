@@ -8,26 +8,26 @@ import { usePropertyFilterContext } from "@/context/property/property-filter/pro
 import { IPropertyFiltersDto } from "@/type/dto/property/property-dto";
 import {
   IconAdjustmentsHorizontal,
-  IconChevronDown,
-  IconCurrencyDollar,
   IconNotification,
   IconSearch,
   IconSquareRoundedPlus,
 } from "@tabler/icons-react";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const propertyTypes = ["ALL", "SINGLE", "DOUBLE", "BHK", "VILLA"];
 
 const AdminNavbar = () => {
-  const queryClient = useQueryClient();
   const { dispatch, filters } = usePropertyFilterContext();
-  const [values, setValues] = useState<IPropertyFiltersDto>({ ...filters });
+  const [values, setValues] = useState<IPropertyFiltersDto>(filters);
   const [minMaxValues, setMinMaxValues] = useState([
     filters.min_price ?? 500,
     filters.max_price ?? 10000,
   ]);
+
+  useEffect(() => {
+    setValues(filters);
+  }, [filters]);
 
   const handlePropertyTypeChange = (value: string) => {
     if (value.trim().length !== 0)
@@ -37,29 +37,35 @@ const AdminNavbar = () => {
   };
 
   const handleCityChange = (value: string) => {
-    if (value.trim().length !== 0)
-      setValues((prev) => {
-        return { ...prev, city: value };
-      });
+    setValues((prev) => {
+      return { ...prev, city: value };
+    });
   };
 
   const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.trim().length !== 0)
-      setValues((prev) => {
-        return { ...prev, search: e.target.value };
-      });
+    setValues((prev) => {
+      return { ...prev, search: e.target.value };
+    });
   };
 
   const handleBedCountChange = (value: string) => {
-    if (typeof value === "number")
-      setValues((prev) => {
-        return { ...prev, beds: Number(value) };
-      });
+    setValues((prev) => {
+      return { ...prev, beds: Number(value) };
+    });
   };
 
   const handleClear = () => {
     dispatch({ type: "clearPropertyFilter", payload: {} });
     setMinMaxValues([filters.min_price ?? 500, filters.max_price ?? 10000]);
+  };
+
+  const handleSortingChange = (value: string) => {
+    setValues((prev) => {
+      return {
+        ...prev,
+        low_to_high: value === "Low to high" ? 1 : -1,
+      };
+    });
   };
 
   const handleApplyFilters = () => {
@@ -71,7 +77,6 @@ const AdminNavbar = () => {
         max_price: minMaxValues[1],
       },
     });
-    queryClient.invalidateQueries({ queryKey: ["getAllProperties"] });
   };
 
   return (
@@ -117,9 +122,13 @@ const AdminNavbar = () => {
                   <IconSearch className="text-text-secondary" />
                 </div>
                 <SelectInput
-                  onChange={() => {}}
+                  onChange={handleSortingChange}
                   defaultValue={
-                    values.low_to_high === 1 ? "Low to high" : "High to low"
+                    values.low_to_high === 1
+                      ? "Low to high"
+                      : values.low_to_high === -1
+                      ? "High to low"
+                      : undefined
                   }
                   placeholder="Sort by"
                   selectList={["Low to high", "High to low"]}
@@ -134,12 +143,14 @@ const AdminNavbar = () => {
                   <SelectInput
                     onChange={handlePropertyTypeChange}
                     placeholder="Property type"
+                    defaultValue={values.property_type}
                     selectList={propertyTypes}
                   />
                 </div>
                 <SelectInput
                   onChange={handleCityChange}
                   placeholder="Location"
+                  defaultValue={values.city}
                   selectList={["Guwahati"]}
                 />
                 <div className="flex gap-default w-full">

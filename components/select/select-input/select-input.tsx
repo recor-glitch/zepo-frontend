@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect, useState } from "react";
 
 interface ISelectProps {
   selectList: string[];
@@ -25,15 +26,30 @@ export function SelectInput({
   defaultValue,
   onChange, // Get the onChange function passed from the parent component
 }: ISelectProps) {
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(
+    defaultValue
+  );
+
+  // Initialize the selected value to the default value if provided
+  useEffect(() => {
+    if (defaultValue) {
+      setSelectedValue(defaultValue);
+    }
+  }, [defaultValue]);
+
   return (
-    <Select onValueChange={(value) => onChange(value)}>
-      {" "}
-      {/* Capture the selected value */}
+    <Select
+      value={selectedValue}
+      defaultValue={defaultValue} // Set the default value for the Select component
+      onValueChange={(value) => {
+        setSelectedValue(value);
+        onChange(value); // Call the parent onChange function
+      }}
+    >
       <SelectTrigger className={`min-h-[3.6rem] h-full w-full ${className}`}>
         <SelectValue
           className="*:text-text-secondary *:text-md-subtitle-secondary *:font-medium selection:text-text-secondary"
           placeholder={placeholder}
-          defaultValue={defaultValue}
         />
       </SelectTrigger>
       <SelectContent className="bg-white">

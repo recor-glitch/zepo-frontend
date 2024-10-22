@@ -9,12 +9,14 @@ import { usePropertyFilterContext } from "@/context/property/property-filter/pro
 import DummyAvatar from "@/public/dummy-avatar.svg";
 import { useGetAllProperties } from "@/query/propertyQuery";
 import { IconDotsVertical } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 const AdminPage = () => {
   const { filters } = usePropertyFilterContext();
+  const queryClient = useQueryClient();
 
   const {
     data: allProperties,
@@ -22,6 +24,10 @@ const AdminPage = () => {
     isError,
     error,
   } = useGetAllProperties({ filters });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["getAllProperties"] });
+  }, [filters]);
 
   const router = useRouter();
 

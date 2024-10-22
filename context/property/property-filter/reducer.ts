@@ -8,7 +8,7 @@ export const PropertyFilterReducer = (
 ): propertyFilterContentDto => {
   switch (action.type) {
     case "clearPropertyFilter":
-      return { dispatch: state.dispatch, filters: { limit: 1, cursor: 0 } };
+      return { dispatch: state.dispatch, filters: { limit: 10, cursor: 0 } };
     case "setPropertyFilter":
       const newFilters: Record<string, number | string | undefined> = {
         cursor: 0,
