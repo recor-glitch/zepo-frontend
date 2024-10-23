@@ -3,21 +3,35 @@
 import { navItems } from "@/constants";
 import { useDrawerContext } from "@/context";
 import ZepoLogo from "@/public/zepo-logo.svg";
+import { IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
 import { HomeDrawer } from "./home-drawer";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 const DrawerWrapper = () => {
   const { isOpen, trigger } = useDrawerContext();
-  const ref = useRef(null);
+  const { data: session, status } = useSession();
+
+  const handleSignIn = async () => {
+    await signIn("google", { redirect: true });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <HomeDrawer
-      ref={ref}
-      header={<Image src={ZepoLogo} alt="Website logo" className="w-logo" />}
+      className="bg-white"
+      header={
+        <div className="flex justify-between items-center">
+          <Image src={ZepoLogo} alt="Website logo" className="w-20" />
+          <IconX onClick={() => trigger((prev) => !prev)} />
+        </div>
+      }
       content={
-        <div className="flex flex-col flex-1 gap-h justify-between items-center py-v">
+        <div className="flex flex-col flex-1 gap-h justify-between items-center">
           <ul className="flex flex-col justify-evenly gap-h items-center w-full">
             {navItems.map((item, index) => {
               if (item.type === "SELECT") {
@@ -44,14 +58,26 @@ const DrawerWrapper = () => {
                 );
             })}
           </ul>
-          <div className="flex flex-col w-full justify-between items-center gap-4 ">
-            <button className="outlinedBtn w-full">Login</button>
-            <button className="filledBtn w-full">Signup</button>
-          </div>
         </div>
+      }
+      footer={
+        status === "unauthenticated" && session === null ? (
+          <div className="flex flex-col w-full justify-between items-center gap-4 ">
+            <button className="outlinedBtn w-full" onClick={handleSignIn}>
+              Signin
+            </button>
+          </div>
+        ) : status === "loading" ? (
+          <div />
+        ) : (
+          <button className="filledBtn w-full" onClick={handleSignOut}>
+            Logout
+          </button>
+        )
       }
       isOpen={isOpen}
       triggerHandler={trigger}
+      fixed
     />
   );
 };

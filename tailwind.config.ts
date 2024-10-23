@@ -1,11 +1,14 @@
 import type { Config } from "tailwindcss";
 
+const flowbite = require("flowbite-react/tailwind");
+
 const config: Config = {
   darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    flowbite.content(),
   ],
   theme: {
     screens: {
@@ -38,6 +41,7 @@ const config: Config = {
         "primary-lighter": "#F0EFFB",
         "primary-light": "#D9D6F5",
         secondary: "#E0DEF7",
+        skeleton: "#E2E8F0",
 
         // DARK SHADES
         "primary-dark": "#100A55",
@@ -49,6 +53,7 @@ const config: Config = {
         "text-secondary-dark": "#6C727F",
         "text-normal": "#001619" /* 70% */,
         "text-white": "#FFFFFF",
+        error: "#FF0000",
 
         // BORDER
         "border-primary": "#DEDEF7",
@@ -147,6 +152,7 @@ const config: Config = {
         "mi-rent-card": "17.5rem",
         "ma-rent-card": "26rem",
         tab: "4rem",
+        logo: "6rem",
         "tab-indicator": "2.9rem",
         like: "3rem",
         avatar: "3rem",
@@ -162,7 +168,7 @@ const config: Config = {
         icon: "2rem",
         "route-w": "15.344rem",
         "sm-container": "18.563rem",
-        "md-container": "48.938rem",
+        "md-container": "51.5rem",
         "detail-container": "9.313rem",
         logo: "8.375rem",
         tab: "4rem",
@@ -195,6 +201,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [flowbite.plugin()],
 };
 export default config;

@@ -1,13 +1,15 @@
 "use client";
 
-import { navItems } from "@/constants";
+import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
+import { NavbarSelectComponent } from "@/components/select";
 import { useDrawerContext } from "@/context";
+import DummyAvatar from "@/public/dummy-avatar.svg";
 import MenuIcon from "@/public/menu.svg";
 import ZepoLogo from "@/public/zepo-logo.svg";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
-import Link from "next/link";
-import DummyAvatar from "@/public/dummy-avatar.svg";
+import { useRouter } from "next/navigation";
+import ProfileMenuContent from "./profile-menu-content";
 
 function NavbarHome() {
   const { trigger } = useDrawerContext();
@@ -15,59 +17,55 @@ function NavbarHome() {
   const { data: session, status } = useSession();
 
   const handleSignIn = async () => {
-    const response = await signIn("google", { redirect: true });
-    console.log("Signin response: ", { response });
+    await signIn("google", { redirect: true });
   };
 
+  const router = useRouter();
+
   return (
-    <div className="h-24 flex flex-row gap-h justify-between items-center px-h py-v">
-      <Image src={ZepoLogo} alt="Website logo" className="w-logo" />
-      <div className="flex flex-row items-center xs:hidden md:flex gap-h h-full max-w-[34.75rem]">
-        <ul className="flex justify-evenly gap-h items-center w-full">
-          {navItems.map((item, index) => {
-            if (item.type === "SELECT") {
-              return (
-                <select className="bg-bg-primary text-md-subtitle-primary font-medium" key={item.title + index}>
-                  <option>{item.title}</option>
-                  {item.selectItems?.map((selectItem, idx) => (
-                    <option key={idx}>{selectItem.title}</option>
-                  ))}
-                </select>
-              );
-            } else
-              return (
-                <Link
-                  href={item.link}
-                  className="text-md-subtitle-primary font-medium"
-                  key={`${item.title} + ${index}`}
-                >
-                  {item.title}
-                </Link>
-              );
-          })}
-        </ul>
+    <div className="h-24 flex flex-row gap-h justify-between items-center px-default md:px-h py-v sticky top-0 z-50 bg-bg-primary">
+      <Image
+        src={ZepoLogo}
+        alt="Website logo"
+        className="w-logo h-logo cursor-pointer"
+        onClick={() => router.replace("/home")}
+      />
+      <div className="hidden lg:flex">
+        <NavbarSelectComponent />
       </div>
       {status === "unauthenticated" && session === null ? (
-        <div className="flex justify-between items-center gap-4 ml-nav-l xs:hidden md:flex">
+        <div className="justify-between items-center gap-4 ml-nav-l hidden lg:flex">
           <button className="outlinedBtn" onClick={handleSignIn}>
             Login
           </button>
-          <button className="filledBtn">Signup</button>
+          <button className="filledBtn" onClick={handleSignIn}>
+            Signup
+          </button>
         </div>
       ) : status === "loading" ? (
-        <div />
+        <></>
       ) : (
-        <div className="circle-div">
-          <Image
-            src={session?.user?.image ?? DummyAvatar}
-            alt="profile Image"
-            height={200}
-            width={200}
-          />
-        </div>
+        <DefaultPopoverComponent
+          triggerElement={
+            <div className="circle-div hidden lg:flex">
+              <Image
+                src={session?.user?.image ?? DummyAvatar}
+                alt="profile Image"
+                height={200}
+                width={200}
+              />
+            </div>
+          }
+          content={
+            <ProfileMenuContent
+              title={session?.user?.name || ""}
+              subtitle={session?.user?.email || ""}
+            />
+          }
+        />
       )}
       <Image
-        className="flex flex-row items-center md:hidden cursor-pointer"
+        className="flex flex-row items-center lg:hidden cursor-pointer"
         src={MenuIcon}
         alt="Menu"
         onClick={() => trigger((prev) => !prev)}

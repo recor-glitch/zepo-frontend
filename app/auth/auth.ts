@@ -1,9 +1,9 @@
 import { ICreateUserResponse, IUserResponse } from "@/type/app";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 import axios from "axios";
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import toast from "react-hot-toast";
 
 export const nextAuthOptions: NextAuthOptions = {
   providers: [
@@ -28,51 +28,81 @@ export const nextAuthOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    async jwt({ token, user }) {
+      try {
+        const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
+          email: token?.email,
+        });
+
+        if (res.status === 200) {
+          return { ...token, ...user, role: res.data.role };
+        }
+        return { ...token, ...user, role: "user" };
+      } catch (err) {
+        return { ...token, ...user, role: "user" };
+      }
+    },
+
     async session({ session, token }) {
-      const res = await axiosInstance.post<IUserResponse>("/get-by-email", {
-        email: session.user?.email,
+      console.log("session ", { session, token });
+
+      const accessToken = token?.accessToken
+        ? token?.accessToken
+        : session.profile?.accessToken;
+      const refreshToken = token?.refreshToken
+        ? token?.refreshToken
+        : session.profile?.refreshToken;
+
+      const res = await axiosInstance.post<ICreateUserResponse>("/invalidate", {
+        accessToken: accessToken,
+        refreshToken: refreshToken,
       });
-      if (res.status === 200) {
+
+      if (res.status === 201) {
+        TokenStorage.setAccessToken(res.data.accessToken || "");
+        TokenStorage.setRefreshToken(res.data.refreshToken || "");
+
         return {
           ...session,
           profile: {
             ...token,
-            role: res.data.role,
+            accessToken: res.data.accessToken,
+            refreshToken: res.data.refreshToken,
           },
         };
       }
-      return { ...session, profile: { ...token, role: "user" } };
+
+      return { ...session, profile: token };
     },
 
     async signIn({ user }) {
-      try {
-        const emailRes = await axios.post<ICreateUserResponse>(
-          `${process.env.BASE_URL}/get-by-email`,
-          {
-            email: user.email,
-          }
-        );
-        if (emailRes.status === 200) {
-          return true;
-        } else {
-          const res = await axios.post<ICreateUserResponse>(
-            `${process.env.BASE_URL}/user`,
-            {
-              id: user.id,
-              email: user.email,
-              image: user.image,
-              name: user.name,
-            }
-          );
-          return true;
+      const res = await axios.post<ICreateUserResponse>(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user`,
+        {
+          id: user.id,
+          email: user.email,
+          image: user.image,
+          name: user.name,
         }
-      } catch (error) {
-        toast.error("Something went wrong");
-        return true;
+      );
+
+      console.log("My Signin", { res });
+
+      if (res.status >= 200) {
+        user.accessToken = res.data.accessToken;
+        user.refreshToken = res.data.refreshToken;
+
+        TokenStorage.setAccessToken(res.data.accessToken);
+        TokenStorage.setRefreshToken(res.data.refreshToken);
       }
+
+      return true;
     },
   },
 
-  session: { strategy: "jwt" },
-  secret: "abcd12345",
+  session: {
+    strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60,
+  },
+  secret: process.env.GOOGLE_SIGNIN_SECRET || "abcdefghijklmnopqrstuv",
 };

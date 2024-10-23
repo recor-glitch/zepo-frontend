@@ -12,5 +12,9 @@ export default async function DashboardRedirectProvider({
     return redirect("/home", RedirectType.replace);
   }
 
-  return <>{children}</>;
+  if (!session) {
+    return redirect("/home", RedirectType.replace);
+  }
+
+  return <div className="flex w-full h-full">{children}</div>;
 }

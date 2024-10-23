@@ -17,7 +17,7 @@
 }
 
 body {
-  @apply bg-bg-primary overflow-x-hidden;
+  @apply bg-bg-primary;
 }
 
 @layer utilities {
@@ -56,31 +56,31 @@ body {
   }
 
   .lgHeaderText {
-    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] md:text-left text-center leading-none;
+    @apply text-lg-header font-bold min-h-[13.125rem] max-w-[34rem] lg:text-left text-center leading-none;
   }
 
   .lgSubHeaderText {
-    @apply text-lg-subtitle font-medium md:min-h-[4rem] md:max-w-[28rem] w-full md:text-left text-center text-text-secondary;
+    @apply text-lg-subtitle font-medium lg:min-h-[4rem] lg:max-w-[28rem] w-full lg:text-left text-center text-text-secondary;
   }
 
   .tabbarHome {
-    @apply flex md:w-sm-container w-full h-sm-container bg-white rounded-default justify-between items-center;
+    @apply flex lg:w-sm-container w-full h-sm-container bg-white rounded-default justify-between items-center;
   }
 
   .browseContainer {
-    @apply absolute left-[10.9%] bottom-[12%] gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 md:flex hidden items-center drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container w-md-container z-10 lg:flex hidden items-center drop-shadow-sm;
   }
 
   .virtualTourContainer {
-    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute top-[8.25rem] min-w-[19.813rem] left-[2.5rem] flex justify-around items-center cursor-pointer drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute lg:top-[8.25rem] min-w-[19.813rem] lg:left-[2.5rem] flex justify-around items-center cursor-pointer drop-shadow-sm;
   }
 
   .bestDealContainer {
-    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute md:top-[44rem] top-[28rem] md:w-[25rem] min-w-[19.813rem] md:left-[18rem] left-[6rem] flex justify-start items-center cursor-pointer drop-shadow-sm;
+    @apply gap-icon-spacing px-sm-h py-sm-v bg-white rounded-default h-md-container z-10 absolute lg:top-[44rem] top-[18rem] lg:w-[25rem] min-w-[19.813rem] lg:left-[18rem] flex justify-start items-center cursor-pointer drop-shadow-sm;
   }
 
   .searchContainer {
-    @apply flex justify-start items-center w-full h-md-container rounded-default bg-white md:hidden gap-4 p-sm-h;
+    @apply flex justify-between items-center w-full h-[5rem] lg:max-w-[10rem] lg:max-h-[12rem] rounded-default bg-white lg:hidden p-sm-h;
   }
 
   .rentContainer {
@@ -88,6 +88,6 @@ body {
   }
 
   .tableRow {
-    @apply px-sm-h
+    @apply px-sm-h;
   }
 }

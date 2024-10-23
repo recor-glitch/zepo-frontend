@@ -1,232 +1,127 @@
 import {
+  Icon,
+  IconBrandAsana,
+  IconBuildingEstate,
+  IconFlame,
+  IconHeart,
+  IconLayoutDashboard,
+  IconLifebuoy,
+  IconList,
+  IconPaw,
+  IconPlugConnected,
+  IconProps,
+  IconReport,
+  IconRipple,
+  IconSettings,
+  IconUser,
+  IconUsers,
+} from "@tabler/icons-react";
+import { ForwardRefExoticComponent, RefAttributes } from "react";
+import {
   IDashboardNavItem,
   INavItems,
-  IStatCard,
-  RentRoomType,
+  IReview,
+  IStatCard
 } from "./type/app";
-import {
-  IconLayoutDashboard,
-  IconBuildingEstate,
-  IconUser,
-  IconList,
-  IconUsers,
-  IconReport,
-  IconSettings,
-} from "@tabler/icons-react";
+import { IBannerPropertyResponse } from "./type/dto/property/property-dto";
 
 // CURRENCY
 export const rupee = "₹";
 export const dollar = "$";
 
 // DUMMY ROOM DATA
-export const dummyRoomRent: RentRoomType[] = [
+export const dummyRoomRent: IBannerPropertyResponse[] = [
   {
-    images: [{ url: "/dummy-rent.svg", alt: "Dummy room image 1" }],
-    type: "VILLA",
-    address: "2821 Lake Sevilla, Palm Harbor, TX",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
+    images: ["/dummy-rent.svg"],
+    property_type: "VILLA",
+    amenities: [],
+    description:
+      "This stylish villa offers a serene living experience with self-sufficient owners. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: true,
     likeCount: 0,
-    price: { amount: 1500, currency: "INR", period: "MONTHLY" },
+    amount: 120000,
+    currency: "INR",
+    period: "MONTHLY",
     balcony: 2,
-    beds: 3,
-    halls: 1,
+    bed: 3,
+    hall: 1,
     kitchen: 1,
-    size: {
-      dimensions: {
-        length: 20,
-        width: 80,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
+    property_length: 20,
+    property_width: 80,
+    unit: "FEET",
+    washroom_count: 2,
+    washroom_type: "SHARED",
     title: "Beverly Springfield",
+    id: 0,
   },
   {
-    images: [{ url: "/dummy-rent-9.svg", alt: "Dummy room image 9" }],
-    type: "VILLA",
-    address: "103 Lake Shores, Michigan, IN",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
-    isPopular: false,
-    likeCount: 0,
-    price: { amount: 1600, currency: "USD", period: "MONTHLY" },
-    balcony: 2,
-    beds: 3,
-    halls: 1,
-    kitchen: 1,
-    size: {
-      dimensions: {
-        length: 7,
-        width: 5,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "Tarpon Bay",
-  },
-  {
-    images: [{ url: "/dummy-rent-2.svg", alt: "Dummy room image 2" }],
-    type: "VILLA",
-    address: "Palm Harbor, TX",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
+    images: ["/dummy-rent-9.svg"],
+    property_type: "VILLA",
+    amenities: [],
+    description:
+      "This stylish villa offers a serene living experience with self-sufficient owners. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
     isPopular: true,
     likeCount: 0,
-    price: { amount: 1600, currency: "USD", period: "MONTHLY" },
+    amount: 120000,
+    currency: "INR",
+    period: "MONTHLY",
     balcony: 2,
-    beds: 3,
-    halls: 1,
+    bed: 3,
+    hall: 1,
     kitchen: 1,
-    size: {
-      dimensions: {
-        length: 8,
-        width: 6,
-      },
-      type: "METERS",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "Tarpon Bay",
+    property_length: 20,
+    property_width: 80,
+    unit: "FEET",
+    washroom_count: 2,
+    washroom_type: "SHARED",
+    title: "Beverly Springfield",
+    id: 0,
   },
   {
-    images: [{ url: "/dummy-rent-5.svg", alt: "Dummy room image 5" }],
-    type: "VILLA",
-    address: "909 Woodland St, Michigan, IN",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
-    isPopular: false,
+    images: ["/dummy-rent-2.svg"],
+    property_type: "VILLA",
+    amenities: [],
+    description:
+      "This stylish villa offers a serene living experience with self-sufficient owners. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
+    isPopular: true,
     likeCount: 0,
-    price: { amount: 4550, currency: "USD", period: "MONTHLY" },
+    amount: 120000,
+    currency: "INR",
+    period: "MONTHLY",
     balcony: 2,
-    beds: 3,
-    halls: 1,
+    bed: 3,
+    hall: 1,
     kitchen: 1,
-    size: {
-      dimensions: {
-        length: 7,
-        width: 5,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "Faulkner Ave",
+    property_length: 20,
+    property_width: 80,
+    unit: "FEET",
+    washroom_count: 2,
+    washroom_type: "SHARED",
+    title: "Beverly Springfield",
+    id: 0,
   },
   {
-    images: [{ url: "/dummy-rent-6.svg", alt: "Dummy room image 6" }],
-    type: "VILLA",
-    address: "210 US Highway, Highland Lake, FL",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
-    isPopular: false,
+    images: ["/dummy-rent-5.svg"],
+    property_type: "VILLA",
+    amenities: [],
+    description:
+      "This stylish villa offers a serene living experience with self-sufficient owners. Safe and clean with warm, personalized service. Convenient parking facilities. Located near the East Bypass Road, it's a comfortable 10-minute drive from the airport, walking street, and downtown. Ideal for those seeking a private residence.",
+    isPopular: true,
     likeCount: 0,
-    price: { amount: 2400, currency: "USD", period: "MONTHLY" },
+    amount: 120000,
+    currency: "INR",
+    period: "MONTHLY",
     balcony: 2,
-    beds: 3,
-    halls: 1,
+    bed: 3,
+    hall: 1,
     kitchen: 1,
-    size: {
-      dimensions: {
-        length: 7,
-        width: 5,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "St. Crystal",
-  },
-  {
-    images: [{ url: "/dummy-rent-7.svg", alt: "Dummy room image 7" }],
-    type: "VILLA",
-    address: "243 Curlew Road, Palm Harbor, TX",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
-    isPopular: false,
-    likeCount: 0,
-    price: { amount: 1500, currency: "USD", period: "MONTHLY" },
-    balcony: 2,
-    beds: 3,
-    halls: 1,
-    kitchen: 1,
-    size: {
-      dimensions: {
-        length: 7,
-        width: 5,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "Cove Red",
-  },
-  {
-    images: [{ url: "/dummy-rent-8.svg", alt: "Dummy room image 8" }],
-    type: "VILLA",
-    address: "243 Curlew Road, Palm Harbor, TX",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
-    isPopular: false,
-    likeCount: 0,
-    price: { amount: 3350, currency: "USD", period: "MONTHLY" },
-    balcony: 2,
-    beds: 3,
-    halls: 1,
-    kitchen: 1,
-    size: {
-      dimensions: {
-        length: 7,
-        width: 5,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "Cove Red",
-  },
-  {
-    images: [{ url: "/dummy-rent-7.svg", alt: "Dummy room image 7" }],
-    type: "VILLA",
-    address: "243 Curlew Road, Palm Harbor, TX",
-    desc: "Style country house is quiet owners take care of itself. Safe and clean with warm and personalized. Parking Facilities Situated near the bypass road east Getting comfortable Airport - Walking Street - downtown 10 minutes - 15 minutes Wat Rong Khun is ideal for those seeking a private residence, not a building.",
-    isPopular: false,
-    likeCount: 0,
-    price: { amount: 1500, currency: "USD", period: "MONTHLY" },
-    balcony: 2,
-    beds: 3,
-    halls: 1,
-    kitchen: 1,
-    size: {
-      dimensions: {
-        length: 7,
-        width: 5,
-      },
-      type: "FEET",
-    },
-    washroom: {
-      count: 2,
-      type: "ATTACHED",
-    },
-    swimmingpull: true,
-    title: "Cove Red",
+    property_length: 20,
+    property_width: 80,
+    unit: "FEET",
+    washroom_count: 2,
+    washroom_type: "SHARED",
+    title: "Beverly Springfield",
+    id: 0,
   },
 ];
 
@@ -447,5 +342,111 @@ export const salesData = [
     salesType: "Rent",
     price: 600000,
     status: "Available",
+  },
+];
+
+export const dummyReviews: IReview[] = [
+  {
+    user: {
+      email: "user@example.com",
+      id: "user@example",
+      image: "",
+      name: "Bikash Kalita",
+    },
+    msg: "Best broker of the town",
+    rating: 3,
+  },
+  {
+    user: {
+      email: "user@example.com",
+      id: "user@example",
+      image: "",
+      name: "Aryan Chobey",
+    },
+    msg: "Awesome communication",
+    rating: 4,
+  },
+  {
+    user: {
+      email: "jane.doe@example.com",
+      id: "user123",
+      image: "https://example.com/images/jane.jpg",
+      name: "Jane Doe",
+    },
+    msg: "Excellent service, very professional!",
+    rating: 5,
+  },
+  {
+    user: {
+      email: "john.smith@example.com",
+      id: "user456",
+      image: "https://example.com/images/john.jpg",
+      name: "John Smith",
+    },
+    msg: "Good experience overall, but room for improvement.",
+    rating: 4,
+  },
+  // {
+  //   user: {
+  //     email: "alice.wonderland@example.com",
+  //     id: "user789",
+  //     image: "https://example.com/images/alice.jpg",
+  //     name: "Alice Wonderland",
+  //   },
+  //   msg: "Not satisfied with the service.",
+  //   rating: 2,
+  // },
+];
+
+export const profileMenuItems: IDashboardNavItem[] = [
+  {
+    icon: IconUser,
+    link: "/profile",
+    title: "Account",
+  },
+  {
+    icon: IconLifebuoy,
+    link: "/support",
+    title: "Help and Support",
+  },
+  {
+    icon: IconHeart,
+    link: "/wishlist",
+    title: "Wishlist",
+  },
+  {
+    icon: IconSettings,
+    link: "/settings",
+    title: "Settings",
+  },
+];
+
+export const tags: {
+  title: string;
+  icon: ForwardRefExoticComponent<IconProps & RefAttributes<Icon>>;
+}[] = [
+  {
+    icon: IconUsers,
+    title: "4 Adults",
+  },
+  {
+    icon: IconPaw,
+    title: "Pets Allowed",
+  },
+  {
+    icon: IconRipple,
+    title: "Lake nearby",
+  },
+  {
+    icon: IconPlugConnected,
+    title: "Unsecluded",
+  },
+  {
+    icon: IconFlame,
+    title: "Bonfire",
+  },
+  {
+    icon: IconBrandAsana,
+    title: "Sauna",
   },
 ];
