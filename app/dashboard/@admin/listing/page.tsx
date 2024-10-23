@@ -1,5 +1,5 @@
 import PropertyWrapper from "@/components/form/property-wrapper/PropertyFormWrapper";
-import { UsePropertyFormContextProvider } from "@/context/property/property-fom-context";
+import { UsePropertyFormContextProvider } from "@/context/property/property-form/property-fom-context";
 
 const PropertyListingPage = () => {
   return (

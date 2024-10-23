@@ -1,7 +1,6 @@
 import { propertyContextDto } from "@/type/app";
-import { Action } from "./action";
-import { object } from "zod";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
+import { Action } from "./action";
 
 export const propertyReducer = (
   state: propertyContextDto,
@@ -30,6 +29,11 @@ export const propertyReducer = (
       });
 
       return { ...state, propertyInfo: updatedProperties as IPropertyDto };
+    case "setRemovedUrlInExtras":
+      return {
+        ...state,
+        extras: { ...state.extras, removedUrls: action.payload.urls },
+      };
     default:
       return state;
   }

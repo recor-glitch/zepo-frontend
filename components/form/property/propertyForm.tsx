@@ -1,6 +1,6 @@
 "use client";
 
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { WashRoomType } from "@/type/app";
 import { IPropertyFormDto } from "@/type/dto/property/property-dto";
@@ -540,7 +540,7 @@ const PropertyForm = () => {
           </div>
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">
-          <button className="outlinedBtn" onClick={() => handleOnCancel()}>
+          <button className="outlinedBtn" onClick={handleOnCancel}>
             Cancel
           </button>
           <button className="filledBtn" type="submit">

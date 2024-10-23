@@ -1,15 +1,16 @@
 "use client";
 
 import { ChipComponent } from "@/components/chip";
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
 import { useFileUpload } from "@/mutation/fileMutation";
 import { useCreatePropertyWithAddress } from "@/mutation/propertyMutation";
+import { CurrencyType } from "@/type/app";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { z } from "zod";
@@ -50,6 +51,7 @@ const PriceAndEntrasForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<PriceAndEntrasFormData>({
     resolver: zodResolver(priceAndExtraSchema),
@@ -63,7 +65,8 @@ const PriceAndEntrasForm = () => {
     setAmenitiestxt("");
   };
 
-  const { dispatch, propertyInfo, addressDetails } = usePropertyFormContext();
+  const { dispatch, propertyInfo, addressDetails, status } =
+    usePropertyFormContext();
 
   const {
     mutateAsync: uploadFn,
@@ -86,6 +89,14 @@ const PriceAndEntrasForm = () => {
 
   const router = useRouter();
   const { user } = useUserContext();
+
+  useEffect(() => {
+    if (status === "EDIT" && propertyInfo) {
+      setValue("price", propertyInfo.amount || 0);
+      setValue("length", propertyInfo.property_length || 0);
+      setValue("width", propertyInfo.property_width || 0);
+    }
+  }, [status, propertyInfo]);
 
   const onSubmit = async (data: PriceAndEntrasFormData) => {
     const formData = new FormData();

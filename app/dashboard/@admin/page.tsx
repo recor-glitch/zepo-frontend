@@ -1,23 +1,35 @@
 "use client";
 
 import { DashboardStatCard, RentCard } from "@/components/cards";
+import ErrorComponent from "@/components/fallbacks/error";
 import { AdminNavbar } from "@/components/navbar";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { dummyReviews } from "@/constants";
+import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import DummyAvatar from "@/public/dummy-avatar.svg";
 import { useGetAllProperties } from "@/query/propertyQuery";
 import { IconDotsVertical } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const AdminPage = () => {
+  const { filters } = usePropertyFilterContext();
+  const queryClient = useQueryClient();
+
   const {
     data: allProperties,
     isLoading,
     isError,
     error,
-  } = useGetAllProperties({});
+  } = useGetAllProperties({ filters });
 
-  console.log({ allProperties });
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: ["getAllProperties"] });
+  }, [filters]);
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col h-full gap-default">
@@ -33,27 +45,33 @@ const AdminPage = () => {
           </p>
         </div>
         {/* BODY */}
-        <div className="grid lg:grid-cols-3 grid-cols-1 gap-default">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-default">
           <div
-            className={`lg:col-span-2 grid lg:grid-cols-3 gap-default ${
-              !allProperties?.data &&
-              `flex flex-col justify-center items-center`
+            className={`lg:col-span-2 gap-default ${
+              isError
+                ? `flex flex-col justify-center items-center`
+                : `grid lg:grid-cols-3`
             }`}
           >
-            {allProperties && allProperties.data ? (
+            {isLoading ? (
+              [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
+            ) : isError ? (
+              <ErrorComponent />
+            ) : allProperties && allProperties.data?.length === 0 ? (
+              <p>No data found</p>
+            ) : (
+              allProperties &&
               allProperties.data?.map((rent, index) => (
                 <RentCard
                   showPopular={false}
                   rent={rent}
                   key={rent.title + index}
+                  editEnabled
+                  editCallback={() => {
+                    router.push(`/dashboard/listing?id=${rent.id}&edit=true`);
+                  }}
                 />
               ))
-            ) : isLoading ? (
-              [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
-            ) : !isError ? (
-              <p>No data found</p>
-            ) : (
-              <p>Something went wrong</p>
             )}
           </div>
           <div className="col-span-1 flex-col flex gap-default">

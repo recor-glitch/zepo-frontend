@@ -1,4 +1,4 @@
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 
 interface stepperProps {
   steps: { title: string }[];

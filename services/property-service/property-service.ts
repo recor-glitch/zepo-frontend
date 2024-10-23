@@ -4,6 +4,7 @@ import {
   IAllPropertyResponse,
   IPropertyByIdResponse,
   IPropertyDto,
+  IPropertyFiltersDto,
   IPropertyUpdateDto,
 } from "@/type/dto/property/property-dto";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
@@ -39,8 +40,27 @@ export async function UpdateProperty(
   return res.data;
 }
 
-export async function GetAllProperties(): Promise<IAllPropertyResponse> {
-  const res = await axiosInstance.get(`/property`);
+export async function GetAllProperties({
+  cursor,
+  limit,
+  beds,
+  city,
+  low_to_high,
+  max_price,
+  min_price,
+  property_type,
+  search,
+}: IPropertyFiltersDto): Promise<IAllPropertyResponse> {
+  console.log({ property_type });
+  const res = await axiosInstance.get(
+    `/property?search=${search || ""}&limit=${limit}&cursor=${cursor}&beds=${
+      beds || ""
+    }&city=${city || ""}&low_to_high=${low_to_high || ""}&max_price=${
+      max_price || ""
+    }&min_price=${min_price || ""}&property_type=${
+      property_type === "ALL" ? "" : property_type ?? ""
+    }`
+  );
 
   return res.data;
 }

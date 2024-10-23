@@ -62,7 +62,7 @@ export interface IPropertyDtoWithIdRequired {
 export interface IPropertyFormDto {
   id?: number;
   title: string;
-  images: File[] | string[];
+  images: (File | string)[];
   description: string;
   is_popular: boolean;
   amenities: string[];
@@ -133,6 +133,19 @@ export interface IBannerPropertyResponse {
   property_width?: number;
   property_length?: number;
   amenities: string[];
+}
+
+export interface IPropertyFiltersDto {
+  limit: number;
+  cursor: number;
+  city?: string;
+  low_to_high?: number;
+  property_type?: string;
+  max_price?: number;
+  min_price?: number;
+  rating?: number;
+  beds?: number;
+  search?: string;
 }
 
 export interface IAllPropertyResponse {

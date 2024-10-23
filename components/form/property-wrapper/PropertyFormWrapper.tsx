@@ -1,11 +1,10 @@
 "use client";
 
 import { PropertyStepper } from "@/components/stepper";
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import AddressFom from "../address/addressForm";
 import PriceAndEntrasForm from "../priceAndExtras/PriceAndExtras";
 import PropertyForm from "../property/propertyForm";
-import { useEffect, useState } from "react";
 
 const propertySteps = [
   { title: "Property info" },

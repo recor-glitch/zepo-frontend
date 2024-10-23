@@ -2,10 +2,13 @@
 
 import { RentCard } from "@/components/cards";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
+import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import { useGetAllProperties } from "@/query/propertyQuery";
 
 export function BrowsePropertySection() {
-  const { data, isLoading } = useGetAllProperties({});
+  const { filters } = usePropertyFilterContext();
+
+  const { data, isLoading } = useGetAllProperties({ filters });
 
   return (
     <div className="flex flex-col py-property-h gap-h lg:px-40 px-sm-h">

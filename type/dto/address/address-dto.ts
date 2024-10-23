@@ -15,3 +15,15 @@ export interface IAddressDetails {
   latitude: string;
   longitude: string;
 }
+
+export interface IUpdateAddressDetails {
+  id: string;
+  label?: string;
+  street_address?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postal_code?: string;
+  latitude?: number;
+  longitude?: number;
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { MapComponent } from "@/components/map";
-import { usePropertyFormContext } from "@/context/property/property-fom-context";
+import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { WashRoomType } from "@/type/app";
 import { IAddressDetails } from "@/type/dto/address/address-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -81,6 +81,8 @@ const AddressForm = () => {
   };
 
   const handleOnBack = () => {
+    console.log("Handle back", { status, propertyInfo });
+
     dispatch({ type: "setFormStatus", payload: { status: "EDIT" } });
     dispatch({ type: "setActiveStep", payload: { step: 0 } });
     return;
