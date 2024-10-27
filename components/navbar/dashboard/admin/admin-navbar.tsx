@@ -15,7 +15,7 @@ import {
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const propertyTypes = ["ALL", "SINGLE", "DOUBLE", "BHK", "VILLA"];
+export const propertyTypes = ["ALL", "SINGLE", "DOUBLE", "BHK", "VILLA"];
 
 const AdminNavbar = () => {
   const { dispatch, filters } = usePropertyFilterContext();

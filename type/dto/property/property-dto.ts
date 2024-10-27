@@ -151,6 +151,7 @@ export interface IPropertyFiltersDto {
 export interface IAllPropertyResponse {
   data?: IBannerPropertyResponse[];
   statusCode: number;
+  total: number;
 }
 
 export interface IPropertyByIdResponse {

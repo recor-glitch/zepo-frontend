@@ -12,7 +12,7 @@ import { IconDotsVertical } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const AdminPage = () => {
   const { filters } = usePropertyFilterContext();

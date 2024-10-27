@@ -1,17 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import "ol/ol.css";
+import { Feature } from "ol";
 import Map from "ol/Map";
 import View from "ol/View";
-import { Tile as TileLayer } from "ol/layer";
-import { fromLonLat, toLonLat } from "ol/proj"; // Import both functions
-import OSM from "ol/source/OSM";
-import { defaults as defaultControls, Control } from "ol/control";
-import { defaults as defaultInteractions } from "ol/interaction";
-import { Vector as VectorLayer } from "ol/layer";
-import { Vector as VectorSource } from "ol/source";
+import { defaults as defaultControls } from "ol/control";
 import { Point } from "ol/geom";
-import { Feature } from "ol";
+import { defaults as defaultInteractions } from "ol/interaction";
+import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
+import "ol/ol.css";
+import { fromLonLat, toLonLat } from "ol/proj"; // Import both functions
+import { Vector as VectorSource } from "ol/source";
+import OSM from "ol/source/OSM";
 import { Icon, Style } from "ol/style";
+import React, { useEffect, useRef, useState } from "react";
 
 interface MapComponentProps {
   onLocationSelect?: React.Dispatch<
@@ -142,7 +141,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
   return (
     <div
       ref={mapRef}
-      className="relative w-full h-64 sm:h-96"
+      className="relative w-full h-full"
       style={{ cursor: "pointer" }}
     ></div>
   );

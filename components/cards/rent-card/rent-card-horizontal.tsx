@@ -25,9 +25,10 @@ export interface rentProps {
   clickable?: boolean;
   editEnabled?: boolean;
   editCallback?: () => void;
+  isReverse?: boolean;
 }
 
-function RentCard({
+function HorizontalRentCard({
   className,
   rent,
   isSmall,
@@ -36,12 +37,13 @@ function RentCard({
   showPopular = true,
   clickable = false,
   editEnabled = false,
+  isReverse = false,
   editCallback,
 }: rentProps) {
   const router = useRouter();
   return (
     <div
-      className={`rentContainer ${
+      className={`rentContainer-h ${isReverse && "flex-row-reverse"} ${
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
       } ${className} ${clickable && "cursor-pointer"}`}
       id={rent.title + rent.description}
@@ -81,7 +83,7 @@ function RentCard({
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         unoptimized
         alt={"Property images"}
-        className="flex rounded-t-default w-full h-[52%] min-h-[10vh]"
+        className="flex rounded-default h-full w-1/3 min-h-[10vh]"
         width={100}
         height={100}
         objectFit="contain" // Ensures the image fits within the container
@@ -108,7 +110,7 @@ function RentCard({
         <p className="text-text-primary text-md-title font-bold text-ellipsis line-clamp-1">
           {rent.title}
         </p>
-        <p className="text-text-primary text-md-subtitle-primary font-medium line-clamp-1 text-ellipsis overflow-hidden">
+        <p className="text-text-primary text-md-subtitle-primary font-medium line-clamp-2 md:line-clamp-3 lg:line-clamp-5 text-ellipsis overflow-hidden">
           {rent.description}
         </p>
         <div className="divider-h h-[2px]" />
@@ -153,4 +155,4 @@ function RentCard({
   );
 }
 
-export default RentCard;
+export default HorizontalRentCard;
