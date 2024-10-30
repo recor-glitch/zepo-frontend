@@ -6,6 +6,7 @@ import HorizontalRentCard from "@/components/cards/rent-card/rent-card-horizonta
 import ErrorComponent from "@/components/fallbacks/error";
 import { PropertyFilterForm } from "@/components/form";
 import { MapComponent } from "@/components/map";
+import NoDataComponent from "@/components/pages/noData/no-data";
 import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyLayout } from "@/context";
@@ -102,7 +103,7 @@ const BrowsePage = () => {
           ) : isError ? (
             <ErrorComponent />
           ) : allProperties && allProperties.data?.length === 0 ? (
-            <p>No data found</p>
+            <NoDataComponent />
           ) : (
             allProperties &&
             allProperties.data?.map((rent, index) =>

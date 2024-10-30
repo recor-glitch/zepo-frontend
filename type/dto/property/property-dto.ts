@@ -140,11 +140,11 @@ export interface IPropertyFiltersDto {
   cursor: number;
   city?: string;
   low_to_high?: number;
-  property_type?: string;
+  property_type?: string[];
   max_price?: number;
   min_price?: number;
   rating?: number;
-  beds?: number;
+  beds?: number[];
   search?: string;
 }
 
