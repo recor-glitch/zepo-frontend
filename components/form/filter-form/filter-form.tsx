@@ -1,12 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useState } from "react";
 
 import { DualRangeSlider } from "@/components/slider/multi-range-slider";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
@@ -16,43 +15,52 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 
 const PropertyFilterSchema = z.object({
-  propertyTypes: z
-    .array(z.string())
-    .min(1, { message: "Select at least one property type" }),
-  beds: z
-    .array(z.number())
-    .min(1, { message: "Select at least one bed option" }),
+  propertyTypes: z.array(z.string()),
+  beds: z.array(z.number()),
   priceRange: z.tuple([z.number().min(0), z.number().max(10000)]),
 });
 
 type PropertyFilterFormData = z.infer<typeof PropertyFilterSchema>;
 
-const propertyTypeOptions = [
-  "Apartment",
-  "House",
-  "Condo",
-  "Townhouse",
-  "Studio",
-];
+const propertyTypeOptions = ["SINGLE", "DOUBLE", "BHK", "VILLA"];
 const bedOptions = [1, 2, 3, 4, 5];
 
 export function PropertyFilterForm() {
+  const { dispatch, filters } = usePropertyFilterContext();
   const form = useForm<PropertyFilterFormData>({
     resolver: zodResolver(PropertyFilterSchema),
     defaultValues: {
-      propertyTypes: [],
-      beds: [],
-      priceRange: [0, 10000],
+      propertyTypes: filters.property_type || [],
+      beds: filters.beds || [],
+      priceRange: [filters.min_price || 0, filters.max_price || 10000],
     },
   });
 
   const [minMaxValues, setMinMaxValues] = useState([500, 10000]);
 
-  const onSubmit = (data: PropertyFilterFormData) => {
-    console.log("Filter submitted:", data);
+  const handleClearFilter = () => {
+    dispatch({ type: "clearPropertyFilter", payload: {} });
+    setMinMaxValues([filters.min_price ?? 500, filters.max_price ?? 10000]);
   };
+
+  const onSubmit = (data: PropertyFilterFormData) => {
+    console.log("On submit form data: ", data);
+    dispatch({
+      type: "setPropertyFilter",
+      payload: {
+        ...filters,
+        beds: data.beds,
+        min_price: data.priceRange[0],
+        max_price: data.priceRange[1],
+        property_type: data.propertyTypes,
+      },
+    });
+  };
+
+  console.log("Form errors: ", form.formState.errors);
 
   return (
     <Form {...form}>
@@ -103,6 +111,7 @@ export function PropertyFilterForm() {
                       <FormItem className="flex items-center space-x-3">
                         <FormControl>
                           <Checkbox
+                            className="text-white bg-white checked:bg-white checked:border-white"
                             checked={field.value.includes(type)}
                             onCheckedChange={(checked) => {
                               field.onChange(
@@ -143,6 +152,7 @@ export function PropertyFilterForm() {
                       <FormItem className="flex items-center space-x-3">
                         <FormControl>
                           <Checkbox
+                            className="text-white bg-white checked:bg-white checked:border-white"
                             checked={field.value.includes(bed)}
                             onCheckedChange={(checked) => {
                               field.onChange(
@@ -164,9 +174,18 @@ export function PropertyFilterForm() {
           )}
         />
 
-        <Button type="submit" className="filledBtn w-full">
-          Apply Filters
-        </Button>
+        <div className="flex gap-default justify-between items-center">
+          <button
+            className="outlinedBtn flex-1"
+            type="reset"
+            onClick={handleClearFilter}
+          >
+            Clear
+          </button>
+          <button className="filledBtn flex-1" type="submit">
+            Apply
+          </button>
+        </div>
       </form>
     </Form>
   );

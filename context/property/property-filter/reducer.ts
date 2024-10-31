@@ -15,7 +15,7 @@ export const PropertyFilterReducer = (
         number | string | undefined | string[] | number[]
       > = {
         cursor: 0,
-        limit: 1,
+        limit: 10,
       };
 
       const keys = Object.keys(action.payload) as (keyof IPropertyFiltersDto)[];

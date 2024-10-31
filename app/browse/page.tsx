@@ -16,8 +16,9 @@ import {
   IconAdjustmentsHorizontal,
   IconChevronDown,
 } from "@tabler/icons-react";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const sortingOptions = ["High to low", "Low to high"];
 
@@ -33,19 +34,20 @@ const BrowsePage = () => {
   });
 
   const { filters } = usePropertyFilterContext();
-  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const {
     data: allProperties,
     isLoading,
     isError,
-    error,
   } = useGetAllProperties({ filters });
 
+  useEffect(() => {
+    console.log("I am here", filters);
+    queryClient.invalidateQueries({ queryKey: ["getAllProperties"] });
+  }, [filters]);
+
   const { isGrid } = usePropertyLayout();
-  const [category, setCategory] = useState<{ id: string; label: string }[]>([
-    { id: "ALL", label: "ALL" },
-  ]);
 
   return (
     <div className="h-body w-full flex md:grid md:grid-cols-5 gap-default">
