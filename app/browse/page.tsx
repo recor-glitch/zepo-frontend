@@ -43,7 +43,6 @@ const BrowsePage = () => {
   } = useGetAllProperties({ filters });
 
   useEffect(() => {
-    console.log("I am here", filters);
     queryClient.invalidateQueries({ queryKey: ["getAllProperties"] });
   }, [filters]);
 
@@ -65,7 +64,8 @@ const BrowsePage = () => {
         </p>
         <div className="flex justify-between items-center">
           <p className="text-text-secondary font-bold text-md-subtitle-secondary">
-            {allProperties?.total.toLocaleString()} units available
+            {allProperties?.total ? allProperties?.total.toLocaleString() : 0}{" "}
+            units available
           </p>
           <div className="flex gap-2 items-center">
             <IconAdjustmentsHorizontal className="text-text-secondary" />
@@ -93,43 +93,47 @@ const BrowsePage = () => {
             />
           </div>
         </div>
-        <div
-          className={`${
-            isGrid
-              ? `grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-default`
-              : `flex flex-col gap-default`
-          }`}
-        >
-          {isLoading ? (
-            [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
-          ) : isError ? (
+
+        {isLoading ? (
+          [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
+        ) : isError ? (
+          <div className="flex flex-col justify-center items-center">
             <ErrorComponent />
-          ) : allProperties && allProperties.data?.length === 0 ? (
+          </div>
+        ) : allProperties && allProperties.data?.length === 0 ? (
+          <div className="flex flex-col justify-center items-center">
             <NoDataComponent />
-          ) : (
-            allProperties &&
-            allProperties.data?.map((rent, index) =>
-              !isGrid ? (
-                <HorizontalRentCard
-                  clickable
-                  showLike
-                  showPopular
-                  rent={rent}
-                  key={rent.title + index}
-                  isReverse={index % 2 !== 0}
-                />
-              ) : (
-                <RentCard
-                  clickable
-                  showLike
-                  showPopular
-                  rent={rent}
-                  key={rent.title + index}
-                />
-              )
-            )
-          )}
-        </div>
+          </div>
+        ) : (
+          <div
+            className={`${
+              isGrid
+                ? `grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-default`
+                : `flex flex-col gap-default`
+            }`}
+          >
+            {allProperties &&
+              allProperties.data?.map((rent, index) =>
+                !isGrid ? (
+                  <HorizontalRentCard
+                    clickable
+                    showLike
+                    showPopular
+                    rent={rent}
+                    key={rent.title + index}
+                  />
+                ) : (
+                  <RentCard
+                    clickable
+                    showLike
+                    showPopular
+                    rent={rent}
+                    key={rent.title + index}
+                  />
+                )
+              )}
+          </div>
+        )}
       </div>
       {/* MAP */}
       <div className="h-full overflow-hidden col-span-1 hidden md:flex p-default">

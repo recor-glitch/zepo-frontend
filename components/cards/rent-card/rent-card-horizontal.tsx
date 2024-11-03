@@ -47,7 +47,7 @@ function HorizontalRentCard({
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
       } ${className} ${clickable && "cursor-pointer"}`}
       id={rent.title + rent.description}
-      onClick={() => clickable && router.push(`/property/${rent.id}`)}
+      onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (

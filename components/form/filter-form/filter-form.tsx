@@ -43,18 +43,18 @@ export function PropertyFilterForm() {
 
   const handleClearFilter = () => {
     dispatch({ type: "clearPropertyFilter", payload: {} });
-    setMinMaxValues([filters.min_price ?? 500, filters.max_price ?? 10000]);
+    setMinMaxValues([500, 10000]);
   };
 
   const onSubmit = (data: PropertyFilterFormData) => {
-    console.log("On submit form data: ", data);
+    console.log("On submit form data: ", data, minMaxValues);
     dispatch({
       type: "setPropertyFilter",
       payload: {
         ...filters,
         beds: data.beds,
-        min_price: data.priceRange[0],
-        max_price: data.priceRange[1],
+        min_price: minMaxValues[0],
+        max_price: minMaxValues[1],
         property_type: data.propertyTypes,
       },
     });

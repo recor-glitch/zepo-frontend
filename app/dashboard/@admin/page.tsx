@@ -3,6 +3,7 @@
 import { DashboardStatCard, RentCard } from "@/components/cards";
 import ErrorComponent from "@/components/fallbacks/error";
 import { AdminNavbar } from "@/components/navbar";
+import NoDataComponent from "@/components/pages/noData/no-data";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { dummyReviews } from "@/constants";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
@@ -58,7 +59,7 @@ const AdminPage = () => {
             ) : isError ? (
               <ErrorComponent />
             ) : allProperties && allProperties.data?.length === 0 ? (
-              <p>No data found</p>
+              <NoDataComponent />
             ) : (
               allProperties &&
               allProperties.data?.map((rent, index) => (
