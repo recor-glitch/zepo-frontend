@@ -57,9 +57,7 @@ export async function GetAllProperties({
       beds || ""
     }&city=${city || ""}&low_to_high=${low_to_high || ""}&max_price=${
       max_price || ""
-    }&min_price=${min_price || ""}&property_type=${
-      property_type === "ALL" ? "" : property_type ?? ""
-    }`
+    }&min_price=${min_price || ""}&property_type=${property_type ?? ""}`
   );
 
   return res.data;
