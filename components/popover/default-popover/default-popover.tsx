@@ -20,7 +20,7 @@ const DefaultPopoverComponent = ({
       <PopoverContent
         side="bottom"
         className="
-            -translate-x-[25%] z-50 p-0 bg-white border border-gray-200 rounded shadow-lg
+            translate-y-16 -translate-x-8 z-50 p-default bg-white border border-gray-200 rounded shadow-lg
             animate-fadeInUp
           "
         sideOffset={5}

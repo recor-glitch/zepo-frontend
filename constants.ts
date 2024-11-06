@@ -1,28 +1,55 @@
 import {
   Icon,
+  IconAlarm,
+  IconBabyCarriage,
+  IconBan,
   IconBrandAsana,
   IconBuildingEstate,
+  IconCalendar,
+  IconCameraOff,
+  IconCategory2,
+  IconCircleOff,
+  IconClock,
+  IconConfettiOff,
+  IconDeviceSdCard,
+  IconFireHydrantOff,
   IconFlame,
   IconHeart,
+  IconHeartHandshake,
+  IconHeartOff,
+  IconId,
+  IconKey,
   IconLayoutDashboard,
   IconLifebuoy,
   IconList,
+  IconListDetails,
+  IconMugOff,
+  IconOverline,
+  IconParking,
   IconPaw,
+  IconPawOff,
+  IconPlant,
   IconPlugConnected,
+  IconPool,
   IconProps,
   IconReport,
   IconRipple,
   IconSettings,
+  IconShoe,
+  IconSmokingNo,
+  IconSoupOff,
   IconUser,
+  IconUserPlus,
   IconUsers,
+  IconVolume2,
+  IconVolume3,
+  IconVolumeOff,
+  IconWallet,
+  IconWashDry3,
+  IconWheelchair,
 } from "@tabler/icons-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
-import {
-  IDashboardNavItem,
-  INavItems,
-  IReview,
-  IStatCard
-} from "./type/app";
+import { IDashboardNavItem, INavItems, IReview, IStatCard } from "./type/app";
 import { IBannerPropertyResponse } from "./type/dto/property/property-dto";
 
 // CURRENCY
@@ -216,12 +243,12 @@ export const navItems: INavItems[] = [
 
 export const dashboardAdminNavItems: IDashboardNavItem[] = [
   {
-    icon: IconLayoutDashboard,
+    icon: IconCategory2,
     title: "Dashboard",
     link: "/dashboard",
   },
   {
-    icon: IconBuildingEstate,
+    icon: IconListDetails,
     title: "Properties",
     link: "/dashboard/properties",
   },
@@ -229,11 +256,6 @@ export const dashboardAdminNavItems: IDashboardNavItem[] = [
     icon: IconUser,
     title: "Contacts",
     link: "/dashboard/contacts",
-  },
-  {
-    icon: IconList,
-    title: "Listing",
-    link: "/dashboard/listing",
   },
   {
     icon: IconUsers,
@@ -247,7 +269,7 @@ export const dashboardAdminNavItems: IDashboardNavItem[] = [
   },
   {
     icon: IconSettings,
-    title: "Reports",
+    title: "Settings",
     link: "/settings",
   },
 ];
@@ -450,3 +472,37 @@ export const tags: {
     title: "Sauna",
   },
 ];
+
+export const RulesIconMap = {
+  "Check-In Only During Office Hours": IconClock,
+  "Check-Out Time Strict": IconAlarm,
+  "No Outside Food": IconBan,
+  "Parking Available": IconParking,
+  "No Parking": IconCircleOff,
+  "Shared Kitchen": IconOverline,
+  "Self Check-In": IconKey,
+  "Guests Must Be 18+ Only": IconId,
+  "ID Verification Required": IconDeviceSdCard,
+  "Security Deposit Required": IconWallet,
+  "No Photography or Filming": IconCameraOff,
+  "No Pets": IconPawOff,
+  "No Shoes Indoors": IconShoe,
+  "Laundry Access": IconWashDry3,
+  "Accessible for Wheelchairs": IconWheelchair,
+  "No Fireplace Use": IconFireHydrantOff,
+  "Garden Access Allowed": IconPlant,
+  "Pool Access Allowed": IconPool,
+  "Quiet Hours Enforced": IconVolume3,
+  "No Smoking": IconSmokingNo,
+  "Pets Allowed": IconPaw,
+  "No Parties": IconConfettiOff,
+  "Couples Allowed": IconHeartHandshake,
+  "No Couples": IconHeartOff,
+  "No Loud Music": IconVolumeOff,
+  "No Alcohol": IconMugOff,
+  "Visitors Allowed": IconUserPlus,
+  "Long-Term Rentals Only": IconCalendar,
+  "No Children": IconBabyCarriage,
+  "No Cooking": IconSoupOff,
+  "24-Hour Quiet Hours": IconVolume2,
+};

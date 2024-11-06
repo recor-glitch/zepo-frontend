@@ -35,9 +35,9 @@ const NavbarDashboard = () => {
           <div className="flex flex-1 flex-col gap-8 w-full">
             {dashboardAdminNavItems.map((item, index) => (
               <Link href={item.link} key={item.title + index}>
-                <div className="flex w-full gap-8 justify-start items-center">
-                  <item.icon />
-                  <p className="text-md-subtitle-main font-bold text-text-secondary">
+                <div className="flex w-full gap-default justify-center md:justify-start items-center">
+                  <item.icon className="aspect-square min-h-5 min-w-5" />
+                  <p className="text-md-subtitle-main font-bold text-text-secondary overflow-hidden text-ellipsis">
                     {item.title}
                   </p>
                 </div>

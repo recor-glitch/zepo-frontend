@@ -2,6 +2,7 @@
 
 import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm";
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
+import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { dollar, rupee } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
@@ -11,7 +12,12 @@ import PointedEdge from "@/public/pointed-edge.svg";
 import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
-import { IconEdit, IconHeart } from "@tabler/icons-react";
+import {
+  IconDotsVertical,
+  IconEdit,
+  IconHeart,
+  IconTrash,
+} from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -66,15 +72,37 @@ function RentCard({
       )}
       {/* EDITABLE */}
       {editEnabled && (
-        <ResponsiveDrawerDialog
-          title="Edit Property"
-          description="Make sure the property details provided are correct"
-          trigger={
-            <div className="absolute top-5 right-5 rounded-full bg-white opacity-70 cursor-pointer p-2">
-              <IconEdit className="text-text-primary" />
+        <DefaultPopoverComponent
+          content={
+            <div className="flex flex-col gap-default">
+              <ResponsiveDrawerDialog
+                title="Edit Property"
+                description="Make sure the property details provided are correct"
+                trigger={
+                  <div className="flex gap-default p-2 cursor-pointer">
+                    <IconEdit className="text-text-secondary" />
+                    <p className="text-text-secondary font-medium">
+                      Edit Property
+                    </p>
+                  </div>
+                }
+                content={<PropertyEditComponent id={rent.id.toString()} />}
+              />
+              {/* <div className="divider-h" /> */}
+              <div className="flex gap-default p-2 cursor-pointer">
+                <IconTrash className="text-text-secondary" />
+
+                <p className="text-text-secondary font-medium">
+                  Delete Property
+                </p>
+              </div>
             </div>
           }
-          content={<PropertyEditComponent id={rent.id.toString()} />}
+          triggerElement={
+            <div className="absolute top-5 right-5 rounded-full bg-white opacity-70 cursor-pointer p-2">
+              <IconDotsVertical className="text-text-secondary min-h-4 min-w-4" />
+            </div>
+          }
         />
       )}
       <Image

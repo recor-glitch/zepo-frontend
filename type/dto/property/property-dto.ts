@@ -58,6 +58,7 @@ export interface IPropertyDtoWithIdRequired {
   period?: string;
   created_at?: string;
   updated_at?: string;
+  rules: IPropertyRule[];
 }
 export interface IPropertyFormDto {
   id?: number;
@@ -154,8 +155,20 @@ export interface IAllPropertyResponse {
   total: number;
 }
 
+export interface IPropertyRule {
+  id: number;
+  rule_name: string;
+  description: string;
+}
+export interface IPropertyRuleWithIcon extends IPropertyRule {
+  icon: any;
+}
+
 export interface IPropertyByIdResponse {
-  data?: { property: IPropertyDtoWithIdRequired; address: IAddressDetails };
+  data?: {
+    property: IPropertyDtoWithIdRequired;
+    address: IAddressDetails;
+  };
   statusCode: number;
 }
 

@@ -3,7 +3,6 @@
 import { DashboardStatCard, RentCard } from "@/components/cards";
 import ErrorComponent from "@/components/fallbacks/error";
 import { AdminNavbar } from "@/components/navbar";
-import NoDataComponent from "@/components/pages/noData/no-data";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { dummyReviews } from "@/constants";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
@@ -51,7 +50,7 @@ const AdminPage = () => {
             className={`lg:col-span-2 gap-default ${
               isError
                 ? `flex flex-col justify-center items-center`
-                : `grid lg:grid-cols-3`
+                : `grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3`
             }`}
           >
             {isLoading ? (
@@ -59,7 +58,7 @@ const AdminPage = () => {
             ) : isError ? (
               <ErrorComponent />
             ) : allProperties && allProperties.data?.length === 0 ? (
-              <NoDataComponent />
+              <p>No data found</p>
             ) : (
               allProperties &&
               allProperties.data?.map((rent, index) => (
