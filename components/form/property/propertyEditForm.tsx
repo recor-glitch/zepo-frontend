@@ -602,9 +602,12 @@ const PropertyEditForm = () => {
           </p>
           <div className="flex flex-wrap gap-default">
             {isLoading
-              ? [...new Array(6).fill(null)].map((_, index) => <ChipSkeleton />)
+              ? [...new Array(6).fill(null)].map((_, index) => (
+                  <ChipSkeleton key={index} />
+                ))
               : tags?.map((rule) => (
                   <ChipComponent
+                    key={rule.id}
                     prefix={<rule.icon className="text-text-secondary" />}
                     onClick={() => handleRuleSelection(rule.id)}
                     isSelected={rules.includes(rule.id)}

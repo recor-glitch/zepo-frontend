@@ -29,7 +29,7 @@ const PropertyLoadingPage = () => {
           <Skeleton className="w-1/3 h-5 bg-slate-200" />
           <div className="flex flex-wrap gap-default py-default">
             {tags.map((_, index) => (
-              <ChipSkeleton />
+              <ChipSkeleton key={index} />
             ))}
           </div>
           <div className="flex gap-default justify-between items-center flex-wrap py-default">

@@ -18,7 +18,7 @@ export function BreadcrumbWithCustomSeparator({
     <Breadcrumb>
       <BreadcrumbList>
         {items.map((item, index) => (
-          <BreadcrumbItem>
+          <BreadcrumbItem key={item.title + index}>
             {index !== items.length - 1 ? (
               <BreadcrumbLink>
                 <Link
