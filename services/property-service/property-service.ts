@@ -1,4 +1,3 @@
-import { propertyContextDto } from "@/type/app";
 import { IAddressDetails } from "@/type/dto/address/address-dto";
 import {
   IAllPropertyResponse,
@@ -7,6 +6,7 @@ import {
   IPropertyFiltersDto,
   IPropertyRuleResponse,
   IPropertyUpdateDto,
+  IPropertyWithRulesIdDto,
 } from "@/type/dto/property/property-dto";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 
@@ -19,7 +19,7 @@ export async function CreateProperty(property: IPropertyDto): Promise<any> {
 }
 
 export async function CreatePropertyWithAddress(
-  property: IPropertyDto,
+  property: IPropertyWithRulesIdDto,
   address: IAddressDetails
 ): Promise<any> {
   const res = await axiosInstance.post("/property", {

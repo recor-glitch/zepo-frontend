@@ -5,8 +5,7 @@ import { usePropertyFormContext } from "@/context/property/property-form/propert
 import { useUserContext } from "@/context/user/user-context";
 import { useFileUpload } from "@/mutation/fileMutation";
 import { useCreatePropertyWithAddress } from "@/mutation/propertyMutation";
-import { CurrencyType } from "@/type/app";
-import { IPropertyDto } from "@/type/dto/property/property-dto";
+import { IPropertyWithRulesIdDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconLoader } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
@@ -113,7 +112,7 @@ const PriceAndEntrasForm = () => {
     }
 
     if (propertyInfo && addressDetails) {
-      const propertyDetails: IPropertyDto = {
+      const propertyDetails: IPropertyWithRulesIdDto = {
         title: propertyInfo?.title,
         amenities: amenities,
         description: propertyInfo?.description,
@@ -134,7 +133,7 @@ const PriceAndEntrasForm = () => {
         currency: data.currency,
         unit: data.unit,
         period: data.period,
-        rules: propertyInfo.rules ?? [],
+        rules: propertyInfo.rules.map((rule) => rule.id) ?? [],
       };
 
       const propertyRes = await createPropertyFn({
@@ -153,6 +152,7 @@ const PriceAndEntrasForm = () => {
         type: "setPropertyInfo",
         payload: {
           ...propertyDetails,
+          rules: propertyInfo.rules,
           images: propertyInfo?.images,
         },
       });
@@ -317,6 +317,7 @@ const PriceAndEntrasForm = () => {
             placeholder="Enter the property amenities that are available"
           />
           <button
+            type="button"
             className="filledBtn col-span-1"
             onClick={() => handleAddAmenities()}
           >

@@ -136,13 +136,18 @@ const PropertyForm = () => {
     resolver: zodResolver(propertySchema),
   });
 
+  const { dispatch, addressDetails, status, propertyInfo } =
+    usePropertyFormContext();
+
   const {
     data: propertyRules,
     isLoading,
     isError,
   } = useGetPropertyRules({ option: { queryKey: ["getPropertyRules"] } });
 
-  const [rules, setRules] = useState<IPropertyRule[]>([]);
+  const [rules, setRules] = useState<number[]>(
+    propertyInfo?.rules.map((rule) => rule.id) || []
+  );
 
   const [tags, setTags] = useState<IPropertyRuleWithIcon[]>([]);
 
@@ -159,9 +164,9 @@ const PropertyForm = () => {
 
   const router = useRouter();
 
-  const { dispatch, addressDetails, status, propertyInfo } =
-    usePropertyFormContext();
   const [acceptedFiles, setAcceptedFiles] = useState<File[]>([]);
+
+  console.log({ propertyInfo });
 
   useEffect(() => {
     if (status === "EDIT" && propertyInfo) {
@@ -175,7 +180,6 @@ const PropertyForm = () => {
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
       setAcceptedFiles(propertyInfo?.images as File[]);
-      setRules(propertyInfo.rules);
     }
   }, [status, propertyInfo]);
 
@@ -188,15 +192,15 @@ const PropertyForm = () => {
 
   const { user } = useUserContext();
 
-  const handleRuleSelection = (rule: IPropertyRule) => {
+  const handleRuleSelection = (rule: number) => {
     if (rules.includes(rule)) return;
 
     setRules((prev) => [...prev, rule]);
   };
 
-  const handleRuleUnSelection = (rule: IPropertyRule) => {
+  const handleRuleUnSelection = (rule: number) => {
     if (rules.includes(rule))
-      setRules((prev) => prev.filter((r) => r.id !== rule.id));
+      setRules((prev) => prev.filter((r) => r !== rule));
   };
 
   const onSubmit = async (data: PropertyFormData) => {
@@ -216,7 +220,7 @@ const PropertyForm = () => {
       bed: data.beds ?? undefined,
       hall: data.halls ?? undefined,
       kitchen: data.kitchens ?? undefined,
-      rules: [],
+      rules: tags.filter((tag) => rules.includes(tag.id)) || [],
     };
     dispatch({
       type: "setPropertyInfo",
@@ -600,9 +604,9 @@ const PropertyForm = () => {
               : tags?.map((rule) => (
                   <ChipComponent
                     prefix={<rule.icon className="text-text-secondary" />}
-                    onClick={() => handleRuleSelection(rule)}
-                    isSelected={rules.includes(rule)}
-                    handleUnselected={() => handleRuleUnSelection(rule)}
+                    onClick={() => handleRuleSelection(rule.id)}
+                    isSelected={rules.includes(rule.id)}
+                    handleUnselected={() => handleRuleUnSelection(rule.id)}
                     text={rule.rule_name}
                   />
                 ))}

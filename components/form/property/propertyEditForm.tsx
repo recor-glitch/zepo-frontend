@@ -1,9 +1,16 @@
 "use client";
 
+import { ChipComponent } from "@/components/chip";
+import ChipSkeleton from "@/components/skeletons/chip/chip-skeleton";
+import { RulesIconMap } from "@/constants";
 import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
+import { useGetPropertyRules } from "@/query/propertyQuery";
 import { WashRoomType } from "@/type/app";
-import { IPropertyFormDto } from "@/type/dto/property/property-dto";
+import {
+  IPropertyFormDto,
+  IPropertyRuleWithIcon,
+} from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { IconPlus, IconX } from "@tabler/icons-react";
@@ -148,6 +155,7 @@ const PropertyEditForm = () => {
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
       setValue("files", propertyInfo?.images ?? []);
+      setRules(propertyInfo.rules.map((rule) => rule.id));
 
       if (propertyInfo.images.some((img) => typeof img === "string")) {
         setAcceptedFiles((prev) =>
@@ -194,7 +202,41 @@ const PropertyEditForm = () => {
     },
   });
 
+  const {
+    data: propertyRules,
+    isLoading,
+    isError,
+  } = useGetPropertyRules({ option: { queryKey: ["getPropertyRules"] } });
+
+  const [rules, setRules] = useState<number[]>([]);
+
+  console.log({ propertyInfo, rules });
+
+  const [tags, setTags] = useState<IPropertyRuleWithIcon[]>([]);
+
+  useEffect(() => {
+    if (propertyRules?.data) {
+      setTags(
+        propertyRules.data?.rules?.map((rule) => ({
+          ...rule,
+          icon: RulesIconMap[rule?.rule_name as keyof typeof RulesIconMap],
+        }))
+      );
+    }
+  }, [propertyRules]);
+
   const { user } = useUserContext();
+
+  const handleRuleSelection = (rule: number) => {
+    if (rules.includes(rule)) return;
+
+    setRules((prev) => [...prev, rule]);
+  };
+
+  const handleRuleUnSelection = (rule: number) => {
+    if (rules.includes(rule))
+      setRules((prev) => prev.filter((r) => r !== rule));
+  };
 
   const onSubmit = async (data: PropertyFormData) => {
     console.log(data);
@@ -222,6 +264,7 @@ const PropertyEditForm = () => {
       bed: data.beds ?? undefined,
       hall: data.halls ?? undefined,
       kitchen: data.kitchens ?? undefined,
+      rules: tags.filter((tag) => rules.includes(tag.id)) || [],
     };
     dispatch({
       type: "setPropertyInfo",
@@ -551,6 +594,24 @@ const PropertyEditForm = () => {
                 </p>
               )}
             </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-default col-span-2">
+          <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
+            Rules
+          </p>
+          <div className="flex flex-wrap gap-default">
+            {isLoading
+              ? [...new Array(6).fill(null)].map((_, index) => <ChipSkeleton />)
+              : tags?.map((rule) => (
+                  <ChipComponent
+                    prefix={<rule.icon className="text-text-secondary" />}
+                    onClick={() => handleRuleSelection(rule.id)}
+                    isSelected={rules.includes(rule.id)}
+                    handleUnselected={() => handleRuleUnSelection(rule.id)}
+                    text={rule.rule_name}
+                  />
+                ))}
           </div>
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">
