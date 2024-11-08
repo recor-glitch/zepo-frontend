@@ -134,6 +134,7 @@ const PriceAndEntrasForm = () => {
         currency: data.currency,
         unit: data.unit,
         period: data.period,
+        rules: propertyInfo.rules ?? [],
       };
 
       const propertyRes = await createPropertyFn({
@@ -327,6 +328,7 @@ const PriceAndEntrasForm = () => {
             <ChipComponent
               text={chip}
               key={chip + idx}
+              isSelected={amenities.includes(chip)}
               handleUnselected={() => handleUnselected(idx)}
             />
           ))}

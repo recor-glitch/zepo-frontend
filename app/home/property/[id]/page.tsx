@@ -58,8 +58,6 @@ const PropertyDetailPage = () => {
       icon: RulesIconMap[rule?.rule_name as keyof typeof RulesIconMap],
     }));
 
-    console.log("My rules: ", tags);
-
     return (
       <div className="flex flex-col lg:grid lg:grid-cols-3 lg:grid-rows-12 gap-default px-default 2xl:px-[15rem] py-default">
         <div className="col-span-3 row-span-1 flex justify-between items-center">

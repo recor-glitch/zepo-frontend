@@ -5,6 +5,7 @@ import {
   IPropertyByIdResponse,
   IPropertyDto,
   IPropertyFiltersDto,
+  IPropertyRuleResponse,
   IPropertyUpdateDto,
 } from "@/type/dto/property/property-dto";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
@@ -67,6 +68,12 @@ export async function GetPropertyById(
   id: string
 ): Promise<IPropertyByIdResponse> {
   const res = await axiosInstance.get(`/property/${id}`);
+
+  return res.data;
+}
+
+export async function GetPropertyRules(): Promise<IPropertyRuleResponse> {
+  const res = await axiosInstance.get(`/property/rules`);
 
   return res.data;
 }

@@ -1,9 +1,17 @@
 "use client";
 
+import { ChipComponent } from "@/components/chip";
+import ChipSkeleton from "@/components/skeletons/chip/chip-skeleton";
+import { RulesIconMap } from "@/constants";
 import { usePropertyFormContext } from "@/context/property/property-form/property-fom-context";
 import { useUserContext } from "@/context/user/user-context";
+import { useGetPropertyRules } from "@/query/propertyQuery";
 import { WashRoomType } from "@/type/app";
-import { IPropertyFormDto } from "@/type/dto/property/property-dto";
+import {
+  IPropertyFormDto,
+  IPropertyRule,
+  IPropertyRuleWithIcon,
+} from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import Image from "next/image";
@@ -128,6 +136,27 @@ const PropertyForm = () => {
     resolver: zodResolver(propertySchema),
   });
 
+  const {
+    data: propertyRules,
+    isLoading,
+    isError,
+  } = useGetPropertyRules({ option: { queryKey: ["getPropertyRules"] } });
+
+  const [rules, setRules] = useState<IPropertyRule[]>([]);
+
+  const [tags, setTags] = useState<IPropertyRuleWithIcon[]>([]);
+
+  useEffect(() => {
+    if (propertyRules?.data) {
+      setTags(
+        propertyRules.data?.rules?.map((rule) => ({
+          ...rule,
+          icon: RulesIconMap[rule?.rule_name as keyof typeof RulesIconMap],
+        }))
+      );
+    }
+  }, [propertyRules]);
+
   const router = useRouter();
 
   const { dispatch, addressDetails, status, propertyInfo } =
@@ -146,6 +175,7 @@ const PropertyForm = () => {
       setValue("halls", propertyInfo?.hall ?? 0);
       setValue("balcony", propertyInfo?.balcony ?? 0);
       setAcceptedFiles(propertyInfo?.images as File[]);
+      setRules(propertyInfo.rules);
     }
   }, [status, propertyInfo]);
 
@@ -157,6 +187,17 @@ const PropertyForm = () => {
   });
 
   const { user } = useUserContext();
+
+  const handleRuleSelection = (rule: IPropertyRule) => {
+    if (rules.includes(rule)) return;
+
+    setRules((prev) => [...prev, rule]);
+  };
+
+  const handleRuleUnSelection = (rule: IPropertyRule) => {
+    if (rules.includes(rule))
+      setRules((prev) => prev.filter((r) => r.id !== rule.id));
+  };
 
   const onSubmit = async (data: PropertyFormData) => {
     console.log(data);
@@ -175,6 +216,7 @@ const PropertyForm = () => {
       bed: data.beds ?? undefined,
       hall: data.halls ?? undefined,
       kitchen: data.kitchens ?? undefined,
+      rules: [],
     };
     dispatch({
       type: "setPropertyInfo",
@@ -537,6 +579,33 @@ const PropertyForm = () => {
                 </p>
               )}
             </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-default col-span-2">
+          <p className="text-md-subtitle-main text-text-primary font-bold items-start w-full">
+            Rules
+          </p>
+          <p className="text-md-subtitle-secondary text-text-primary font-medium items-start w-full">
+            Could you please provide a comprehensive list of all the rules and
+            guidelines that apply to this property? It would be helpful to
+            understand any specific restrictions, allowances, or unique
+            requirements to ensure compliance and maintain a positive experience
+            during the stay.
+          </p>
+          <div className="flex flex-wrap gap-default">
+            {isLoading
+              ? [...new Array(6).fill(null)].map((item, index) => (
+                  <ChipSkeleton />
+                ))
+              : tags?.map((rule) => (
+                  <ChipComponent
+                    prefix={<rule.icon className="text-text-secondary" />}
+                    onClick={() => handleRuleSelection(rule)}
+                    isSelected={rules.includes(rule)}
+                    handleUnselected={() => handleRuleUnSelection(rule)}
+                    text={rule.rule_name}
+                  />
+                ))}
           </div>
         </div>
         <div className="flex justify-end gap-default items-center w-full col-span-2">

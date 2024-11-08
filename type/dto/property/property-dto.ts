@@ -32,6 +32,7 @@ export interface IPropertyDto {
   period?: string;
   created_at?: string;
   updated_at?: string;
+  rules: IPropertyRule[];
 }
 export interface IPropertyDtoWithIdRequired {
   id: number;
@@ -85,6 +86,7 @@ export interface IPropertyFormDto {
   period?: string;
   created_at?: string;
   updated_at?: string;
+  rules: IPropertyRule[];
 }
 
 export interface IPropertyUpdateDto {
@@ -162,6 +164,11 @@ export interface IPropertyRule {
 }
 export interface IPropertyRuleWithIcon extends IPropertyRule {
   icon: any;
+}
+
+export interface IPropertyRuleResponse {
+  data: { rules: IPropertyRule[] };
+  statusCode: number;
 }
 
 export interface IPropertyByIdResponse {

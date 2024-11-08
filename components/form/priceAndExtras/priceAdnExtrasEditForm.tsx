@@ -5,9 +5,7 @@ import { usePropertyFormContext } from "@/context/property/property-form/propert
 import { useUserContext } from "@/context/user/user-context";
 import { useUpdateAddress } from "@/mutation/addressMutation";
 import { useFileDelete, useFileUpload } from "@/mutation/fileMutation";
-import {
-  useUpdateProperty
-} from "@/mutation/propertyMutation";
+import { useUpdateProperty } from "@/mutation/propertyMutation";
 import { IPropertyDto } from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
@@ -186,8 +184,8 @@ const PriceAndExtrasEditForm = () => {
 
       const addRes = await updateAddressFn({
         ...addressDetails,
-        latitude: Number(addressDetails.latitude),
-        longitude: Number(addressDetails.longitude),
+        latitude: addressDetails.latitude,
+        longitude: addressDetails.longitude,
         id: addressDetails.id!.toString(),
       });
 
@@ -365,6 +363,7 @@ const PriceAndExtrasEditForm = () => {
             <ChipComponent
               text={chip}
               key={chip + idx}
+              isSelected={amenities.includes(chip)}
               handleUnselected={() => handleUnselected(idx)}
             />
           ))}

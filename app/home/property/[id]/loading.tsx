@@ -1,3 +1,4 @@
+import ChipSkeleton from "@/components/skeletons/chip/chip-skeleton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { tags } from "@/constants";
 import React from "react";
@@ -28,13 +29,7 @@ const PropertyLoadingPage = () => {
           <Skeleton className="w-1/3 h-5 bg-slate-200" />
           <div className="flex flex-wrap gap-default py-default">
             {tags.map((_, index) => (
-              <div
-                className="rounded-full flex gap-default border-2 p-sm justify-center items-center"
-                key={index}
-              >
-                <Skeleton className="w-5 h-5 rounded-full bg-slate-200" />
-                <Skeleton className="w-10 rounded-full h-5 bg-slate-200" />
-              </div>
+              <ChipSkeleton />
             ))}
           </div>
           <div className="flex gap-default justify-between items-center flex-wrap py-default">
