@@ -4,11 +4,14 @@ import { RentCard } from "@/components/cards";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import { useGetAllProperties } from "@/query/propertyQuery";
+import { useRouter } from "next/navigation";
 
 export function BrowsePropertySection() {
   const { filters } = usePropertyFilterContext();
 
   const { data, isLoading } = useGetAllProperties({ filters });
+
+  const router = useRouter();
 
   return (
     <div className="flex flex-col py-property-h gap-h lg:px-40 px-sm-h">
@@ -21,7 +24,12 @@ export function BrowsePropertySection() {
             Some of our picked properties near you location.
           </p>
         </div>
-        <button className="filledBtn w-full lg:w-auto">
+        <button
+          className="filledBtn w-full lg:w-auto"
+          onClick={() => {
+            router.push("/browse");
+          }}
+        >
           Browse more properties
         </button>
       </div>

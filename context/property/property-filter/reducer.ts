@@ -10,9 +10,12 @@ export const PropertyFilterReducer = (
     case "clearPropertyFilter":
       return { dispatch: state.dispatch, filters: { limit: 10, cursor: 0 } };
     case "setPropertyFilter":
-      const newFilters: Record<string, number | string | undefined> = {
+      const newFilters: Record<
+        string,
+        number | string | undefined | string[] | number[]
+      > = {
         cursor: 0,
-        limit: 1,
+        limit: 10,
       };
 
       const keys = Object.keys(action.payload) as (keyof IPropertyFiltersDto)[];

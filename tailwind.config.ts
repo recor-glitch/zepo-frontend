@@ -141,7 +141,7 @@ const config: Config = {
       height: {
         icon: "2rem",
         footer: "40.625rem",
-        body: "50.25rem",
+        body: "55.25rem",
         "body-tour": "50.15rem",
         "body-stats": "41.25rem",
         "body-properties": "74.125rem",

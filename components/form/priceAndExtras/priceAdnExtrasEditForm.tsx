@@ -5,10 +5,11 @@ import { usePropertyFormContext } from "@/context/property/property-form/propert
 import { useUserContext } from "@/context/user/user-context";
 import { useUpdateAddress } from "@/mutation/addressMutation";
 import { useFileDelete, useFileUpload } from "@/mutation/fileMutation";
+import { useUpdateProperty } from "@/mutation/propertyMutation";
 import {
-  useUpdateProperty
-} from "@/mutation/propertyMutation";
-import { IPropertyDto } from "@/type/dto/property/property-dto";
+  IPropertyDto,
+  IPropertyWithRulesIdDto,
+} from "@/type/dto/property/property-dto";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { IconLoader } from "@tabler/icons-react";
@@ -111,8 +112,7 @@ const PriceAndExtrasEditForm = () => {
     isError: IsAddressUpdateError,
     isSuccess: IsAddressUpdateSuccess,
   } = useUpdateAddress();
-
-  const router = useRouter();
+  
   const { user } = useUserContext();
 
   const onSubmit = async (data: PriceAndEntrasFormData) => {
@@ -156,7 +156,7 @@ const PriceAndExtrasEditForm = () => {
     ];
 
     if (propertyInfo && addressDetails) {
-      const propertyDetails: IPropertyDto = {
+      const propertyDetails: IPropertyWithRulesIdDto = {
         title: propertyInfo?.title,
         amenities: amenities,
         description: propertyInfo?.description,
@@ -177,6 +177,7 @@ const PriceAndExtrasEditForm = () => {
         currency: data.currency,
         unit: data.unit,
         period: data.period,
+        rules: propertyInfo.rules.map((rule) => rule.id) ?? [],
       };
 
       const res = await updatePropertyFn({
@@ -186,8 +187,8 @@ const PriceAndExtrasEditForm = () => {
 
       const addRes = await updateAddressFn({
         ...addressDetails,
-        latitude: Number(addressDetails.latitude),
-        longitude: Number(addressDetails.longitude),
+        latitude: addressDetails.latitude,
+        longitude: addressDetails.longitude,
         id: addressDetails.id!.toString(),
       });
 
@@ -365,6 +366,7 @@ const PriceAndExtrasEditForm = () => {
             <ChipComponent
               text={chip}
               key={chip + idx}
+              isSelected={amenities.includes(chip)}
               handleUnselected={() => handleUnselected(idx)}
             />
           ))}
