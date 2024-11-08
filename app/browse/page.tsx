@@ -137,7 +137,12 @@ const BrowsePage = () => {
       </div>
       {/* MAP */}
       <div className="h-full overflow-hidden col-span-1 hidden md:flex p-default">
-        <MapComponent />
+        <MapComponent
+          properties={[
+            { id: 1, lat: 26.176205, lon: 91.801198 },
+            { id: 2, lat: 11.4064, lon: 76.6932 },
+          ]}
+        />
       </div>
     </div>
   );

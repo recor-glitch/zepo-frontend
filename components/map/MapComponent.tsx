@@ -6,24 +6,27 @@ import { Point } from "ol/geom";
 import { defaults as defaultInteractions } from "ol/interaction";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import "ol/ol.css";
-import { fromLonLat, toLonLat } from "ol/proj"; // Import both functions
+import { fromLonLat, toLonLat } from "ol/proj";
 import { Vector as VectorSource } from "ol/source";
 import OSM from "ol/source/OSM";
 import { Icon, Style } from "ol/style";
 import React, { useEffect, useRef, useState } from "react";
+import { Extent, boundingExtent } from "ol/extent";
 
 interface MapComponentProps {
   onLocationSelect?: React.Dispatch<
     React.SetStateAction<{ lat: number; lon: number }>
   >;
   defaultPosition?: { lat: number; lon: number };
-  disableInteractions?: boolean; // Flag to disable interactions
+  disableInteractions?: boolean;
+  properties?: { id: number; lat: number; lon: number }[];
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
   onLocationSelect,
   defaultPosition,
-  disableInteractions = false, // Default is false (interactions enabled)
+  disableInteractions = false,
+  properties = [],
 }) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
@@ -38,11 +41,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
           }),
         ],
         view: new View({
-          center: fromLonLat(
-            defaultPosition
-              ? [defaultPosition.lon, defaultPosition.lat]
-              : [0, 0]
-          ),
+          center: fromLonLat([0, 0]), // Default center, will adjust below
           zoom: 12,
         }),
         controls: defaultControls({
@@ -50,33 +49,31 @@ const MapComponent: React.FC<MapComponentProps> = ({
             collapsible: true,
           },
         }),
-        interactions: disableInteractions
-          ? [] // Disable all interactions
-          : defaultInteractions(), // Enable default interactions
+        interactions: disableInteractions ? [] : defaultInteractions(),
       });
 
-      // Add default marker if provided
-      if (defaultPosition) {
-        const defaultCoords = fromLonLat([
-          defaultPosition.lon,
-          defaultPosition.lat,
-        ]);
+      const addMarkersAndAdjustView = () => {
+        const features = properties.map((property) => {
+          const coords = fromLonLat([property.lon, property.lat]);
 
-        const defaultMarker = new Feature({
-          geometry: new Point(defaultCoords),
+          const marker = new Feature({
+            geometry: new Point(coords),
+          });
+
+          marker.setStyle(
+            new Style({
+              image: new Icon({
+                src: "/marker.png",
+                anchor: [0.5, 1],
+              }),
+            })
+          );
+
+          return marker;
         });
 
-        defaultMarker.setStyle(
-          new Style({
-            image: new Icon({
-              src: "/marker.png",
-              anchor: [0.5, 1],
-            }),
-          })
-        );
-
         const vectorSource = new VectorSource({
-          features: [defaultMarker],
+          features,
         });
 
         const vectorLayer = new VectorLayer({
@@ -84,13 +81,24 @@ const MapComponent: React.FC<MapComponentProps> = ({
         });
 
         initialMap.addLayer(vectorLayer);
-      }
 
-      // Click interaction for selecting location
+        // Calculate extent and fit view if there are properties
+        if (properties.length > 0) {
+          const coordinates = properties.map((p) => fromLonLat([p.lon, p.lat]));
+          const extent: Extent = boundingExtent(coordinates);
+          initialMap.getView().fit(extent, {
+            padding: [50, 50, 50, 50], // Padding around the extent
+            maxZoom: 10, // Prevents zooming in too far
+          });
+        }
+      };
+
+      addMarkersAndAdjustView();
+
       if (!disableInteractions) {
         initialMap.on("singleclick", function (evt) {
           const coords = evt.coordinate;
-          const lonLat = toLonLat(coords); // Correctly convert to lon/lat
+          const lonLat = toLonLat(coords);
           const [lon, lat] = lonLat;
 
           const marker = new Feature({
@@ -124,6 +132,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
               }
             });
 
+          addMarkersAndAdjustView(); // Re-add property markers after clearing layers
           initialMap.addLayer(vectorLayer);
 
           if (onLocationSelect) {
@@ -136,7 +145,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
       return () => initialMap.setTarget(undefined);
     }
-  }, [onLocationSelect, defaultPosition, disableInteractions]);
+  }, [onLocationSelect, defaultPosition, disableInteractions, properties]);
 
   return (
     <div
