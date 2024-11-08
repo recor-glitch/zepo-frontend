@@ -25,14 +25,24 @@ interface FilterProps {
   content: React.ReactNode;
 }
 
+export function useSetModalAndDrawerClose() {
+  const [open, setOpen] = React.useState(false);
+  const toggleOpen = (open: boolean) => {
+    setOpen(open);
+  };
+  return { open, setOpen, toggleOpen };
+}
+
 export function ResponsiveDrawerDialog({
   trigger,
   content,
   title = "Responsive Dialog",
   description = "Description of the dialog",
 }: FilterProps) {
-  const [open, setOpen] = React.useState(false);
+  const { open, setOpen } = useSetModalAndDrawerClose();
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  React.useEffect(() => {}, [open]);
 
   if (isDesktop) {
     return (

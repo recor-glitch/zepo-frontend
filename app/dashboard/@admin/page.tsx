@@ -12,7 +12,7 @@ import { IconDotsVertical } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 const AdminPage = () => {
   const { filters } = usePropertyFilterContext();
@@ -50,7 +50,7 @@ const AdminPage = () => {
             className={`lg:col-span-2 gap-default ${
               isError
                 ? `flex flex-col justify-center items-center`
-                : `grid lg:grid-cols-3`
+                : `grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3`
             }`}
           >
             {isLoading ? (

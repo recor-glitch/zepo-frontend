@@ -1,11 +1,12 @@
-import { propertyContextDto } from "@/type/app";
 import { IAddressDetails } from "@/type/dto/address/address-dto";
 import {
   IAllPropertyResponse,
   IPropertyByIdResponse,
   IPropertyDto,
   IPropertyFiltersDto,
+  IPropertyRuleResponse,
   IPropertyUpdateDto,
+  IPropertyWithRulesIdDto,
 } from "@/type/dto/property/property-dto";
 import axiosInstance from "@/utils/axios-instance/axios-instance";
 
@@ -18,7 +19,7 @@ export async function CreateProperty(property: IPropertyDto): Promise<any> {
 }
 
 export async function CreatePropertyWithAddress(
-  property: IPropertyDto,
+  property: IPropertyWithRulesIdDto,
   address: IAddressDetails
 ): Promise<any> {
   const res = await axiosInstance.post("/property", {
@@ -57,9 +58,7 @@ export async function GetAllProperties({
       beds || ""
     }&city=${city || ""}&low_to_high=${low_to_high || ""}&max_price=${
       max_price || ""
-    }&min_price=${min_price || ""}&property_type=${
-      property_type === "ALL" ? "" : property_type ?? ""
-    }`
+    }&min_price=${min_price || ""}&property_type=${property_type ?? ""}`
   );
 
   return res.data;
@@ -69,6 +68,12 @@ export async function GetPropertyById(
   id: string
 ): Promise<IPropertyByIdResponse> {
   const res = await axiosInstance.get(`/property/${id}`);
+
+  return res.data;
+}
+
+export async function GetPropertyRules(): Promise<IPropertyRuleResponse> {
+  const res = await axiosInstance.get(`/property/rules`);
 
   return res.data;
 }

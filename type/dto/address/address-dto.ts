@@ -24,6 +24,6 @@ export interface IUpdateAddressDetails {
   state?: string;
   country?: string;
   postal_code?: string;
-  latitude?: number;
-  longitude?: number;
+  latitude?: string;
+  longitude?: string;
 }

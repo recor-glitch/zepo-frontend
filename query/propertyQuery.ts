@@ -1,8 +1,13 @@
-import { GetAllProperties, GetPropertyById } from "@/services";
+import {
+  GetAllProperties,
+  GetPropertyById,
+  GetPropertyRules,
+} from "@/services";
 import {
   IAllPropertyResponse,
   IPropertyByIdResponse,
   IPropertyFiltersDto,
+  IPropertyRuleResponse,
 } from "@/type/dto/property/property-dto";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
@@ -30,6 +35,18 @@ export const useGetPropertyById = ({
   return useQuery<IPropertyByIdResponse>({
     queryFn: () => GetPropertyById(id),
     queryKey: ["getProperty", id],
+    ...option,
+  });
+};
+
+export const useGetPropertyRules = ({
+  option,
+}: {
+  option?: UseQueryOptions<IPropertyRuleResponse>;
+}) => {
+  return useQuery<IPropertyRuleResponse>({
+    queryFn: () => GetPropertyRules(),
+    queryKey: ["getPropertyRules"],
     ...option,
   });
 };

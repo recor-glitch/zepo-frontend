@@ -2,7 +2,6 @@
 
 import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm";
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
-import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { dollar, rupee } from "@/constants";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
@@ -12,12 +11,7 @@ import PointedEdge from "@/public/pointed-edge.svg";
 import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
-import {
-  IconDotsVertical,
-  IconEdit,
-  IconHeart,
-  IconTrash,
-} from "@tabler/icons-react";
+import { IconEdit, IconHeart } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -31,9 +25,10 @@ export interface rentProps {
   clickable?: boolean;
   editEnabled?: boolean;
   editCallback?: () => void;
+  isReverse?: boolean;
 }
 
-function RentCard({
+function HorizontalRentCard({
   className,
   rent,
   isSmall,
@@ -42,12 +37,13 @@ function RentCard({
   showPopular = true,
   clickable = false,
   editEnabled = false,
+  isReverse = false,
   editCallback,
 }: rentProps) {
   const router = useRouter();
   return (
     <div
-      className={`rentContainer ${
+      className={`rentContainer-h ${isReverse && "flex-row-reverse"} ${
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
       } ${className} ${clickable && "cursor-pointer"}`}
       id={rent.title + rent.description}
@@ -72,44 +68,22 @@ function RentCard({
       )}
       {/* EDITABLE */}
       {editEnabled && (
-        <DefaultPopoverComponent
-          content={
-            <div className="flex flex-col gap-default">
-              <ResponsiveDrawerDialog
-                title="Edit Property"
-                description="Make sure the property details provided are correct"
-                trigger={
-                  <div className="flex gap-default p-2 cursor-pointer">
-                    <IconEdit className="text-text-secondary" />
-                    <p className="text-text-secondary font-medium">
-                      Edit Property
-                    </p>
-                  </div>
-                }
-                content={<PropertyEditComponent id={rent.id.toString()} />}
-              />
-              {/* <div className="divider-h" /> */}
-              <div className="flex gap-default p-2 cursor-pointer">
-                <IconTrash className="text-text-secondary" />
-
-                <p className="text-text-secondary font-medium">
-                  Delete Property
-                </p>
-              </div>
-            </div>
-          }
-          triggerElement={
+        <ResponsiveDrawerDialog
+          title="Edit Property"
+          description="Make sure the property details provided are correct"
+          trigger={
             <div className="absolute top-5 right-5 rounded-full bg-white opacity-70 cursor-pointer p-2">
-              <IconDotsVertical className="text-text-secondary min-h-4 min-w-4" />
+              <IconEdit className="text-text-primary" />
             </div>
           }
+          content={<PropertyEditComponent id={rent.id.toString()} />}
         />
       )}
       <Image
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         unoptimized
         alt={"Property images"}
-        className="flex rounded-t-default w-full h-[52%] min-h-[10vh]"
+        className="flex rounded-default h-full w-1/3 min-h-[10vh]"
         width={100}
         height={100}
         objectFit="contain" // Ensures the image fits within the container
@@ -136,7 +110,7 @@ function RentCard({
         <p className="text-text-primary text-md-title font-bold text-ellipsis line-clamp-1">
           {rent.title}
         </p>
-        <p className="text-text-primary text-md-subtitle-primary font-medium line-clamp-1 text-ellipsis overflow-hidden">
+        <p className="text-text-primary text-md-subtitle-primary font-medium line-clamp-2 md:line-clamp-3 lg:line-clamp-5 text-ellipsis overflow-hidden">
           {rent.description}
         </p>
         <div className="divider-h h-[2px]" />
@@ -181,4 +155,4 @@ function RentCard({
   );
 }
 
-export default RentCard;
+export default HorizontalRentCard;

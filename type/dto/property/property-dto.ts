@@ -32,7 +32,37 @@ export interface IPropertyDto {
   period?: string;
   created_at?: string;
   updated_at?: string;
+  rules: IPropertyRule[];
 }
+
+export interface IPropertyWithRulesIdDto {
+  id?: number;
+  title: string;
+  images: string[];
+  description: string;
+  is_popular: boolean;
+  amenities: string[];
+  property_type: string;
+  like_count: number;
+  review_id?: number;
+  host_id: string;
+  bed?: number;
+  hall?: number;
+  kitchen?: number;
+  balcony?: number;
+  washroom_type: string;
+  washroom_count: number;
+  property_width?: number;
+  property_length?: number;
+  unit?: string;
+  currency?: string;
+  amount?: number;
+  period?: string;
+  created_at?: string;
+  updated_at?: string;
+  rules: number[];
+}
+
 export interface IPropertyDtoWithIdRequired {
   id: number;
   title: string;
@@ -58,6 +88,7 @@ export interface IPropertyDtoWithIdRequired {
   period?: string;
   created_at?: string;
   updated_at?: string;
+  rules: IPropertyRule[];
 }
 export interface IPropertyFormDto {
   id?: number;
@@ -84,6 +115,7 @@ export interface IPropertyFormDto {
   period?: string;
   created_at?: string;
   updated_at?: string;
+  rules: IPropertyRule[];
 }
 
 export interface IPropertyUpdateDto {
@@ -140,21 +172,39 @@ export interface IPropertyFiltersDto {
   cursor: number;
   city?: string;
   low_to_high?: number;
-  property_type?: string;
+  property_type?: string[];
   max_price?: number;
   min_price?: number;
   rating?: number;
-  beds?: number;
+  beds?: number[];
   search?: string;
 }
 
 export interface IAllPropertyResponse {
   data?: IBannerPropertyResponse[];
   statusCode: number;
+  total: number;
+}
+
+export interface IPropertyRule {
+  id: number;
+  rule_name: string;
+  description: string;
+}
+export interface IPropertyRuleWithIcon extends IPropertyRule {
+  icon: any;
+}
+
+export interface IPropertyRuleResponse {
+  data: { rules: IPropertyRule[] };
+  statusCode: number;
 }
 
 export interface IPropertyByIdResponse {
-  data?: { property: IPropertyDtoWithIdRequired; address: IAddressDetails };
+  data?: {
+    property: IPropertyDtoWithIdRequired;
+    address: IAddressDetails;
+  };
   statusCode: number;
 }
 
@@ -177,6 +227,6 @@ export interface IPropertyUpdateResponse {
 }
 
 export interface IPropertyWithAddressVariables {
-  property: IPropertyDto;
+  property: IPropertyWithRulesIdDto;
   address: IAddressDetails;
 }
