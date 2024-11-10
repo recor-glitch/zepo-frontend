@@ -1,9 +1,11 @@
 import {
   GetAllProperties,
+  GetAllPropertyLocations,
   GetPropertyById,
   GetPropertyRules,
 } from "@/services";
 import {
+  IAllPropertyLocationResponse,
   IAllPropertyResponse,
   IPropertyByIdResponse,
   IPropertyFiltersDto,
@@ -21,6 +23,20 @@ export const useGetAllProperties = ({
   return useQuery<IAllPropertyResponse>({
     queryFn: () => GetAllProperties({ ...filters }),
     queryKey: ["getAllProperties"],
+    ...option,
+  });
+};
+
+export const useGetAllPropertyLocations = ({
+  filters,
+  option,
+}: {
+  filters: IPropertyFiltersDto;
+  option?: UseQueryOptions<IAllPropertyLocationResponse>;
+}) => {
+  return useQuery<IAllPropertyLocationResponse>({
+    queryFn: () => GetAllPropertyLocations({ ...filters }),
+    queryKey: ["getAllPropertyLocations"],
     ...option,
   });
 };

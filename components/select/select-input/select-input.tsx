@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 interface ISelectProps {
@@ -15,6 +16,7 @@ interface ISelectProps {
   placeholder: string;
   className?: string;
   defaultValue?: string;
+  prefix?: React.ReactNode;
   onChange: (value: string) => void; // Add an onChange prop to handle value changes
 }
 
@@ -24,6 +26,7 @@ export function SelectInput({
   selectList,
   className,
   defaultValue,
+  prefix,
   onChange, // Get the onChange function passed from the parent component
 }: ISelectProps) {
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
@@ -46,9 +49,12 @@ export function SelectInput({
         onChange(value); // Call the parent onChange function
       }}
     >
-      <SelectTrigger className={`min-h-[3.6rem] h-full w-full ${className}`}>
+      <SelectTrigger
+        className={`min-h-[3.6rem] h-full w-full gap-default ${className}`}
+      >
+        {prefix && prefix}
         <SelectValue
-          className="*:text-text-secondary *:text-md-subtitle-secondary *:font-medium selection:text-text-secondary"
+          className="*:text-text-secondary *:text-md-subtitle-secondary *:font-bold selection:text-text-secondary"
           placeholder={placeholder}
         />
       </SelectTrigger>

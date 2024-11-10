@@ -11,7 +11,10 @@ const ErrorComponent = () => {
           We are working on fixing the problem. Please try again.
         </p>
       </div>
-      <button className="outlinedBtn gap-default inline-flex items-center text-primary">
+      <button
+        className="outlinedBtn gap-default inline-flex items-center text-primary"
+        onClick={() => window.location.reload()}
+      >
         <IconReload className="text-primary" />
         Refresh&nbsp;Page
       </button>
