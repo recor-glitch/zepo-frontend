@@ -100,7 +100,7 @@ const BrowsePage = () => {
           <div className="flex gap-2 items-center px-default">
             <SelectInput
               prefix={
-                <IconAdjustmentsHorizontal className="text-text-secondary" />
+                <IconAdjustmentsHorizontal className="text-text-secondary hidden md:flex" />
               }
               className="border-none"
               selectList={["Hight to low", "Low to high"]}
