@@ -4,6 +4,7 @@ import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
 import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { dollar, rupee } from "@/constants";
+import { useSetModalAndDrawerClose } from "@/hook/use-modal-drawer-close";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
 import DummyImg from "@/public/dummy-rent.svg";
@@ -45,6 +46,7 @@ function RentCard({
   editCallback,
 }: rentProps) {
   const router = useRouter();
+  const { open, toggleOpen } = useSetModalAndDrawerClose();
   return (
     <div
       className={`rentContainer ${
@@ -76,6 +78,8 @@ function RentCard({
           content={
             <div className="flex flex-col gap-default">
               <ResponsiveDrawerDialog
+                open={open}
+                toggleOpen={toggleOpen}
                 title="Edit Property"
                 description="Make sure the property details provided are correct"
                 trigger={
