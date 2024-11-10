@@ -1,11 +1,19 @@
 "use client";
 
+import { PropertyFilterForm } from "@/components/form";
+import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
 import { NavbarSelectComponent } from "@/components/select";
 import { usePropertyLayout } from "@/context/property/layout/layout-context";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import useDebounce from "@/hook/debounce";
+import { useSetModalAndDrawerClose } from "@/hook/use-modal-drawer-close";
 import ZepoLogo from "@/public/zepo-logo.svg";
-import { IconLayoutGrid, IconList, IconSearch } from "@tabler/icons-react";
+import {
+  IconAdjustmentsHorizontal,
+  IconLayoutGrid,
+  IconList,
+  IconSearch,
+} from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -33,13 +41,14 @@ function BrowseNavBar() {
   }, [filters]);
 
   const { isGrid, toggleLayout } = usePropertyLayout();
+  const { open, toggleOpen } = useSetModalAndDrawerClose();
 
   return (
     <div className="h-24 flex flex-row gap-default justify-between items-center px-default md:px-h sticky top-0 z-50 bg-bg-primary">
       <Image
         src={ZepoLogo}
         alt="Website logo"
-        className="w-logo h-logo cursor-pointer"
+        className="w-logo h-logo hidden md:flex cursor-pointer"
         onClick={() => router.replace("/home")}
       />
       <div className="hidden lg:flex">
@@ -50,7 +59,7 @@ function BrowseNavBar() {
           <input
             name="search"
             placeholder="Search here..."
-            className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-normal placeholder:text-text-secondary-dark focus:outline-none flex py-sm"
+            className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-normal placeholder:text-text-secondary-dark focus:outline-none flex py-sm bg-transparent"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -76,6 +85,16 @@ function BrowseNavBar() {
           />
         </div>
       </div>
+      <ResponsiveDrawerDialog
+        open={open}
+        toggleOpen={toggleOpen}
+        title="Edit Property"
+        description="Make sure the property details provided are correct"
+        trigger={
+          <IconAdjustmentsHorizontal className="text-text-secondary md:hidden" />
+        }
+        content={<PropertyFilterForm />}
+      />
     </div>
   );
 }

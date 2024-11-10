@@ -3,6 +3,7 @@
 import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm";
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
 import { dollar, rupee } from "@/constants";
+import { useSetModalAndDrawerClose } from "@/hook/use-modal-drawer-close";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
 import DummyImg from "@/public/dummy-rent.svg";
@@ -41,6 +42,7 @@ function HorizontalRentCard({
   editCallback,
 }: rentProps) {
   const router = useRouter();
+  const { open, toggleOpen } = useSetModalAndDrawerClose();
   return (
     <div
       className={`rentContainer-h ${isReverse && "flex-row-reverse"} ${
@@ -69,6 +71,8 @@ function HorizontalRentCard({
       {/* EDITABLE */}
       {editEnabled && (
         <ResponsiveDrawerDialog
+          open={open}
+          toggleOpen={toggleOpen}
           title="Edit Property"
           description="Make sure the property details provided are correct"
           trigger={

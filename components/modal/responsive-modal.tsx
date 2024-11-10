@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   Dialog,
   DialogContent,
@@ -23,14 +22,8 @@ interface FilterProps {
   description?: string;
   trigger: React.ReactNode;
   content: React.ReactNode;
-}
-
-export function useSetModalAndDrawerClose() {
-  const [open, setOpen] = React.useState(false);
-  const toggleOpen = (open: boolean) => {
-    setOpen(open);
-  };
-  return { open, setOpen, toggleOpen };
+  open: boolean;
+  toggleOpen: (open: boolean) => void;
 }
 
 export function ResponsiveDrawerDialog({
@@ -38,15 +31,14 @@ export function ResponsiveDrawerDialog({
   content,
   title = "Responsive Dialog",
   description = "Description of the dialog",
+  open,
+  toggleOpen,
 }: FilterProps) {
-  const { open, setOpen } = useSetModalAndDrawerClose();
   const isDesktop = useMediaQuery("(min-width: 768px)");
-
-  React.useEffect(() => {}, [open]);
 
   if (isDesktop) {
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog open={open} onOpenChange={toggleOpen}>
         <DialogTrigger asChild>{trigger}</DialogTrigger>
         <DialogContent className="bg-white">
           <DialogHeader>
@@ -60,9 +52,9 @@ export function ResponsiveDrawerDialog({
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer open={open} onOpenChange={toggleOpen}>
       <DrawerTrigger asChild>{trigger}</DrawerTrigger>
-      <DrawerContent className="bg-white p-default gap-default">
+      <DrawerContent className="bg-white p-default gap-default max-h-[90vh]">
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
           <DrawerDescription>{description}</DrawerDescription>
