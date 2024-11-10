@@ -2,14 +2,35 @@
 
 import { NavbarSelectComponent } from "@/components/select";
 import { usePropertyLayout } from "@/context/property/layout/layout-context";
+import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
+import useDebounce from "@/hook/debounce";
 import ZepoLogo from "@/public/zepo-logo.svg";
 import { IconLayoutGrid, IconList, IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 function BrowseNavBar() {
   const router = useRouter();
-  const handleSearchTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const { dispatch, filters } = usePropertyFilterContext();
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const debouncedSearchTerm = useDebounce<string>(searchTerm, 500); // 500ms delay
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      dispatch({
+        type: "setPropertyFilter",
+        payload: { ...filters, search: debouncedSearchTerm },
+      });
+    }
+  }, [debouncedSearchTerm]);
+
+  useEffect(() => {
+    if (!filters.search || filters.search.length === 0) {
+      setSearchTerm("");
+    }
+  }, [filters]);
 
   const { isGrid, toggleLayout } = usePropertyLayout();
 
@@ -30,7 +51,8 @@ function BrowseNavBar() {
             name="search"
             placeholder="Search here..."
             className="flex-1 placeholder:text-md-subtitle-primary placeholder:font-normal placeholder:text-text-secondary-dark focus:outline-none flex py-sm"
-            onChange={handleSearchTextChange}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <IconSearch className="text-text-secondary" />
         </div>

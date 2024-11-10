@@ -144,6 +144,14 @@ export interface IPropertyUpdateDto {
   updated_at?: string;
 }
 
+export interface IPropertyLocationResponse {
+  id: number;
+  lat: string;
+  lon: string;
+  image: string;
+  title: string;
+}
+
 export interface IBannerPropertyResponse {
   id: number;
   images: string[];
@@ -182,6 +190,12 @@ export interface IPropertyFiltersDto {
 
 export interface IAllPropertyResponse {
   data?: IBannerPropertyResponse[];
+  statusCode: number;
+  total: number;
+}
+
+export interface IAllPropertyLocationResponse {
+  data: IPropertyLocationResponse[];
   statusCode: number;
   total: number;
 }

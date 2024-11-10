@@ -6,12 +6,17 @@ import HorizontalRentCard from "@/components/cards/rent-card/rent-card-horizonta
 import ErrorComponent from "@/components/fallbacks/error";
 import { PropertyFilterForm } from "@/components/form";
 import { MapComponent } from "@/components/map";
+import MultiMapComponent from "@/components/map/multi-cordinate-map";
 import NoDataComponent from "@/components/pages/noData/no-data";
 import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
+import { SelectInput } from "@/components/select";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyLayout } from "@/context";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
-import { useGetAllProperties } from "@/query/propertyQuery";
+import {
+  useGetAllProperties,
+  useGetAllPropertyLocations,
+} from "@/query/propertyQuery";
 import {
   IconAdjustmentsHorizontal,
   IconChevronDown,
@@ -33,7 +38,7 @@ const BrowsePage = () => {
     return { link: `/${path}`, title: path };
   });
 
-  const { filters } = usePropertyFilterContext();
+  const { filters, dispatch } = usePropertyFilterContext();
   const queryClient = useQueryClient();
 
   const {
@@ -42,9 +47,34 @@ const BrowsePage = () => {
     isError,
   } = useGetAllProperties({ filters });
 
+  const {
+    data: locations,
+    isLoading: locationLoading,
+    isError: locationError,
+  } = useGetAllPropertyLocations({ filters });
+
   useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ["getAllProperties"] });
+    queryClient.invalidateQueries({
+      queryKey: ["getAllProperties"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["getAllPropertyLocations"],
+    });
   }, [filters]);
+
+  const handleSortingChange = (value: string) => {
+    if (value === "Hight to low") {
+      dispatch({
+        type: "setPropertyFilter",
+        payload: { ...filters, low_to_high: -1 },
+      });
+    } else {
+      dispatch({
+        type: "setPropertyFilter",
+        payload: { ...filters, low_to_high: 1 },
+      });
+    }
+  };
 
   const { isGrid } = usePropertyLayout();
 
@@ -60,36 +90,22 @@ const BrowsePage = () => {
           items={breadCrumbs as { title: string; link: string }[]}
         />
         <p className="text-text-normal text-md-title font-bold">
-          Available for Rent in Guwahati
+          Available for Rent around you
         </p>
         <div className="flex justify-between items-center">
           <p className="text-text-secondary font-bold text-md-subtitle-secondary">
             {allProperties?.total ? allProperties?.total.toLocaleString() : 0}{" "}
             units available
           </p>
-          <div className="flex gap-2 items-center">
-            <IconAdjustmentsHorizontal className="text-text-secondary" />
-            <p className="text-text-secondary font-bold text-md-subtitle-secondary">
-              Sort by:
-            </p>
-            <DefaultPopoverComponent
-              triggerElement={
-                <IconChevronDown className="text-text-secondary" />
+          <div className="flex gap-2 items-center px-default">
+            <SelectInput
+              prefix={
+                <IconAdjustmentsHorizontal className="text-text-secondary" />
               }
-              content={
-                <div className="flex flex-col gap-default p-default">
-                  {sortingOptions.map((option, idx) => (
-                    <>
-                      <p className="text-text-secondary text-md-subtitle-secondary cursor-pointer">
-                        {option}
-                      </p>
-                      {idx !== sortingOptions.length - 1 && (
-                        <div className="divider-h" />
-                      )}
-                    </>
-                  ))}
-                </div>
-              }
+              className="border-none"
+              selectList={["Hight to low", "Low to high"]}
+              onChange={handleSortingChange}
+              placeholder={"Sort by"}
             />
           </div>
         </div>
@@ -137,12 +153,11 @@ const BrowsePage = () => {
       </div>
       {/* MAP */}
       <div className="h-full overflow-hidden col-span-1 hidden md:flex p-default">
-        <MapComponent
-          properties={[
-            { id: 1, lat: 26.176205, lon: 91.801198 },
-            { id: 2, lat: 11.4064, lon: 76.6932 },
-          ]}
-        />
+        {locations && locations.data ? (
+          <MultiMapComponent properties={locations.data} />
+        ) : (
+          <MapComponent />
+        )}
       </div>
     </div>
   );
