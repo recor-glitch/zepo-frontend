@@ -1,10 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { ChipComponent } from "@/components/chip";
+import ChipSkeleton from "@/components/skeletons/chip/chip-skeleton";
 import { DualRangeSlider } from "@/components/slider/multi-range-slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,12 +17,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { RulesIconMap } from "@/constants";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
+import { useGetPropertyRules } from "@/query/propertyQuery";
+import { IPropertyRuleWithIcon } from "@/type/dto/property/property-dto";
 
 const PropertyFilterSchema = z.object({
   propertyTypes: z.array(z.string()),
   beds: z.array(z.number()),
   priceRange: z.tuple([z.number().min(0), z.number().max(10000)]),
+  rules: z.array(z.number()),
 });
 
 type PropertyFilterFormData = z.infer<typeof PropertyFilterSchema>;
@@ -44,6 +50,38 @@ export function PropertyFilterForm() {
   const handleClearFilter = () => {
     dispatch({ type: "clearPropertyFilter", payload: {} });
     setMinMaxValues([500, 10000]);
+  };
+
+  const {
+    data: propertyRules,
+    isLoading: RulesLoading,
+    isError: RulesError,
+  } = useGetPropertyRules({ option: { queryKey: ["getPropertyRules"] } });
+
+  const [rules, setRules] = useState<number[]>([]);
+
+  const [tags, setTags] = useState<IPropertyRuleWithIcon[]>([]);
+
+  useEffect(() => {
+    if (propertyRules?.data) {
+      setTags(
+        propertyRules.data?.rules?.map((rule) => ({
+          ...rule,
+          icon: RulesIconMap[rule?.rule_name as keyof typeof RulesIconMap],
+        }))
+      );
+    }
+  }, [propertyRules]);
+
+  const handleRuleSelection = (rule: number) => {
+    if (rules.includes(rule)) return;
+
+    setRules((prev) => [...prev, rule]);
+  };
+
+  const handleRuleUnSelection = (rule: number) => {
+    if (rules.includes(rule))
+      setRules((prev) => prev.filter((r) => r !== rule));
   };
 
   const onSubmit = (data: PropertyFilterFormData) => {
@@ -168,6 +206,36 @@ export function PropertyFilterForm() {
                     )}
                   />
                 ))}
+              </div>
+              {/* <FormMessage /> */}
+            </FormItem>
+          )}
+        />
+
+        {/* Rules */}
+        <FormField
+          control={form.control}
+          name="rules"
+          render={() => (
+            <FormItem>
+              <FormLabel className="text-text-normal font-bold text-md-subtitle-primary">
+                Rules
+              </FormLabel>
+              <div className="flex flex-wrap gap-default">
+                {RulesLoading
+                  ? [...new Array(6).fill(null)].map((item, index) => (
+                      <ChipSkeleton key={index} />
+                    ))
+                  : tags?.map((rule) => (
+                      <ChipComponent
+                        key={rule.id}
+                        prefix={<rule.icon className="text-text-secondary" />}
+                        onClick={() => handleRuleSelection(rule.id)}
+                        isSelected={rules.includes(rule.id)}
+                        handleUnselected={() => handleRuleUnSelection(rule.id)}
+                        text={rule.rule_name}
+                      />
+                    ))}
               </div>
               {/* <FormMessage /> */}
             </FormItem>

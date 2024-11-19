@@ -16,6 +16,7 @@ import { usePropertyFilterContext } from "@/context/property/property-filter/pro
 import {
   useGetAllProperties,
   useGetAllPropertyLocations,
+  useGetPropertyRules,
 } from "@/query/propertyQuery";
 import {
   IconAdjustmentsHorizontal,
@@ -24,8 +25,6 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-
-const sortingOptions = ["High to low", "Low to high"];
 
 const BrowsePage = () => {
   const path = usePathname();
@@ -79,13 +78,13 @@ const BrowsePage = () => {
   const { isGrid } = usePropertyLayout();
 
   return (
-    <div className="h-body w-full flex md:grid md:grid-cols-5 gap-default">
+    <div className="w-full flex md:grid md:grid-cols-5 gap-default">
       {/* FILTERS */}
       <div className="col-span-1 hidden md:flex gap-default p-default h-full">
         <PropertyFilterForm />
       </div>
       {/* PROPERTIES */}
-      <div className="h-full overflow-y-scroll no-scrollbar w-full flex flex-col gap-default p-default md:col-span-3">
+      <div className="w-full flex flex-col gap-default p-default md:col-span-3">
         <BreadcrumbWithCustomSeparator
           items={breadCrumbs as { title: string; link: string }[]}
         />
