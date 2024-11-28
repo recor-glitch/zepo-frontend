@@ -227,13 +227,30 @@ export function PropertyFilterForm() {
                       <ChipSkeleton key={index} />
                     ))
                   : tags?.map((rule) => (
-                      <ChipComponent
+                      <FormField
                         key={rule.id}
-                        prefix={<rule.icon className="text-text-secondary" />}
-                        onClick={() => handleRuleSelection(rule.id)}
-                        isSelected={rules.includes(rule.id)}
-                        handleUnselected={() => handleRuleUnSelection(rule.id)}
-                        text={rule.rule_name}
+                        control={form.control}
+                        name="rules"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3">
+                            <FormControl>
+                              <Checkbox
+                                className="text-white bg-white checked:bg-white checked:border-white"
+                                checked={field.value?.includes(rule.id)}
+                                onCheckedChange={(checked) => {
+                                  field.onChange(
+                                    checked
+                                      ? [...field.value, rule]
+                                      : field.value.filter(
+                                          (item) => item !== rule.id
+                                        )
+                                  );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel>{rule.rule_name}</FormLabel>
+                          </FormItem>
+                        )}
                       />
                     ))}
               </div>
