@@ -8,19 +8,16 @@ import { PropertyFilterForm } from "@/components/form";
 import { MapComponent } from "@/components/map";
 import MultiMapComponent from "@/components/map/multi-cordinate-map";
 import NoDataComponent from "@/components/pages/noData/no-data";
-import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { SelectInput } from "@/components/select";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyLayout } from "@/context";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import {
   useGetAllProperties,
-  useGetAllPropertyLocations,
-  useGetPropertyRules,
+  useGetAllPropertyLocations
 } from "@/query/propertyQuery";
 import {
-  IconAdjustmentsHorizontal,
-  IconChevronDown,
+  IconAdjustmentsHorizontal
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";

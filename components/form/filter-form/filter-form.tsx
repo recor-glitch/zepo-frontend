@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { ChipComponent } from "@/components/chip";
 import ChipSkeleton from "@/components/skeletons/chip/chip-skeleton";
 import { DualRangeSlider } from "@/components/slider/multi-range-slider";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -73,17 +72,6 @@ export function PropertyFilterForm() {
     }
   }, [propertyRules]);
 
-  const handleRuleSelection = (rule: number) => {
-    if (rules.includes(rule)) return;
-
-    setRules((prev) => [...prev, rule]);
-  };
-
-  const handleRuleUnSelection = (rule: number) => {
-    if (rules.includes(rule))
-      setRules((prev) => prev.filter((r) => r !== rule));
-  };
-
   const onSubmit = (data: PropertyFilterFormData) => {
     console.log("On submit form data: ", data, minMaxValues);
     dispatch({
@@ -94,6 +82,7 @@ export function PropertyFilterForm() {
         min_price: minMaxValues[0],
         max_price: minMaxValues[1],
         property_type: data.propertyTypes,
+        rules: data.rules,
       },
     });
   };
@@ -238,10 +227,11 @@ export function PropertyFilterForm() {
                                 className="text-white bg-white checked:bg-white checked:border-white"
                                 checked={field.value?.includes(rule.id)}
                                 onCheckedChange={(checked) => {
+                                  const currentValue = field.value || []; // Ensure array
                                   field.onChange(
                                     checked
-                                      ? [...field.value, rule]
-                                      : field.value.filter(
+                                      ? [...currentValue, rule.id]
+                                      : currentValue.filter(
                                           (item) => item !== rule.id
                                         )
                                   );

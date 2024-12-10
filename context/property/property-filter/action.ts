@@ -20,6 +20,7 @@ interface ISetPropertyFilter {
   rating?: number;
   beds?: number[];
   search?: string;
+  rules?: number[];
 }
 
 export type Action = SetPropertyFilter | ClearPropertyFilter;
