@@ -41,6 +41,7 @@ export function PropertyFilterForm() {
       propertyTypes: filters.property_type || [],
       beds: filters.beds || [],
       priceRange: [filters.min_price || 0, filters.max_price || 10000],
+      rules: filters.rules || [],
     },
   });
 
@@ -56,8 +57,6 @@ export function PropertyFilterForm() {
     isLoading: RulesLoading,
     isError: RulesError,
   } = useGetPropertyRules({ option: { queryKey: ["getPropertyRules"] } });
-
-  const [rules, setRules] = useState<number[]>([]);
 
   const [tags, setTags] = useState<IPropertyRuleWithIcon[]>([]);
 
