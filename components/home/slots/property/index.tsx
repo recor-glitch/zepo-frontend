@@ -1,17 +1,10 @@
-"use client";
-
 import { RentCard } from "@/components/cards";
-import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
-import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
-import { useGetAllProperties } from "@/query/propertyQuery";
-import { useRouter } from "next/navigation";
+import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
+import Link from "next/link";
 
-export function BrowsePropertySection() {
-  const { filters } = usePropertyFilterContext();
-
-  const { data, isLoading } = useGetAllProperties({ filters });
-
-  const router = useRouter();
+export async function BrowsePropertySection() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/property`);
+  const data: { data: IBannerPropertyResponse[] } = await res.json();
 
   return (
     <div className="flex flex-col py-property-h gap-h lg:px-40 px-sm-h">
@@ -24,20 +17,15 @@ export function BrowsePropertySection() {
             Some of our picked properties near you location.
           </p>
         </div>
-        <button
-          className="filledBtn w-full lg:w-auto"
-          onClick={() => {
-            router.push("/browse");
-          }}
-        >
-          Browse more properties
-        </button>
+        <Link href="/browse">
+          <button className="filledBtn w-full lg:w-auto">
+            Browse more properties
+          </button>
+        </Link>
       </div>
       {/* PROPERTIES GRID */}
       <div className="grid lg:grid-cols-4 gap-h w-full">
-        {isLoading ? (
-          [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
-        ) : data && data.data ? (
+        {data && data.data?.length != 0 ? (
           data.data?.map((rent, index) => (
             <RentCard rent={rent} clickable showLike key={rent.title + index} />
           ))

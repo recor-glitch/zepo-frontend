@@ -8,24 +8,20 @@ import { PropertyFilterForm } from "@/components/form";
 import { MapComponent } from "@/components/map";
 import MultiMapComponent from "@/components/map/multi-cordinate-map";
 import NoDataComponent from "@/components/pages/noData/no-data";
-import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { SelectInput } from "@/components/select";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyLayout } from "@/context";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
 import {
   useGetAllProperties,
-  useGetAllPropertyLocations,
+  useGetAllPropertyLocations
 } from "@/query/propertyQuery";
 import {
-  IconAdjustmentsHorizontal,
-  IconChevronDown,
+  IconAdjustmentsHorizontal
 } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-
-const sortingOptions = ["High to low", "Low to high"];
 
 const BrowsePage = () => {
   const path = usePathname();
@@ -79,13 +75,13 @@ const BrowsePage = () => {
   const { isGrid } = usePropertyLayout();
 
   return (
-    <div className="h-body w-full flex md:grid md:grid-cols-5 gap-default">
+    <div className="w-full flex md:grid md:grid-cols-5 gap-default">
       {/* FILTERS */}
       <div className="col-span-1 hidden md:flex gap-default p-default h-full">
         <PropertyFilterForm />
       </div>
       {/* PROPERTIES */}
-      <div className="h-full overflow-y-scroll no-scrollbar w-full flex flex-col gap-default p-default md:col-span-3">
+      <div className="w-full flex flex-col gap-default p-default md:col-span-3">
         <BreadcrumbWithCustomSeparator
           items={breadCrumbs as { title: string; link: string }[]}
         />

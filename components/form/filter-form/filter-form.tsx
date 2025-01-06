@@ -1,10 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import ChipSkeleton from "@/components/skeletons/chip/chip-skeleton";
 import { DualRangeSlider } from "@/components/slider/multi-range-slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -15,12 +16,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { RulesIconMap } from "@/constants";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
+import { useGetPropertyRules } from "@/query/propertyQuery";
+import { IPropertyRuleWithIcon } from "@/type/dto/property/property-dto";
 
 const PropertyFilterSchema = z.object({
   propertyTypes: z.array(z.string()),
   beds: z.array(z.number()),
   priceRange: z.tuple([z.number().min(0), z.number().max(10000)]),
+  rules: z.array(z.number()),
 });
 
 type PropertyFilterFormData = z.infer<typeof PropertyFilterSchema>;
@@ -36,6 +41,7 @@ export function PropertyFilterForm() {
       propertyTypes: filters.property_type || [],
       beds: filters.beds || [],
       priceRange: [filters.min_price || 0, filters.max_price || 10000],
+      rules: filters.rules || [],
     },
   });
 
@@ -45,6 +51,25 @@ export function PropertyFilterForm() {
     dispatch({ type: "clearPropertyFilter", payload: {} });
     setMinMaxValues([500, 10000]);
   };
+
+  const {
+    data: propertyRules,
+    isLoading: RulesLoading,
+    isError: RulesError,
+  } = useGetPropertyRules({ option: { queryKey: ["getPropertyRules"] } });
+
+  const [tags, setTags] = useState<IPropertyRuleWithIcon[]>([]);
+
+  useEffect(() => {
+    if (propertyRules?.data) {
+      setTags(
+        propertyRules.data?.rules?.map((rule) => ({
+          ...rule,
+          icon: RulesIconMap[rule?.rule_name as keyof typeof RulesIconMap],
+        }))
+      );
+    }
+  }, [propertyRules]);
 
   const onSubmit = (data: PropertyFilterFormData) => {
     console.log("On submit form data: ", data, minMaxValues);
@@ -56,6 +81,7 @@ export function PropertyFilterForm() {
         min_price: minMaxValues[0],
         max_price: minMaxValues[1],
         property_type: data.propertyTypes,
+        rules: data.rules,
       },
     });
   };
@@ -168,6 +194,54 @@ export function PropertyFilterForm() {
                     )}
                   />
                 ))}
+              </div>
+              {/* <FormMessage /> */}
+            </FormItem>
+          )}
+        />
+
+        {/* Rules */}
+        <FormField
+          control={form.control}
+          name="rules"
+          render={() => (
+            <FormItem>
+              <FormLabel className="text-text-normal font-bold text-md-subtitle-primary">
+                Rules
+              </FormLabel>
+              <div className="flex flex-wrap gap-default">
+                {RulesLoading
+                  ? [...new Array(6).fill(null)].map((item, index) => (
+                      <ChipSkeleton key={index} />
+                    ))
+                  : tags?.map((rule) => (
+                      <FormField
+                        key={rule.id}
+                        control={form.control}
+                        name="rules"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3">
+                            <FormControl>
+                              <Checkbox
+                                className="text-white bg-white checked:bg-white checked:border-white"
+                                checked={field.value?.includes(rule.id)}
+                                onCheckedChange={(checked) => {
+                                  const currentValue = field.value || []; // Ensure array
+                                  field.onChange(
+                                    checked
+                                      ? [...currentValue, rule.id]
+                                      : currentValue.filter(
+                                          (item) => item !== rule.id
+                                        )
+                                  );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel>{rule.rule_name}</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
               </div>
               {/* <FormMessage /> */}
             </FormItem>

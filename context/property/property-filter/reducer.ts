@@ -1,6 +1,6 @@
 import { propertyFilterContentDto } from "@/type/app";
-import { Action as FilterAction } from "./action";
 import { IPropertyFiltersDto } from "@/type/dto/property/property-dto";
+import { Action as FilterAction } from "./action";
 
 export const PropertyFilterReducer = (
   state: propertyFilterContentDto,

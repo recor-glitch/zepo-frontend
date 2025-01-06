@@ -186,6 +186,7 @@ export interface IPropertyFiltersDto {
   rating?: number;
   beds?: number[];
   search?: string;
+  rules?: number[];
 }
 
 export interface IAllPropertyResponse {
