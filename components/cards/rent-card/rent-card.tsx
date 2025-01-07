@@ -51,9 +51,8 @@ function RentCard({
     <div
       className={`rentContainer ${
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
-      } ${className} ${clickable && "cursor-pointer"}`}
+      } ${className}`}
       id={rent.title + rent.description}
-      onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (
@@ -113,10 +112,13 @@ function RentCard({
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         unoptimized
         alt={"Property images"}
-        className="flex rounded-t-default w-full h-[52%] min-h-[10vh]"
+        className={`flex rounded-t-default w-full h-[52%] min-h-[10vh] ${
+          clickable && "cursor-pointer"
+        }`}
         width={100}
         height={100}
-        objectFit="contain" // Ensures the image fits within the container
+        objectFit="contain"
+        onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
       />
       <div
         className={`flex flex-col ${
