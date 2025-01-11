@@ -1,6 +1,6 @@
 // Wishlist
 export interface IWishlistProperty {
-  id: string;
+  id: number;
   description: string;
   images: string;
   property_type: string;

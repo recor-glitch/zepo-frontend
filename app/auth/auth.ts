@@ -43,9 +43,7 @@ export const nextAuthOptions: NextAuthOptions = {
       }
     },
 
-    async session({ session, token }) {
-      console.log("session ", { session, token });
-
+    async session({ session, token, user }) {
       const accessToken = token?.accessToken
         ? token?.accessToken
         : session.profile?.accessToken;
@@ -59,13 +57,14 @@ export const nextAuthOptions: NextAuthOptions = {
       });
 
       if (res.status === 201) {
-        TokenStorage.setAccessToken(res.data.accessToken || "");
-        TokenStorage.setRefreshToken(res.data.refreshToken || "");
+        TokenStorage.setAccessToken = res.data.accessToken || "";
+        TokenStorage.setRefreshToken = res.data.refreshToken || "";
 
         return {
           ...session,
           profile: {
             ...token,
+            ...user,
             accessToken: res.data.accessToken,
             refreshToken: res.data.refreshToken,
           },
@@ -86,14 +85,12 @@ export const nextAuthOptions: NextAuthOptions = {
         }
       );
 
-      console.log("My Signin", { res });
-
       if (res.status >= 200) {
         user.accessToken = res.data.accessToken;
         user.refreshToken = res.data.refreshToken;
 
-        TokenStorage.setAccessToken(res.data.accessToken);
-        TokenStorage.setRefreshToken(res.data.refreshToken);
+        TokenStorage.setAccessToken = res.data.accessToken;
+        TokenStorage.setRefreshToken = res.data.refreshToken;
       }
 
       return true;

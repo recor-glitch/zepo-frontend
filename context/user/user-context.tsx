@@ -51,8 +51,8 @@ export function UserContextProvider({ children }: PropsWithChildren) {
   }, [session]);
 
   useEffect(() => {
-    TokenStorage.setAccessToken(session?.profile?.accessToken || "");
-    TokenStorage.setRefreshToken(session?.profile?.refreshToken || "");
+    TokenStorage.setAccessToken = session?.profile?.accessToken || "";
+    TokenStorage.setRefreshToken = session?.profile?.refreshToken || "";
   }, [session]);
 
   return (

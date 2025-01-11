@@ -4,11 +4,15 @@ import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
 import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { dollar, rupee } from "@/constants";
+import { useUserContext } from "@/context/user/user-context";
 import { useSetModalAndDrawerClose } from "@/hook/use-modal-drawer-close";
+import {
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation,
+} from "@/mutation/wishlistMutation";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
 import DummyImg from "@/public/dummy-rent.svg";
-import HeartIcon from "@/public/heart-icon.svg";
 import PointedEdge from "@/public/pointed-edge.svg";
 import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
@@ -17,16 +21,19 @@ import {
   IconDotsVertical,
   IconEdit,
   IconHeart,
+  IconHeartFilled,
   IconTrash,
 } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export interface rentProps {
   className?: string;
   rent: IBannerPropertyResponse;
   isSmall?: boolean;
-  isLiked?: boolean;
+  Liked?: boolean;
   showLike?: boolean;
   showPopular?: boolean;
   clickable?: boolean;
@@ -38,7 +45,7 @@ function RentCard({
   className,
   rent,
   isSmall,
-  isLiked = false,
+  Liked = false,
   showLike = false,
   showPopular = true,
   clickable = false,
@@ -47,6 +54,49 @@ function RentCard({
 }: rentProps) {
   const router = useRouter();
   const { open, toggleOpen } = useSetModalAndDrawerClose();
+
+  const {
+    mutateAsync: addToWishListMutation,
+    isError: addToWishListIsError,
+    isPending: addToWishListIsPending,
+    isSuccess: addToWishListIsSuccess,
+  } = useAddToWishlistMutation({});
+
+  const {
+    mutateAsync: removeFromWishlistMutation,
+    isError: removeFromWishListIsError,
+    isPending: removeFromWishListIsPending,
+    isSuccess: removeFromWishListIsSuccess,
+  } = useRemoveFromWishlistMutation({});
+
+  const { user } = useUserContext();
+
+  const [isLiked, setIsLiked] = useState<boolean>(Liked!!);
+
+  useEffect(() => {
+    if (addToWishListIsSuccess || removeFromWishListIsSuccess) {
+      toast.error("Something went wrong, please try again latter");
+    }
+  }, [addToWishListIsError, removeFromWishListIsError]);
+
+  const handleLlikeClicked = async (isLiked: boolean) => {
+    if (!user) {
+      toast("Please login to go further!");
+      return;
+    }
+
+    if (isLiked) {
+      await removeFromWishlistMutation({
+        property_id: rent.id,
+        user_id: user.id,
+      });
+      setIsLiked(false);
+      return;
+    }
+    await addToWishListMutation({ property_id: rent.id, user_id: user.id });
+    setIsLiked(true);
+  };
+
   return (
     <div
       className={`rentContainer ${
@@ -134,8 +184,15 @@ function RentCard({
             </p>
           </span>
           {showLike && (
-            <div className="rounded-full border-2 border-primary-light flex justify-center items-center p-2">
-              <IconHeart className="text-primary" />
+            <div
+              className="rounded-full border-2 border-primary-light flex justify-center items-center p-2 cursor-pointer"
+              onClick={() => handleLlikeClicked(isLiked)}
+            >
+              {isLiked ? (
+                <IconHeartFilled className="text-primary" />
+              ) : (
+                <IconHeart className="text-primary" />
+              )}
             </div>
           )}
         </div>

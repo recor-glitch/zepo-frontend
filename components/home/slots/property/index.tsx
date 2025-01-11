@@ -1,10 +1,19 @@
 import { RentCard } from "@/components/cards";
-import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
+import { IAllPropertyResponse } from "@/type/dto/property/property-dto";
+import { IWishListResponse } from "@/type/dto/wishlist/wishlist-dto";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import axiosInstance from "@/utils/axios-instance/axios-instance";
 import Link from "next/link";
 
 export async function BrowsePropertySection() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/property`);
-  const data: { data: IBannerPropertyResponse[] } = await res.json();
+  // PROPERTY RESPONSE
+  const res = await axiosInstance.get<IAllPropertyResponse>("/property");
+  const { data, statusCode, total } = res.data;
+
+  // WISHLIST RESPONSE
+  console.log("My token", TokenStorage.getAccessToken);
+  const wishListRes = await axiosInstance.get<IWishListResponse>("/wishlist");
+  const { data: wishlist } = wishListRes.data;
 
   return (
     <div className="flex flex-col py-property-h gap-h lg:px-40 px-sm-h">
@@ -25,9 +34,15 @@ export async function BrowsePropertySection() {
       </div>
       {/* PROPERTIES GRID */}
       <div className="grid lg:grid-cols-4 gap-h w-full">
-        {data && data.data?.length != 0 ? (
-          data.data?.map((rent, index) => (
-            <RentCard rent={rent} clickable showLike key={rent.title + index} />
+        {data && data?.length != 0 ? (
+          data?.map((rent, index) => (
+            <RentCard
+              rent={rent}
+              clickable
+              showLike
+              key={rent.title + index}
+              Liked={wishlist.filter((item) => item.id === rent.id).length > 0}
+            />
           ))
         ) : (
           <>No property listed yet</>
