@@ -51,6 +51,9 @@ export const nextAuthOptions: NextAuthOptions = {
         ? token?.refreshToken
         : session.profile?.refreshToken;
 
+      TokenStorage.setAccessToken = (accessToken as string) ?? "";
+      TokenStorage.setRefreshToken = (refreshToken as string) ?? "";
+
       const res = await axiosInstance.post<ICreateUserResponse>("/invalidate", {
         accessToken: accessToken,
         refreshToken: refreshToken,
@@ -71,7 +74,7 @@ export const nextAuthOptions: NextAuthOptions = {
         };
       }
 
-      return { ...session, profile: token };
+      return { ...session, profile: { ...token, ...user } };
     },
 
     async signIn({ user }) {

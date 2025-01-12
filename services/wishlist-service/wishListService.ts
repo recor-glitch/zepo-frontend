@@ -14,12 +14,8 @@ export async function AddToWishList(
   return res.data;
 }
 
-export async function GetWishListByUserId(
-  user_id: string
-): Promise<IWishListResponse> {
-  const res = await axiosInstance.post<IWishListResponse>(`/wishlist`, {
-    user_id,
-  });
+export async function GetWishListByUserId(): Promise<IWishListResponse> {
+  const res = await axiosInstance.get<IWishListResponse>(`/wishlist`);
 
   return res.data;
 }

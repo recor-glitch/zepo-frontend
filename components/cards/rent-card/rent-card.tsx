@@ -17,6 +17,7 @@ import PointedEdge from "@/public/pointed-edge.svg";
 import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
 import {
   IconDotsVertical,
   IconEdit,
@@ -24,6 +25,7 @@ import {
   IconHeartFilled,
   IconTrash,
 } from "@tabler/icons-react";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -71,7 +73,9 @@ function RentCard({
 
   const { user } = useUserContext();
 
-  const [isLiked, setIsLiked] = useState<boolean>(Liked!!);
+  const [isLiked, setIsLiked] = useState<boolean>(Liked);
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (addToWishListIsSuccess || removeFromWishListIsSuccess) {
@@ -79,9 +83,10 @@ function RentCard({
     }
   }, [addToWishListIsError, removeFromWishListIsError]);
 
-  const handleLlikeClicked = async (isLiked: boolean) => {
-    if (!user) {
-      toast("Please login to go further!");
+  const handleLikeClicked = async (isLiked: boolean) => {
+    console.log("My user data:", user, TokenStorage.getAccessToken);
+    if (!user || !TokenStorage.getAccessToken) {
+      toast("Please login to add to your wishlist!");
       return;
     }
 
@@ -91,10 +96,13 @@ function RentCard({
         user_id: user.id,
       });
       setIsLiked(false);
-      return;
+    } else {
+      await addToWishListMutation({ property_id: rent.id, user_id: user.id });
+      setIsLiked(true);
     }
-    await addToWishListMutation({ property_id: rent.id, user_id: user.id });
-    setIsLiked(true);
+    queryClient.invalidateQueries({
+      queryKey: ["getWishListByUserId"],
+    });
   };
 
   return (
@@ -186,7 +194,7 @@ function RentCard({
           {showLike && (
             <div
               className="rounded-full border-2 border-primary-light flex justify-center items-center p-2 cursor-pointer"
-              onClick={() => handleLlikeClicked(isLiked)}
+              onClick={() => handleLikeClicked(isLiked)}
             >
               {isLiked ? (
                 <IconHeartFilled className="text-primary" />
