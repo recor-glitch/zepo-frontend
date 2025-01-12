@@ -8,24 +8,20 @@ import { PropertyFilterForm } from "@/components/form";
 import { MapComponent } from "@/components/map";
 import MultiMapComponent from "@/components/map/multi-cordinate-map";
 import NoDataComponent from "@/components/pages/noData/no-data";
-import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { SelectInput } from "@/components/select";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyLayout } from "@/context";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
+import { useUserContext } from "@/context/user/user-context";
 import {
   useGetAllProperties,
   useGetAllPropertyLocations,
 } from "@/query/propertyQuery";
-import {
-  IconAdjustmentsHorizontal,
-  IconChevronDown,
-} from "@tabler/icons-react";
+import { useGetWishListByUserId } from "@/query/wishlistQuery";
+import { IconAdjustmentsHorizontal } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
-
-const sortingOptions = ["High to low", "Low to high"];
 
 const BrowsePage = () => {
   const path = usePathname();
@@ -37,6 +33,14 @@ const BrowsePage = () => {
   const breadCrumbs = paths.map((path) => {
     return { link: `/${path}`, title: path };
   });
+
+  const {
+    data: wishlist,
+    error: wishlistError,
+    isError: IsWishlistError,
+    isSuccess: IsWishlistSuccess,
+    isPending: wishlistPending,
+  } = useGetWishListByUserId({ option: { queryKey: ["getWishListByUserId"] } });
 
   const { filters, dispatch } = usePropertyFilterContext();
   const queryClient = useQueryClient();
@@ -79,13 +83,13 @@ const BrowsePage = () => {
   const { isGrid } = usePropertyLayout();
 
   return (
-    <div className="h-body w-full flex md:grid md:grid-cols-5 gap-default">
+    <div className="w-full flex md:grid md:grid-cols-5 gap-default">
       {/* FILTERS */}
       <div className="col-span-1 hidden md:flex gap-default p-default h-full">
         <PropertyFilterForm />
       </div>
       {/* PROPERTIES */}
-      <div className="h-full overflow-y-scroll no-scrollbar w-full flex flex-col gap-default p-default md:col-span-3">
+      <div className="w-full flex flex-col gap-default p-default md:col-span-3">
         <BreadcrumbWithCustomSeparator
           items={breadCrumbs as { title: string; link: string }[]}
         />
@@ -110,7 +114,7 @@ const BrowsePage = () => {
           </div>
         </div>
 
-        {isLoading ? (
+        {isLoading || wishlistPending ? (
           [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
         ) : isError ? (
           <div className="flex flex-col justify-center items-center">
@@ -137,6 +141,11 @@ const BrowsePage = () => {
                     showPopular
                     rent={rent}
                     key={rent.title + index}
+                    Liked={
+                      wishlist?.data &&
+                      wishlist?.data?.filter((item) => item.id == rent.id)
+                        .length > 0
+                    }
                   />
                 ) : (
                   <RentCard
@@ -145,6 +154,14 @@ const BrowsePage = () => {
                     showPopular
                     rent={rent}
                     key={rent.title + index}
+                    Liked={(() => {
+                      const isLiked = wishlist?.data
+                        ? wishlist?.data?.filter((item) => item.id == rent.id)
+                            .length > 0
+                        : false;
+                      console.log("I am here: ", index, isLiked);
+                      return isLiked;
+                    })()}
                   />
                 )
               )}

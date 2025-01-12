@@ -4,29 +4,38 @@ import PropertyEditComponent from "@/components/form/modal/edit/editPropertyForm
 import { ResponsiveDrawerDialog } from "@/components/modal/responsive-modal";
 import DefaultPopoverComponent from "@/components/popover/default-popover/default-popover";
 import { dollar, rupee } from "@/constants";
+import { useUserContext } from "@/context/user/user-context";
 import { useSetModalAndDrawerClose } from "@/hook/use-modal-drawer-close";
+import {
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation,
+} from "@/mutation/wishlistMutation";
 import BedIcon from "@/public/bed-icon.svg";
 import DimensionIcon from "@/public/dimension-icon.svg";
 import DummyImg from "@/public/dummy-rent.svg";
-import HeartIcon from "@/public/heart-icon.svg";
 import PointedEdge from "@/public/pointed-edge.svg";
 import StarIcon from "@/public/stars-icon.svg";
 import WashIcon from "@/public/wash-icon.svg";
 import { IBannerPropertyResponse } from "@/type/dto/property/property-dto";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
 import {
   IconDotsVertical,
   IconEdit,
   IconHeart,
+  IconHeartFilled,
   IconTrash,
 } from "@tabler/icons-react";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export interface rentProps {
   className?: string;
   rent: IBannerPropertyResponse;
   isSmall?: boolean;
-  isLiked?: boolean;
+  Liked?: boolean;
   showLike?: boolean;
   showPopular?: boolean;
   clickable?: boolean;
@@ -38,7 +47,7 @@ function RentCard({
   className,
   rent,
   isSmall,
-  isLiked = false,
+  Liked = false,
   showLike = false,
   showPopular = true,
   clickable = false,
@@ -47,13 +56,61 @@ function RentCard({
 }: rentProps) {
   const router = useRouter();
   const { open, toggleOpen } = useSetModalAndDrawerClose();
+
+  const {
+    mutateAsync: addToWishListMutation,
+    isError: addToWishListIsError,
+    isPending: addToWishListIsPending,
+    isSuccess: addToWishListIsSuccess,
+  } = useAddToWishlistMutation({});
+
+  const {
+    mutateAsync: removeFromWishlistMutation,
+    isError: removeFromWishListIsError,
+    isPending: removeFromWishListIsPending,
+    isSuccess: removeFromWishListIsSuccess,
+  } = useRemoveFromWishlistMutation({});
+
+  const { user } = useUserContext();
+
+  const [isLiked, setIsLiked] = useState<boolean>(Liked);
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (addToWishListIsSuccess || removeFromWishListIsSuccess) {
+      toast.error("Something went wrong, please try again latter");
+    }
+  }, [addToWishListIsError, removeFromWishListIsError]);
+
+  const handleLikeClicked = async (isLiked: boolean) => {
+    console.log("My user data:", user, TokenStorage.getAccessToken);
+    if (!user || !TokenStorage.getAccessToken) {
+      toast("Please login to add to your wishlist!");
+      return;
+    }
+
+    if (isLiked) {
+      await removeFromWishlistMutation({
+        property_id: rent.id,
+        user_id: user.id,
+      });
+      setIsLiked(false);
+    } else {
+      await addToWishListMutation({ property_id: rent.id, user_id: user.id });
+      setIsLiked(true);
+    }
+    queryClient.invalidateQueries({
+      queryKey: ["getWishListByUserId"],
+    });
+  };
+
   return (
     <div
       className={`rentContainer ${
         isSmall && "h-mi-rent-card w-mi-rent-card shadow-md"
-      } ${className} ${clickable && "cursor-pointer"}`}
+      } ${className}`}
       id={rent.title + rent.description}
-      onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
     >
       {/* POPULAR */}
       {showPopular && rent.isPopular && (
@@ -113,10 +170,13 @@ function RentCard({
         src={rent.images.length != 0 ? rent.images[0] : DummyImg}
         unoptimized
         alt={"Property images"}
-        className="flex rounded-t-default w-full h-[52%] min-h-[10vh]"
+        className={`flex rounded-t-default w-full h-[52%] min-h-[10vh] ${
+          clickable && "cursor-pointer"
+        }`}
         width={100}
         height={100}
-        objectFit="contain" // Ensures the image fits within the container
+        objectFit="contain"
+        onClick={() => clickable && router.push(`/home/property/${rent.id}`)}
       />
       <div
         className={`flex flex-col ${
@@ -132,8 +192,15 @@ function RentCard({
             </p>
           </span>
           {showLike && (
-            <div className="rounded-full border-2 border-primary-light flex justify-center items-center p-2">
-              <IconHeart className="text-primary" />
+            <div
+              className="rounded-full border-2 border-primary-light flex justify-center items-center p-2 cursor-pointer"
+              onClick={() => handleLikeClicked(isLiked)}
+            >
+              {isLiked ? (
+                <IconHeartFilled className="text-primary" />
+              ) : (
+                <IconHeart className="text-primary" />
+              )}
             </div>
           )}
         </div>

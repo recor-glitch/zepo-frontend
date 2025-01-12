@@ -1,17 +1,30 @@
-"use client";
-
 import { RentCard } from "@/components/cards";
-import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
-import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
-import { useGetAllProperties } from "@/query/propertyQuery";
-import { useRouter } from "next/navigation";
+import { IAllPropertyResponse } from "@/type/dto/property/property-dto";
+import {
+  IWishlistProperty,
+  IWishListResponse,
+} from "@/type/dto/wishlist/wishlist-dto";
+import { TokenStorage } from "@/utils/access-token-storage/access-token-storage";
+import axiosInstance from "@/utils/axios-instance/axios-instance";
+import Link from "next/link";
 
-export function BrowsePropertySection() {
-  const { filters } = usePropertyFilterContext();
+export async function BrowsePropertySection() {
+  // PROPERTY RESPONSE
+  const res = await axiosInstance.get<IAllPropertyResponse>("/property");
+  const { data, statusCode, total } = res.data;
 
-  const { data, isLoading } = useGetAllProperties({ filters });
-
-  const router = useRouter();
+  // WISHLIST RESPONSE
+  let wishlist: IWishlistProperty[] = [];
+  if (TokenStorage.getAccessToken) {
+    try {
+      const wishListRes = await axiosInstance.get<IWishListResponse>(
+        "/wishlist"
+      );
+      wishlist = wishListRes.data.data;
+    } catch (error) {
+      console.error("Error fetching wishlist:", error);
+    }
+  }
 
   return (
     <div className="flex flex-col py-property-h gap-h lg:px-40 px-sm-h">
@@ -24,23 +37,42 @@ export function BrowsePropertySection() {
             Some of our picked properties near you location.
           </p>
         </div>
-        <button
-          className="filledBtn w-full lg:w-auto"
-          onClick={() => {
-            router.push("/browse");
-          }}
-        >
-          Browse more properties
-        </button>
+        <Link href="/browse">
+          <button className="filledBtn w-full lg:w-auto">
+            Browse more properties
+          </button>
+        </Link>
       </div>
       {/* PROPERTIES GRID */}
       <div className="grid lg:grid-cols-4 gap-h w-full">
-        {isLoading ? (
-          [...new Array(6)].map((_, idx) => <RentCardSkeleton key={idx} />)
-        ) : data && data.data ? (
-          data.data?.map((rent, index) => (
-            <RentCard rent={rent} clickable showLike key={rent.title + index} />
-          ))
+        {data && data?.length != 0 ? (
+          data?.map((rent, index) => {
+            console.log(
+              "My wishlist filter data:",
+              wishlist?.filter((item) => item.id === rent.id)
+            );
+            wishlist?.filter((item) => {
+              console.log(
+                "My ids",
+                item.id,
+                rent.id,
+                typeof item.id,
+                typeof rent.id
+              );
+              return item.id == rent.id;
+            });
+            return (
+              <RentCard
+                rent={rent}
+                clickable
+                showLike
+                key={rent.title + index}
+                Liked={
+                  wishlist?.filter((item) => item.id == rent.id).length > 0
+                }
+              />
+            );
+          })
         ) : (
           <>No property listed yet</>
         )}

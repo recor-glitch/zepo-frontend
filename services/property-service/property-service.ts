@@ -52,6 +52,7 @@ export async function GetAllProperties({
   min_price,
   property_type,
   search,
+  rules,
 }: IPropertyFiltersDto): Promise<IAllPropertyResponse> {
   console.log({ property_type });
   const res = await axiosInstance.get(
@@ -59,7 +60,9 @@ export async function GetAllProperties({
       beds || ""
     }&city=${city || ""}&low_to_high=${low_to_high || ""}&max_price=${
       max_price || ""
-    }&min_price=${min_price || ""}&property_type=${property_type ?? ""}`
+    }&min_price=${min_price || ""}&property_type=${property_type ?? ""}&rules=${
+      rules || ""
+    }`
   );
 
   return res.data;
@@ -89,13 +92,16 @@ export async function GetAllPropertyLocations({
   min_price,
   property_type,
   search,
+  rules,
 }: IPropertyFiltersDto): Promise<IAllPropertyLocationResponse> {
   const res = await axiosInstance.get(
     `/locations?search=${search || ""}&limit=${limit}&cursor=${cursor}&beds=${
       beds || ""
     }&city=${city || ""}&low_to_high=${low_to_high || ""}&max_price=${
       max_price || ""
-    }&min_price=${min_price || ""}&property_type=${property_type ?? ""}`
+    }&min_price=${min_price || ""}&property_type=${property_type ?? ""}&rules=${
+      rules || ""
+    }`
   );
 
   return res.data;
