@@ -251,3 +251,4 @@ export interface IDefaultResponse {
   message: string;
   statusCode: number;
 }
+

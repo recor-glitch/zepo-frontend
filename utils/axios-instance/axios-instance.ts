@@ -16,7 +16,7 @@ axiosInstance.interceptors.request.use(
       }
 
       // Retrieve the JWT token from your storage (localStorage)
-      const token = TokenStorage.getAccessToken();
+      const token = TokenStorage.getAccessToken;
 
       // Add the token to the request headers if it exists
       if (token) {

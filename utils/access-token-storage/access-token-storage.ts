@@ -1,22 +1,22 @@
 export class TokenStorage {
-  private static accessToken: string;
-  private static refreshToken: string;
+  public static accessToken: string;
+  public static refreshToken: string;
 
-  private constructor() {}
-
-  static setAccessToken(accessToken: string) {
-    TokenStorage.accessToken = accessToken;
+  static set setAccessToken(accessToken: string) {
+    console.log("set access token", this.accessToken, accessToken);
+    this.accessToken = accessToken;
   }
 
-  static getAccessToken(): string {
-    return TokenStorage.accessToken;
+  static get getAccessToken(): string {
+    console.log("get access token", this.accessToken);
+    return this.accessToken;
   }
 
-  static setRefreshToken(accessToken: string) {
-    TokenStorage.refreshToken = this.refreshToken;
+  static set setRefreshToken(refreshToken: string) {
+    this.refreshToken = refreshToken;
   }
 
-  static getRefreshToken(): string {
-    return TokenStorage.refreshToken;
+  static get getRefreshToken(): string {
+    return this.refreshToken;
   }
 }

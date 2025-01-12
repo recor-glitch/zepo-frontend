@@ -43,9 +43,7 @@ export const nextAuthOptions: NextAuthOptions = {
       }
     },
 
-    async session({ session, token }) {
-      console.log("session ", { session, token });
-
+    async session({ session, token, user }) {
       const accessToken = token?.accessToken
         ? token?.accessToken
         : session.profile?.accessToken;
@@ -53,26 +51,30 @@ export const nextAuthOptions: NextAuthOptions = {
         ? token?.refreshToken
         : session.profile?.refreshToken;
 
+      TokenStorage.setAccessToken = (accessToken as string) ?? "";
+      TokenStorage.setRefreshToken = (refreshToken as string) ?? "";
+
       const res = await axiosInstance.post<ICreateUserResponse>("/invalidate", {
         accessToken: accessToken,
         refreshToken: refreshToken,
       });
 
       if (res.status === 201) {
-        TokenStorage.setAccessToken(res.data.accessToken || "");
-        TokenStorage.setRefreshToken(res.data.refreshToken || "");
+        TokenStorage.setAccessToken = res.data.accessToken || "";
+        TokenStorage.setRefreshToken = res.data.refreshToken || "";
 
         return {
           ...session,
           profile: {
             ...token,
+            ...user,
             accessToken: res.data.accessToken,
             refreshToken: res.data.refreshToken,
           },
         };
       }
 
-      return { ...session, profile: token };
+      return { ...session, profile: { ...token, ...user } };
     },
 
     async signIn({ user }) {
@@ -86,14 +88,12 @@ export const nextAuthOptions: NextAuthOptions = {
         }
       );
 
-      console.log("My Signin", { res });
-
       if (res.status >= 200) {
         user.accessToken = res.data.accessToken;
         user.refreshToken = res.data.refreshToken;
 
-        TokenStorage.setAccessToken(res.data.accessToken);
-        TokenStorage.setRefreshToken(res.data.refreshToken);
+        TokenStorage.setAccessToken = res.data.accessToken;
+        TokenStorage.setRefreshToken = res.data.refreshToken;
       }
 
       return true;

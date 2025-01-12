@@ -41,12 +41,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={jakarta.className}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <ThemeModeScript />
       </head>
-      <body className={jakarta.className}>
+      <body>
         <ReactQueryProvider>
           <NextAuthSessionProvider>
             <UserContextProvider>
