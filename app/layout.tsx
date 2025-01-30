@@ -7,6 +7,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { ThemeModeScript } from "flowbite-react";
 import { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 
