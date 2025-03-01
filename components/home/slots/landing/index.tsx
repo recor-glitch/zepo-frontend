@@ -1,4 +1,5 @@
 import { RentCard } from "@/components/cards";
+import { DatePickerWithRange } from "@/components/date-picker/date-picker-with-range";
 import { TabBarHome } from "@/components/tabbars";
 import { dummyRoomRent } from "@/constants";
 import MapBackground from "@/public/bg-map.svg";
@@ -6,7 +7,7 @@ import RouteImg from "@/public/route.svg";
 import { IconCalendar, IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 
-export async function LaningSection() {
+export async function LandingSection() {
   return (
     <div className="lg:h-body flex justify-between items-center gap-h relative">
       {/* LEFT SIDE SECTION */}
@@ -60,12 +61,7 @@ export async function LaningSection() {
                 <p className="text-text-normal font-medium text-md-subtitle-primary">
                   When
                 </p>
-                <span className="flex flex-row gap-2">
-                  <p className="text-text-primary font-bold text-md-subtitle-main">
-                    Select Move-in Date
-                  </p>
-                  <IconCalendar className="text-text-secondary" />
-                </span>
+                <DatePickerWithRange placeHolder="Select Move-in Date" prefix />
               </div>
               <div className="thin-divider-v" />
               <button className="filledBtn">Browse&nbsp;Properties</button>

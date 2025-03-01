@@ -1,13 +1,12 @@
 import ReactQueryProvider from "@/container/react-query-provider";
 import NextAuthSessionProvider from "@/container/session-provider";
 import { UserContextProvider } from "@/context/user/user-context";
+import { ThemeModeScript } from "flowbite-react";
+import { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import React from "react";
 import { Toaster } from "react-hot-toast";
 import "./globals.css";
-import { ThemeModeScript } from "flowbite-react";
-import { Metadata } from "next";
-import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"] });
 

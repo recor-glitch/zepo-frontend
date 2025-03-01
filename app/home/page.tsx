@@ -1,6 +1,6 @@
 import {
   BrowsePropertySection,
-  LaningSection,
+  LandingSection,
   ReachOutSection,
   StatSection,
   TestimonialSection,
@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <>
       <UsePropertyFilterContextProvider>
-        <LaningSection />
+        <LandingSection />
         <TourSection />
         <StatSection />
         <BrowsePropertySection />

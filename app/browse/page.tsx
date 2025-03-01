@@ -12,7 +12,6 @@ import { SelectInput } from "@/components/select";
 import RentCardSkeleton from "@/components/skeletons/cards/rent-card";
 import { usePropertyLayout } from "@/context";
 import { usePropertyFilterContext } from "@/context/property/property-filter/property-filter-content";
-import { useUserContext } from "@/context/user/user-context";
 import {
   useGetAllProperties,
   useGetAllPropertyLocations,
